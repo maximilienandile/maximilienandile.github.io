@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>Comment installer PHPUnit sur macOs sur un projet PHP existant et écrire son premier cas de test | M@XCode</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="PHPUnit est un Framework puissant permettant d’automatiser des tests unitaires sur une application écrite en PHP.
+Qu’est ce qu’un test unitaireUsuellement il s’agit d’un morceau de code source permett">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Comment installer PHPUnit sur macOs sur un projet PHP existant et écrire son premier cas de test">
+<meta property="og:url" content="http://maximilienandile.github.io/2016/09/23/Comment-installer-PHPUnit-sur-macOs-sur-un-projet-PHP-existant-et-ecrire-un-test/index.html">
+<meta property="og:site_name" content="M@XCode">
+<meta property="og:description" content="PHPUnit est un Framework puissant permettant d’automatiser des tests unitaires sur une application écrite en PHP.
+Qu’est ce qu’un test unitaireUsuellement il s’agit d’un morceau de code source permett">
+<meta property="og:updated_time" content="2016-09-23T22:29:55.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Comment installer PHPUnit sur macOs sur un projet PHP existant et écrire son premier cas de test">
+<meta name="twitter:description" content="PHPUnit est un Framework puissant permettant d’automatiser des tests unitaires sur une application écrite en PHP.
+Qu’est ce qu’un test unitaireUsuellement il s’agit d’un morceau de code source permett">
+  
+    <link rel="alternate" href="/atom.xml" title="M@XCode" type="application/atom+xml">
+  
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css" integrity="sha384-XdYbMnZ/QjLh6iI4ogqCTaIjrFk87ip+ekIjefZch0Y+PvJ8CDYtEs1ipDmPorQ+" crossorigin="anonymous">
+
+  <link rel="stylesheet" href="/css/styles.css">
+  
+<!-- Google Analytics -->
+<script type="text/javascript">
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-77397884-1', 'auto');
+ga('send', 'pageview');
+
+</script>
+<!-- End Google Analytics -->
+
+
+</head>
+
+<body>
+  <nav class="navbar navbar-inverse">
+  <div class="container">
+    <!-- Brand and toggle get grouped for better mobile display -->
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#main-menu-navbar" aria-expanded="false">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      
+    </div>
+
+    <!-- Collect the nav links, forms, and other content for toggling -->
+    <div class="collapse navbar-collapse" id="main-menu-navbar">
+      <ul class="nav navbar-nav">
+        
+          <li><a class=""
+                 href="/index.html">Home</a></li>
+        
+          <li><a class=""
+                 href="/archives/">Archives</a></li>
+        
+      </ul>
+
+      <!--
+      <ul class="nav navbar-nav navbar-right">
+        
+          <li><a href="/atom.xml" title="RSS Feed"><i class="fa fa-rss"></i></a></li>
+        
+      </ul>
+      -->
+    </div><!-- /.navbar-collapse -->
+  </div><!-- /.container-fluid -->
+</nav>
+
+  <div class="container">
+    <div class="blog-header">
+  <h3 class="blog-title">M@XCode</h3>
+  
+</div>
+
+    <div class="row">
+        <div class="col-sm-8 blog-main">
+          <article id="post-Comment-installer-PHPUnit-sur-macOs-sur-un-projet-PHP-existant-et-ecrire-un-test" class="article article-type-post" itemscope itemprop="blogPost">
+
+  <header class="article-header">
+    
+  
+    <h1 class="article-title" itemprop="name">
+      Comment installer PHPUnit sur macOs sur un projet PHP existant et écrire son premier cas de test
+    </h1>
+  
+
+
+  </header>
+
+  <div class="article-meta">
+    <div class="article-datetime">
+  <a href="/2016/09/23/Comment-installer-PHPUnit-sur-macOs-sur-un-projet-PHP-existant-et-ecrire-un-test/" class="article-date"><time datetime="2016-09-23T11:52:41.000Z" itemprop="datePublished">23/09/2016</time></a>
+</div>
+
+    
+    
+
+  </div>
+  <div class="article-inner">
+
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>PHPUnit est un Framework puissant permettant d’automatiser des tests unitaires sur une application écrite en PHP.</p>
+<h2 id="Qu’est-ce-qu’un-test-unitaire"><a href="#Qu’est-ce-qu’un-test-unitaire" class="headerlink" title="Qu’est ce qu’un test unitaire"></a>Qu’est ce qu’un test unitaire</h2><p>Usuellement il s’agit d’un morceau de code source permettant de <strong>tester si une fonction (ou une méthode d’une classe en POO) a le fonctionnement attendu.</strong></p>
+<p>Ainsi dans l’idéal, <strong>chaque fonction de notre application doit avoir un test associé</strong>. Le rapport entre le nombre de fonctions étant testés effectivement par un test unitaire ET le nombre de fonctions non testés donne une indication de la couverture du code (<code>code coverage</code>)</p>
+<p>Chaque test unitaire doit être en général indépendant car associé à une seule et même fonction. Il se peut par contre que l’exécution de la <code>suite de tests</code> nécessite l’exécution d’un <strong>script de démarrage</strong>.</p>
+<p>Par exemple si vous voulez tester que la fonction f renvoi bien le nombre de point qu’un de vos utilisateurs a récolté, il faudra bien qu’un script exécuté avant toute chose crée cette utilisateur et lui associé un nombre de points, afin de vérifier si le résultat est bien celui attendu.</p>
+<p>Ecrire des tests unitaires permet d’avoir un code modulaire et évolutif qui sépare correctement l’interface de l’implémentation. Le module qui est suffisamment testé peut être réutilisé dans un développement ultérieur.</p>
+<h2 id="Avantages-des-tests-unitaires"><a href="#Avantages-des-tests-unitaires" class="headerlink" title="Avantages des tests unitaires"></a>Avantages des tests unitaires</h2><p>Avoir une application avec des tests unitaires permet de livrer en production des versions de votre application fonctionnelle en toute confiance. Par exemple, votre équipe a développé une grosse brique fonctionnelle susceptible d’impacter d’autres fonctionnalités du site. Livrer sur l’environnement de production une telle modification peut être catastrophique. Le passage en revue de tous les tests permettra de s’assurer que cette nouvelle fonctionnalité fonctionne de manière attendu sans détériorer l’existant (on appelle ce cas une <code>régression fonctionnelle</code>).</p>
+<p>Rédiger des tests pour chaque fonction nécessite un temps additionnel pour le développeur mais en rédigeant des tests de qualité, cela améliorera intrinsèquement la documentation du code. Un nouvel arrivant pourra se référer aux tests pour comprendre le fonctionnement de telle fonction.</p>
+<h2 id="Installation-de-PHPUnit-sur-macOs"><a href="#Installation-de-PHPUnit-sur-macOs" class="headerlink" title="Installation de PHPUnit sur macOs"></a>Installation de PHPUnit sur macOs</h2><ol>
+<li><p>Ouvrez votre terminal</p>
+</li>
+<li><p>Dans ce dernier tapez les commandes suivantes</p>
+</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$ curl https://phar.phpunit.de/phpunit.phar -L -o phpunit.phar</span><br><span class="line">$ chmod +x phpunit.phar</span><br><span class="line">$ mv phpunit.phar /usr/local/bin/phpunit</span><br></pre></td></tr></table></figure>
+<p><strong>NB</strong> : Ne pas recopier le symbole dollar ($), il s’agit ici d’une convention d’écriture dans le terminal.</p>
+<p>Ces 3 commandes permettent de télécharger <code>phpunit.phar</code>. The <code>chmod</code>command va modifier les droits d’accès du fichier <code>phpunit.phar</code>. Plus précisément cela va donner le droit de lecture et d’exécution du fichier à tous les utilisateurs, les groupes et les autres parties du système.</p>
+<p>La commande <code>mv</code>permet quand à elle de changer de place ce fichier, de l’emplacement actuel à l’emplacement <code>/usr/local/bin/phpunit</code></p>
+<ol>
+<li>Afin de vérifier si l’installation s’est bien déroulée veillez à exécuter cette commande :</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ phpunit -version</span><br></pre></td></tr></table></figure>
+<p>Si l’installation est OK vous devriez voir s’afficher dans votre terminal la ligne suivante :<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">PHPUnit 5.5.0 by Sebastian Bergmann and contributors.</span><br></pre></td></tr></table></figure></p>
+<p>(La version peut changer)</p>
+<h2 id="Configuration-d’un-projet-existant-et-redaction-du-premier-test"><a href="#Configuration-d’un-projet-existant-et-redaction-du-premier-test" class="headerlink" title="Configuration d’un projet existant et rédaction du premier test"></a>Configuration d’un projet existant et rédaction du premier test</h2><ol>
+<li>Sur un projet existant la première étape va consister à créer un dossier nommé <code>tests</code> à la racine de votre dossier.</li>
+</ol>
+<p>Dans ce dernier vous allez placer tous vos tests. La règle étant que pour chaque classe de votre projet (si vous utilisez la POO) un fichier devra être créé.</p>
+<p>La convention de nommage que j’utilise personnellement est la suivante :<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">NomDeVotreClasseTests.php</span><br></pre></td></tr></table></figure></p>
+<p>ou en camel case :<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">nom_de_la_classe_tests.php</span><br></pre></td></tr></table></figure></p>
+<ol>
+<li>Ainsi si vous avez une classe <code>Utilisateur</code> définie au sein du fichier <code>Utilisateur.php</code> vous trouverez en miroir un fichier de test de cette classe nommé <code>UtilisateurTests.php</code></li>
+</ol>
+<p>Ce fichier aura toujours une composition identique :</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//fichier : tests/UtilisateurTests.php</span></span><br><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"><span class="comment">// Réglage de la time zone</span></span><br><span class="line">date_default_timezone_set(<span class="string">'America/Los_Angeles'</span>);</span><br><span class="line"><span class="comment">// Si vous utilisez composer (le gestionnaire de package, ajoutez cette ligne)</span></span><br><span class="line"><span class="keyword">require_once</span> <span class="keyword">__DIR__</span> .<span class="string">'/../vendor/autoload.php'</span>;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">UtilisateurTests</span> <span class="keyword">extends</span> <span class="title">TestCase</span></span><br><span class="line"></span>&#123;</span><br><span class="line"></span><br><span class="line">  <span class="comment">// il s'agit ici de la structure d'un test unitaire pour la méthode</span></span><br><span class="line">  <span class="comment">// function_number_one de notre Utilisateur</span></span><br><span class="line">  <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">test_function_number_one</span><span class="params">()</span></span>&#123;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>Nous avons donc ici la classe permettant de tester la classe <code>Utilisateur</code>.<br>Cette classe se nomme <code>UtilisateurTests</code> et il s’agit d’une extension de la classe <code>TestCase</code>. Cette dernière est une classe interne à PHPUnit et elle nous permet d’utiliser des méthodes faciles pour écrire nos tests.</p>
+<p>Ici un seul test unitaire est définit. En fait un test unitaire est une méthode de la classe de test (<code>UtilisateurTests</code>). Chaque test va donc tester une méthode de notre classe <code>Utilisateur</code>.</p>
+<ol>
+<li>L’étape suivante consiste à écrire effectivement notre test.</li>
+</ol>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"><span class="comment">// fichier : tests/UtilisateurTests.php</span></span><br><span class="line"><span class="comment">// Réglage de la timezone</span></span><br><span class="line">date_default_timezone_set(<span class="string">'America/Los_Angeles'</span>);</span><br><span class="line"><span class="comment">// Si vous utilisez composer (le gestionnaire de package, ajoutez cette ligne)</span></span><br><span class="line"><span class="keyword">require_once</span> <span class="keyword">__DIR__</span> .<span class="string">'/../vendor/autoload.php'</span>;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">UtilisateurTests</span> <span class="keyword">extends</span> <span class="title">TestCase</span></span><br><span class="line"></span>&#123;</span><br><span class="line"></span><br><span class="line">  <span class="comment">// il s'agit ici de la structure d'un test unitaire pour la méthode</span></span><br><span class="line">  <span class="comment">// function_number_one de notre Utilisateur</span></span><br><span class="line">  <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">test_function_number_one</span><span class="params">()</span></span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// instanciation de notre classe Utilisateur</span></span><br><span class="line">    $instance_utilisateur = <span class="keyword">new</span> Utilisateur();</span><br><span class="line">    <span class="comment">// execution de la méthode à tester</span></span><br><span class="line">    $resultat_function_number_one = $instance_utilisateur -&gt; function_number_one(<span class="number">123</span>);</span><br><span class="line">    <span class="comment">// TEST du résultat attendu</span></span><br><span class="line">    $this-&gt;assertEquals(<span class="string">"resultat attendu"</span>, $resultat_function_number_one);</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>Le cas de test consiste simplement à lancer la méthode function_number_one avec le paramètre 123.<br>Nous allons ensuite tester si le résultat d’exécution de cette méthode est bien égale au résultat attendu grâce à la ligne <code>$this-&gt;assertEquals(&quot;resultat attendu&quot;, $resultat_function_number_one);</code></p>
+<ol>
+<li>Exécuter le test</li>
+</ol>
+<p>Afin de lancer votre test il suffit d’ouvrir votre terminal et de taper :<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ cd le_dossier_contenant_votre_application</span><br><span class="line">$ phpunit tests</span><br></pre></td></tr></table></figure></p>
+<p>La commande numéro 2 va dire à PHPUnit de lancer l’exécution des tests définit dans le dossier <code>tests</code></p>
+<p>Et voilà ! Bon tests</p>
+
+      
+    </div>
+
+    
+      
+
+    
+
+    <footer class="article-footer">
+      <a data-url="http://maximilienandile.github.io/2016/09/23/Comment-installer-PHPUnit-sur-macOs-sur-un-projet-PHP-existant-et-ecrire-un-test/" data-id="citgcbn0e0000ekmigozo1f4t" class="article-share-link">
+        <i class="fa fa-share"></i> Share
+      </a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/PHP-Tests-unitaires/">PHP ; Tests unitaires</a></li></ul>
+
+
+    </footer>
+  </div>
+  
+    
+<ul id="article-nav" class="nav nav-pills nav-justified">
+  
+  <li role="presentation">
+    <a href="/2016/09/22/Pourquoi-et-comment-creer-un-module-avec-nodejs/" id="article-nav-older" class="article-nav-link-wrap">
+      <i class="fa fa-chevron-left pull-left"></i>
+      <span class="article-nav-link-title">Pourquoi et comment créer des modules sur NodeJs</span>
+    </a>
+  </li>
+  
+  
+</ul>
+
+
+  
+</article>
+
+
+
+
+        </div>
+        <div class="col-sm-3 col-sm-offset-1 blog-sidebar">
+          
+  <div class="sidebar-module sidebar-module-inset">
+  <h4>About</h4>
+  <p>Tech enthusiast and teacher i'm always happy to share my knowledge</p>
+
+</div>
+
+
+  
+
+
+  
+  <div class="sidebar-module">
+    <h4>Tags</h4>
+    <ul class="sidebar-module-list"><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/NLP/">NLP</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/Natural-Language-Processing/">Natural Language Processing</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/Nodejs/">Nodejs</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/PHP-Tests-unitaires/">PHP ; Tests unitaires</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/SQL/">SQL</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/nodejs/">nodejs</a><span class="sidebar-module-list-count">1</span></li></ul>
+  </div>
+
+
+
+  
+  <div class="sidebar-module">
+    <h4>Tag Cloud</h4>
+    <p class="tagcloud">
+      <a href="/tags/NLP/" style="font-size: 10px;">NLP</a> <a href="/tags/Natural-Language-Processing/" style="font-size: 10px;">Natural Language Processing</a> <a href="/tags/Nodejs/" style="font-size: 10px;">Nodejs</a> <a href="/tags/PHP-Tests-unitaires/" style="font-size: 10px;">PHP ; Tests unitaires</a> <a href="/tags/SQL/" style="font-size: 10px;">SQL</a> <a href="/tags/nodejs/" style="font-size: 10px;">nodejs</a>
+    </p>
+  </div>
+
+
+  
+  <div class="sidebar-module">
+    <h4>Archives</h4>
+    <ul class="sidebar-module-list"><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2016/09/">septembre 2016</a><span class="sidebar-module-list-count">2</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2016/06/">juin 2016</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2016/05/">mai 2016</a><span class="sidebar-module-list-count">3</span></li></ul>
+  </div>
+
+
+
+  
+  <div class="sidebar-module">
+    <h4>Recents</h4>
+    <ul class="sidebar-module-list">
+      
+        <li>
+          <a href="/2016/09/23/Comment-installer-PHPUnit-sur-macOs-sur-un-projet-PHP-existant-et-ecrire-un-test/">Comment installer PHPUnit sur macOs sur un projet PHP existant et écrire son premier cas de test</a>
+        </li>
+      
+        <li>
+          <a href="/2016/09/22/Pourquoi-et-comment-creer-un-module-avec-nodejs/">Pourquoi et comment créer des modules sur NodeJs</a>
+        </li>
+      
+        <li>
+          <a href="/2016/06/06/How-to-use-tokenization-stopwords-and-synsets-with-NLTK-python/">How to use tokenization, stopwords and synsets with NLTK (python)</a>
+        </li>
+      
+        <li>
+          <a href="/2016/05/17/How-to-install-NLTK-and-compute-basic-statistics-on-a-text/">How to install NLTK and compute basic statistics on a text</a>
+        </li>
+      
+        <li>
+          <a href="/2016/05/08/How-to-use-promises-with-NodeJS/">How to use promises with NodeJS</a>
+        </li>
+      
+    </ul>
+  </div>
+
+
+
+        </div>
+    </div>
+  </div>
+  <footer class="blog-footer">
+  <div class="container">
+    <div id="footer-info" class="inner">
+      &copy; 2016 Maximilien Andile<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+
+  
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js" integrity="sha384-8gBf6Y4YYq7Jx97PIqmTwLPin4hxIzQw5aDmUg/DDhul9fFpbbLcLh3nTIIDJKhx" crossorigin="anonymous"></script>
+
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
+
+
+
+<script src="/js/script.js"></script>
+
+</body>
+</html>
