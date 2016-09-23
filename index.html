@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>Maxcode</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Maxcode">
+<meta property="og:url" content="http://maximilienand.github.io/index.html">
+<meta property="og:site_name" content="Maxcode">
+<meta property="og:description">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Maxcode">
+<meta name="twitter:description">
+  
+    <link rel="alternate" href="/atom.xml" title="Maxcode" type="application/atom+xml">
+  
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css" integrity="sha384-XdYbMnZ/QjLh6iI4ogqCTaIjrFk87ip+ekIjefZch0Y+PvJ8CDYtEs1ipDmPorQ+" crossorigin="anonymous">
+
+  <link rel="stylesheet" href="/css/styles.css">
+  
+<!-- Google Analytics -->
+<script type="text/javascript">
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-77397884-1', 'auto');
+ga('send', 'pageview');
+
+</script>
+<!-- End Google Analytics -->
+
+
+</head>
+
+<body>
+  <nav class="navbar navbar-inverse">
+  <div class="container">
+    <!-- Brand and toggle get grouped for better mobile display -->
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#main-menu-navbar" aria-expanded="false">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      
+    </div>
+
+    <!-- Collect the nav links, forms, and other content for toggling -->
+    <div class="collapse navbar-collapse" id="main-menu-navbar">
+      <ul class="nav navbar-nav">
+        
+          <li><a class="active"
+                 href="/index.html">Home</a></li>
+        
+          <li><a class=""
+                 href="/archives/">Archives</a></li>
+        
+      </ul>
+
+      <!--
+      <ul class="nav navbar-nav navbar-right">
+        
+          <li><a href="/atom.xml" title="RSS Feed"><i class="fa fa-rss"></i></a></li>
+        
+      </ul>
+      -->
+    </div><!-- /.navbar-collapse -->
+  </div><!-- /.container-fluid -->
+</nav>
+
+  <div class="container">
+    <div class="blog-header">
+  <h3 class="blog-title">Maxcode</h3>
+  
+</div>
+
+    <div class="row">
+        <div class="col-sm-8 blog-main">
+          
+  
+    <article id="post-A-Basic-introduction-to-Neural-Networks" class="article article-type-post" itemscope itemprop="blogPost">
+
+  <header class="article-header">
+    
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/09/20/A-Basic-introduction-to-Neural-Networks/">An introduction to neural networks and their implementation in NodeJS - Part 1</a>
+    </h1>
+  
+
+
+  </header>
+
+  <div class="article-meta">
+    <div class="article-datetime">
+  <a href="/2016/09/20/A-Basic-introduction-to-Neural-Networks/" class="article-date"><time datetime="2016-09-20T20:44:09.000Z" itemprop="datePublished">2016-09-20</time></a>
+</div>
+
+    
+    
+
+  </div>
+  <div class="article-inner">
+
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="Introduction"><a href="#Introduction" class="headerlink" title="Introduction"></a>Introduction</h2><p>A Neural Network is an algorithm used in computer science that tries to mimic the operations of an animal brain.<br>The first model was built in 1943 by Pitts and McCulloch in a scholar paper called “<strong>A logical calculus of the ideas immanent in nervous activity</strong>“.</p>
+<p>By the way, if you are interested in reading the whole article you can retrieve it <a href="http://www.minicomplexity.org/pubs/1943-mcculloch-pitts-bmb.pdf" target="_blank" rel="external">there</a></p>
+<p>The first working theories of Neural Nets were inspired by observations of animal brains and especially frog brains. The animal brain was easier to understand because it’s structure is simpler (but extremely similar) than the human one.</p>
+<p>The basic aim of an artificial neural network is to give computers the ability to solve complete tasks by providing them adaptive algorithms that are working like the human brain ! What an exciting goal for engineers ! Being able to produce machines that can solve tasks the same way as our brain is an unbelivable opportunity.</p>
+<p>In this article I will try to give insights about the way simple neural networks are working. My main aim is to demystify those algorithms, because at the end of the day they are quite simple to understand and at the same time very powerful.</p>
+<h2 id="The-biological-structure-of-the-brain"><a href="#The-biological-structure-of-the-brain" class="headerlink" title="The biological structure of the brain"></a>The biological structure of the brain</h2><p>The human brain weights approximately 1.5 kg. Those 1.5 kg organ is composed approximately of 170 billions of cell with <strong>90-100 billions</strong> of neurons. Neurons are the most interesting element of the brain, they are composed of the Soma (the cell body), dendrites (approximately 7.000 per neuron) and a single axon that ends with several connectors (the axon terminal).</p>
+<p>The <strong>dendrites</strong> represent the entrance point (<strong>input</strong>) and the <strong>axon</strong> is the output of the system. The all body is transmitting constantly raw data to the brain via the nervous system. You smell an odor in the street, your body will automatically transmit this information in an <strong>electrical</strong> form to your brain. The role of your brain neurons will be to decode this information and to trigger an action or not.</p>
+<p>Those neurons are highly interconnected. Each neuron is connected to another one by axons and dendrites. This structure generates an intense network of computation units connected with one another.</p>
+<h2 id="The-neuron-is-made-of-a-very-simple-algorithm"><a href="#The-neuron-is-made-of-a-very-simple-algorithm" class="headerlink" title="The neuron is made of a very simple algorithm"></a>The neuron is made of a very simple algorithm</h2><p><img src="img/simple_neural_network.png" alt="A very simplified neural network composed of two neurons"></p>
+<p>First input data transmitted by nerves are coming over the <strong>dendrites</strong>. The neuron then weight the intensity of electrical power. If the level is above a threshold the signal is transmitted to the next neuron(s).</p>
+<p>This example is not very interesting but we can consider neural networks made of more neurons that can treat more complex data. Just remember that the role of a neuron is to <strong>weight the input signal and then decide if this signal should be propagated to the next neurons</strong>. Easy no ?</p>
+<h2 id="Application-of-this-knowledge-to-computer-science"><a href="#Application-of-this-knowledge-to-computer-science" class="headerlink" title="Application of this knowledge to computer science"></a>Application of this knowledge to computer science</h2><p>Let’s take an example of usage : robotic systems maker make a great use of neural networks. Programers want to be able to construct a model that takes raw data from sensors and that should output a <strong>decision</strong> about the next move that the robot should perform.</p>
+<p><img src="img/example_neural_network_robot.png" alt="A neural network example for robotic"></p>
+<p>Another example of task is image <strong>classification</strong>. Neural networks can be used to detect what is represented inside an image. Such an algorithm will take as input each pixel of the image converted in an array of integers that represent the color of each pixel, and then the algorithm should give for that specific image a class.</p>
+<p><img src="img/example_neural_network_image_classification.png" alt="Image Classification with Neural Nets"></p>
+<p>If we take some distance there is always an input that enters into the system and an output. We can also point out that <strong>the output and the output are in a very different format</strong>. In the later example we have an array of numbers in input and the name of an animal as output. The first example takes raw numeric data and outputs a command that will represent a movement of the robot.</p>
+<p>In fact, neural networks are used a lot for classification tasks, whether you want to give a class to an image or to label correctly an input of data.</p>
+<h2 id="Anatomy-of-a-neural-network"><a href="#Anatomy-of-a-neural-network" class="headerlink" title="Anatomy of a neural network"></a>Anatomy of a neural network</h2><p>A neural network is primarily composed of :</p>
+<ul>
+<li><strong>Neurons</strong> (we call them perceptrons) represented by circles</li>
+<li><strong>Links</strong> (a simplification of axons and dendrites), that are represented by lines</li>
+</ul>
+<p>Those neurons are organized on three levels (we call them <strong>layers</strong>)</p>
+<ol>
+<li><strong>The input layer</strong> (that will receive the <strong>input</strong> data)</li>
+<li><strong>The hidden layer</strong> (you can have several hidden layers)</li>
+<li><strong>The output layer</strong> (that will transmit to the programer the <strong>output</strong> data)</li>
+</ol>
+<p><img src="img/Artificial_neural_network_schema.png" alt="An artificial neural network (Wikibooks)"></p>
+<p>The task of the developer will prepare a dataset of training that will contain for instance 10.000 labelled pictures that represent cats and other animals. </p>
+<p>Pretty exciting ! We can now begin to create our first neural network.That will be part of the next article…</p>
+
+      
+    </div>
+
+    
+      
+
+    
+
+    <footer class="article-footer">
+      <a data-url="http://maximilienand.github.io/2016/09/20/A-Basic-introduction-to-Neural-Networks/" data-id="citffpf4o0000diminrxrnp1i" class="article-share-link">
+        <i class="fa fa-share"></i> Share
+      </a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Machine-Learning/">Machine Learning</a></li></ul>
+
+
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+
+
+
+
+        </div>
+        <div class="col-sm-3 col-sm-offset-1 blog-sidebar">
+          
+  <div class="sidebar-module sidebar-module-inset">
+  <h4>About</h4>
+  <p>Tech enthusiast and teacher i'm always happy to share my knowledge</p>
+
+</div>
+
+
+  
+
+
+  
+  <div class="sidebar-module">
+    <h4>Tags</h4>
+    <ul class="sidebar-module-list"><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/Machine-Learning/">Machine Learning</a><span class="sidebar-module-list-count">1</span></li></ul>
+  </div>
+
+
+
+  
+  <div class="sidebar-module">
+    <h4>Tag Cloud</h4>
+    <p class="tagcloud">
+      <a href="/tags/Machine-Learning/" style="font-size: 10px;">Machine Learning</a>
+    </p>
+  </div>
+
+
+  
+  <div class="sidebar-module">
+    <h4>Archives</h4>
+    <ul class="sidebar-module-list"><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2016/09/">September 2016</a><span class="sidebar-module-list-count">1</span></li></ul>
+  </div>
+
+
+
+  
+  <div class="sidebar-module">
+    <h4>Recents</h4>
+    <ul class="sidebar-module-list">
+      
+        <li>
+          <a href="/2016/09/20/A-Basic-introduction-to-Neural-Networks/">An introduction to neural networks and their implementation in NodeJS - Part 1</a>
+        </li>
+      
+    </ul>
+  </div>
+
+
+
+        </div>
+    </div>
+  </div>
+  <footer class="blog-footer">
+  <div class="container">
+    <div id="footer-info" class="inner">
+      &copy; 2016 Maximilien Andile<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+
+  
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js" integrity="sha384-8gBf6Y4YYq7Jx97PIqmTwLPin4hxIzQw5aDmUg/DDhul9fFpbbLcLh3nTIIDJKhx" crossorigin="anonymous"></script>
+
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
+
+
+
+<script src="/js/script.js"></script>
+
+</body>
+</html>
