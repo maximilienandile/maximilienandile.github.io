@@ -12,7 +12,7 @@
 <meta property="og:site_name" content="M@XCode">
 <meta property="og:description" content="Qu’est ce qu’un APIOn a souvent tendance à limiter l’API aux applications web, mais ces dernières sont définies et utilisées au sein de presque tous les langages, applications elles supportent même la">
 <meta property="og:image" content="http://maximilienandile.github.io/img/example_presentation_api_nodejs.png">
-<meta property="og:updated_time" content="2016-09-24T18:54:45.000Z">
+<meta property="og:updated_time" content="2016-09-24T18:55:50.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Pourquoi utiliser RAML pour designer une API RESTful">
 <meta name="twitter:description" content="Qu’est ce qu’un APIOn a souvent tendance à limiter l’API aux applications web, mais ces dernières sont définies et utilisées au sein de presque tous les langages, applications elles supportent même la">
@@ -141,7 +141,7 @@ ga('send', 'pageview');
 <li><p><strong>Doit et peut avoir un système composé de serveurs multiples ou l’information est répliqué</strong>. Facebook par exemple n’a pas qu’un seul serveur, mais dispose d’une armada de machines qui peuvent répondre à la même requête. Cette caractéristique couplée à la première permet d’avoir un système qui va <strong>monter en charge</strong> sans embûche, car si il y a un pic de demande on peut rajouter des serveurs à la volée dans le système.</p>
 </li>
 <li><p><strong>Une interface uniforme</strong> : cette contrainte est un peu plus difficile à comprendre car elle regroupe elle même 4 contraintes. Ce qu’il est important de retenir est que chaque ressource (données mise à disposition : par exemple le profil Facebook, la liste d’amis, la liste des likes…) est <strong>correctement identifiée</strong> dans les call que l’on va faire à l’API. Je zappe volontairement la contrainte de manipulation des ressources via leur représentation ainsi que la contrainte HATEOAS, traité dans un prochain article. Vient ensuite la notion des messages de retour de l’API. Ces derniers doivent être auto-descriptifs, c’est à dire que le développeur doit comprendre immédiatement ce que l’API revoit. Par exemple en cas d’erreur le développeur doit prévenir le client de son API de la cause de cette dernière.</p>
-<h2 id="Batir-une-API-en-RESTful"><a href="#Batir-une-API-en-RESTful" class="headerlink" title="Bâtir une API en RESTful"></a>Bâtir une API en RESTful</h2><p>Tout cela est bel et bon, mais comment donc bâtir avec ces contraintes ? Le défi est important si l’on ne part pas d’une base. Eh bien figurez vous que vous n’êtes pas seul à avoir embrassé la difficulté du REST car des Frameworks existent et permettent de démarrer très rapidement sans avoir à trop transpirer sur vos claviers.</p>
+<h2 id="Batir-une-API-RESTful"><a href="#Batir-une-API-RESTful" class="headerlink" title="Bâtir une API RESTful"></a>Bâtir une API RESTful</h2><p>Tout cela est bel et bon, mais comment donc bâtir avec ces contraintes ? Le défi est important si l’on ne part pas d’une base. Eh bien figurez vous que vous n’êtes pas seul à avoir embrassé la difficulté du REST car des Frameworks existent et permettent de démarrer très rapidement sans avoir à trop transpirer sur vos claviers.</p>
 <p>Le sauveur est nommé <strong>RAML</strong>. RAML (<strong>RESTful API Modeling Language</strong>) est un langage vous permettant de désigné une API très rapidement respectant les principes architecturaux de REST. RAML permet de respecter les contraintes tout en étant très facile à lire (il repose sur le langage YAML, format de présentation de données très facile à lire développé par <strong>Clark Evans</strong> en 2001).</p>
 <p>Sa facilité de lecture lui permet d’être compréhensible par l’ensemble de la communauté des développeurs. En fait une API grâce à RAML est définit dans un simple fichier. Dans ce dernier on peut voir immédiatement ce que cette dernière fait. Procédé ainsi permet d’avoir un système maintenable sur le long terme.</p>
 <blockquote>
@@ -169,7 +169,7 @@ ga('send', 'pageview');
     
 
     <footer class="article-footer">
-      <a data-url="http://maximilienandile.github.io/2016/09/24/Pourquoi-utiliser-RAML-pour-designer-une-API-RESTful/" data-id="cithhyshz0009krmir8q51x83" class="article-share-link">
+      <a data-url="http://maximilienandile.github.io/2016/09/24/Pourquoi-utiliser-RAML-pour-designer-une-API-RESTful/" data-id="cithk46i90009e4miudvw5kja" class="article-share-link">
         <i class="fa fa-share"></i> Share
       </a>
       
