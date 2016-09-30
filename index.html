@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <meta charset="utf-8">
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="utf-8">
   
   <title>M@XCode</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
@@ -40,13 +40,13 @@ ga('create', 'UA-77397884-1', 'auto');
 ga('send', 'pageview');
 
 </script>
-<!-- End Google Analytics -->
+<!-- End Google Analytics --><!-- hexo-inject:begin --><!-- hexo-inject:end -->
 
 
 </head>
 
 <body>
-  <nav class="navbar navbar-inverse">
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><nav class="navbar navbar-inverse">
   <div class="container">
     <!-- Brand and toggle get grouped for better mobile display -->
     <div class="navbar-header">
@@ -91,6 +91,135 @@ ga('send', 'pageview');
     <div class="row">
         <div class="col-sm-8 blog-main">
           
+  
+    <article id="post-Machine-Learning-comment-fonctionne-la-classification-naive-Bayesienne" class="article article-type-post" itemscope itemprop="blogPost">
+
+  <header class="article-header">
+    
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/09/29/Machine-Learning-comment-fonctionne-la-classification-naive-Bayesienne/">Machine Learning : comment fonctionne la classification naïve Bayesienne</a>
+    </h1>
+  
+
+
+  </header>
+
+  <div class="article-meta">
+    <div class="article-datetime">
+  <a href="/2016/09/29/Machine-Learning-comment-fonctionne-la-classification-naive-Bayesienne/" class="article-date"><time datetime="2016-09-29T08:38:02.000Z" itemprop="datePublished">29/09/2016</time></a>
+</div>
+
+    
+    
+
+  </div>
+  <div class="article-inner">
+
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="Un-classifieur-rapide-et-econome-en-puissance-de-calcul"><a href="#Un-classifieur-rapide-et-econome-en-puissance-de-calcul" class="headerlink" title="Un classifieur rapide et économe en puissance de calcul"></a>Un classifieur rapide et économe en puissance de calcul</h2><h3 id="Qu’est-ce-qu’un-classifieur"><a href="#Qu’est-ce-qu’un-classifieur" class="headerlink" title="Qu’est ce qu’un classifieur ?"></a>Qu’est ce qu’un classifieur ?</h3><p>Un <strong>classifieur</strong> est un algorithme permettant de définir la classe d’un objet suivant certaines de ses propriétés. Pour bâtir notre classifieur nous avons à notre disposition un ensemble d’objets dont on connait la classe par avance. Ce set d’objet est appelé set d’<strong>entrainement</strong>.</p>
+<p>Par exemple, nous souhaitons classé des textes selon deux classes : écrit scientifique OU écrit romanesque  (classification appelée binaire car composée de deux classes). Nous aurons donc à notre disposition un ensemble composé de 20 textes dont 12 classés “écrit romanesque” et les autres classés “écrit scientifique”.</p>
+<p>Notre problème va donc consister à classer un nouveau texte en fonction de son contenu dans ces deux classes.</p>
+<h3 id="Utilisation-de-la-theorie-des-probabilites"><a href="#Utilisation-de-la-theorie-des-probabilites" class="headerlink" title="Utilisation de la théorie des probabilités"></a>Utilisation de la théorie des probabilités</h3><p>Notre algorithme aura la lourde tâche de fournir une classe à notre nouveau texte. Notre approche dans le cas de la classification naïve Bayesienne va être <strong>probabiliste</strong>. Nous allons chercher à déterminer la probabilité que notre objet appartient à la classe “écrit romanesque” à la probabilité que notre écrit appartient à l’autre classe. Nous allons ensuite <strong>comparer</strong> ces deux probabilités pour sélectionner la plus <strong>grande</strong> des deux.</p>
+<p>Trouver la classe revient donc à <strong>calculer deux grandeurs et les comparer</strong>. Ce qui si on compare à l’algorithme des K voisins les plus proches (voir l’article <a href="https://maximilienandile.github.io/2016/09/24/L-algorithme-des-K-voisins-les-plus-proches-et-son-implementation-en-Nodejs/">ici</a>) est très économe en calculs. Avant d’étudier plus en détail d’algorithme nous nous devons de faire un rappel sur les probabilités conditionnelles, qui constituent le fer de lance de cet algorithme.</p>
+<h2 id="Un-passage-oblige-par-les-probabilites-conditionnelles"><a href="#Un-passage-oblige-par-les-probabilites-conditionnelles" class="headerlink" title="Un passage obligé par les probabilités conditionnelles"></a>Un passage obligé par les probabilités conditionnelles</h2><p>La probabilité d’un événement A est <strong>un nombre variant entre 0 et 1</strong> qui traduit le <strong>degrés de chance qu’un évènement A se produise</strong>. Plus on s’approche de la valeur 1 plus cet événement aura de chance de se dérouler.</p>
+<p>Par exemple si on prend l’événement A “une élection va se dérouler en 2017”. La probabilité de cet événement est de 1 car il s’agit d’un événement certain.</p>
+<p>Une <strong>probabilité conditionnelle</strong> est légèrement plus complète dans le sens où <strong>elle intègre dans son calcul un autre évènement</strong>. Ainsi une probabilité conditionnelle traduit le degrés de chance qu’un élément se produise <strong>sachant</strong> qu’un autre évènement s’est produit.</p>
+<p>Par <strong>exemple</strong>, si on prend l’évènement A “réussite d’un test de maths”. L’évènement B “être mathématicien” et l’évènement C “avoir suivi un cursus scolaire littéraire”. Alors la probabilité de A sachant l’évènement B sera plus importante que la probabilité de A sachant l’événement C.</p>
+<p>Mathématiquement on note une probabilité conditionnelle de deux façons :</p>
+<span>$P_{B}(A) = P(A | B)$</span><!-- Has MathJax -->
+<p>La formule des probabilités conditionnelles se calcul ainsi :</p>
+<span>$P_{B}(A) = P(A | B) = \frac{P(A  \cap  B)}{P(B)}$</span><!-- Has MathJax -->
+<h2 id="La-formule-de-Bayes"><a href="#La-formule-de-Bayes" class="headerlink" title="La formule de Bayes"></a>La formule de Bayes</h2><h3 id="Fonctionnement-theorique"><a href="#Fonctionnement-theorique" class="headerlink" title="Fonctionnement théorique"></a>Fonctionnement théorique</h3><p>Prenons un exemple afin de comprendre de quoi il en retourne. Imaginons un hôpital dans lequel on fait passer un test de dépistage de la tuberculose à certains patients. Les médecins dispose de données permettant d’établir que la fiabilité de ce test est de 90%, c’est à dire que 90% des tests sont fiables (les patients sont vraiment malades), il reste que 10% des tests sont des faux-positifs ou des faux-négatifs (le patient est bien malade mais dispose d’un test lui indiquant le contraire).</p>
+<p>La formule de Bayes pourra nous donner la réponse à la question suivante : <strong>“sachant que le test de M.X est positif quel est la probabilité que celui-ci ne soit pas malade ?”</strong> On cherche donc à remonter dans le temps…</p>
+<p>La formule de Bayes est définie ainsi :<br><span>$P_{B}(A) =  \frac{P_{A}(B).P(A)}{P(B)}$</span><!-- Has MathJax --></p>
+<p>Si on n’applique la formule à notre exemple on aura :</p>
+<ul>
+<li>A : Ne pas être malade</li>
+<li>B : Avoir un résultat de test positif</li>
+</ul>
+<p>Ainsi la probabilité de ne pas être malade sachant qu’on a un test de dépistage positif est le <strong>rapport</strong> <strong>entre</strong> la probabilité d’avoir un résultat positif sachant qu’on est malade multiplié par la probabilité de ne pas être malade <strong>et</strong> la probabilité d’avoir un résultat de test positif.</p>
+<h3 id="Application-a-un-probleme-de-classification"><a href="#Application-a-un-probleme-de-classification" class="headerlink" title="Application à un problème de classification"></a>Application à un problème de classification</h3><p>On va chercher dans notre cas la probabilité qu’un objet appartient à la classe <strong>i</strong> sachant qu’il a les propriétés <strong>x</strong> et <strong>y</strong>. Soit :</p>
+<center><br><span>$P_{x,y}(C_i)$</span><!-- Has MathJax --><br></center>
+
+
+
+<p>Si on a <strong>deux classes (1 et 2)</strong> dans notre problème nous allons donc <strong>comparer</strong> deux grandeurs :</p>
+<center><br><span>$P_{x,y}(C_1) et P_{x,y}(C_2)$</span><!-- Has MathJax --><br></center>
+
+
+<p>Dans tous les cas nous devrons isoler des <strong>features</strong>, des propriétés relatives aux objets que nous souhaitons classer. Si nous souhaitons donc classer un document nous prendons par exemple 1000 propriétés correspondant chacune à la présence ou non d’un mot courant dans le texte.</p>
+<h3 id="Pourquoi-cet-algorithme-est-il-naif"><a href="#Pourquoi-cet-algorithme-est-il-naif" class="headerlink" title="Pourquoi cet algorithme est-il naïf ?"></a>Pourquoi cet algorithme est-il naïf ?</h3><p>Nous faisons deux assomptions un peu naïves sur notre données :</p>
+<ul>
+<li>Les <strong>features</strong> ou les <strong>propriétés</strong> sont <strong>indépendantes</strong> les unes des autres. Or c’est rarement le cas, si on prend les classifications de textes la présence d’un mot peut être lié à la présence d’un autre mot !</li>
+<li>On fait aussi le postulat que les <strong>features</strong> sont d’importances équivalentes dans la tâche de classification, ce qui n’est encore pas vraiment le cas. Pour certains textes la présence d’un mot ou d’un groupe de mot est très signifiant dans leur classe.</li>
+</ul>
+<h3 id="Application-en-NodeJS-via-le-module-“bayes”"><a href="#Application-en-NodeJS-via-le-module-“bayes”" class="headerlink" title="Application en NodeJS via le module “bayes”"></a>Application en NodeJS via le module “bayes”</h3><p>Nous allons créer un script permettant de classer des phrases selon deux classes : les phrases provenant de romans et ceux d’écrits scientifiques.</p>
+<ul>
+<li><p>Créez un nouveau dossier nommé <code>bayes_classifier</code></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ mkdir bayes_classifier</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>Placez vous dans ce dossier</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ <span class="built_in">cd</span> bayes_classifier</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>Initialisez <code>npm</code></p>
+</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ npm init</span><br></pre></td></tr></table></figure>
+<ul>
+<li>Après avoir répondu à l’ensemble des questions installez le module <code>bayes</code></li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ npm install bayes --save</span><br></pre></td></tr></table></figure>
+<ul>
+<li><p>Créez un nouveau fichier <code>index.js</code></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ touch index.js</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>Dans ce fichier faites un require du module bayes.</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> bayes = <span class="built_in">require</span>(<span class="string">'bayes'</span>)</span><br><span class="line"><span class="keyword">var</span> classifier = bayes()</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>Nous allons ensuite entrainer notre modèle pour reconnaître les écrits romanesques (fiction):</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Make the algorithm learn the training data</span></span><br><span class="line"><span class="comment">// The Great Gatsby</span></span><br><span class="line">classifier.learn(<span class="string">'Il me sourit avec une sorte de complicité - qui allait au-delà de la complicité.'</span>, <span class="string">'fiction'</span>)</span><br><span class="line"><span class="comment">// 1984 (Orwell)</span></span><br><span class="line">classifier.learn(<span class="string">'Celui qui a le contrôle du passé, disait le slogan du Parti, a le contrôle du futur. Celui qui a le contrôle du présent a le contrôle du passé.'</span>, <span class="string">'fiction'</span>)</span><br><span class="line"><span class="comment">// Le dernier Jour d'un Condamné (Hugo)</span></span><br><span class="line">classifier.learn(<span class="string">'Maintenant je suis captif. Mon corps est aux fers dans un cachot, mon esprit est en prison dans une idée.'</span>,<span class="string">'fiction'</span>)</span><br><span class="line"><span class="comment">// Guerre et Paix (Tolstoï)</span></span><br><span class="line">classifier.learn(<span class="string">'Oui, ils m ont accablé de reproches là-bas, et pour la guerre et pour la paix...'</span>,<span class="string">'fiction'</span>)</span><br><span class="line"><span class="comment">// Les Caractères (La Bruyères)</span></span><br><span class="line">classifier.learn(<span class="string">'on n aime qu une seule fois : c est la première ; les amours qui suivent sont moins involontaires.'</span>,<span class="string">'fiction'</span>)</span><br><span class="line"><span class="comment">// O.Wilde</span></span><br><span class="line">classifier.learn(<span class="string">"S'aimer soi-même, c'est l'assurance d'une longue histoire d'amour."</span>,<span class="string">"fiction"</span>)</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>Entrainons le maintenant pour reconnaître des écrits scientifiques (science):</p>
+</li>
+</ul>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span><br><span class="line"> * MAKE IT LEARN SCIENCE...</span><br><span class="line"> */</span></span><br><span class="line"></span><br><span class="line"><span class="comment">//La sensibilité de l'activité mathématique aux ostensifs, BOSCH M.  ; CHEVALLARD Y. ;</span></span><br><span class="line">classifier.learn(<span class="string">'Les écritures, symboles, mots, discours, graphismes et gestes mobilisés dans l activité mathématique - soit ce que nous appelons, pour leur caractère matériel et perceptible, les objets ostensifs'</span>,<span class="string">'science'</span>)</span><br><span class="line"><span class="comment">// http://www.pourlascience.fr/ewb_pages/a/actu-des-panaches-de-vapeur-d-eau-observes-sur-europe-37639.php</span></span><br><span class="line">classifier.learn(<span class="string">"De nouvelles observations suggèrent que des geysers de vapeur d’eau jaillissent du pôle Sud de la lune glacée de Jupiter."</span>,<span class="string">"science"</span>)</span><br><span class="line"><span class="comment">// pourlascience</span></span><br><span class="line">classifier.learn(<span class="string">"La pédagogie haptique rend l'élève acteur de son enseignement. Il est alors plus réceptif aux connaissances qu'on veut lui transmettre."</span>,<span class="string">"science"</span>)</span><br><span class="line"><span class="comment">// http://cat.inist.fr/?aModele=afficheN&amp;cpsidt=207222</span></span><br><span class="line">classifier.learn(<span class="string">"La méthode est fondée sur une approche distributionnelle de la sémantique. Les classes sémantiques qu'il est possible d'apprendre à partir d'un corpus analysé"</span>,<span class="string">"science"</span>)</span><br><span class="line"><span class="comment">// https://hal.archives-ouvertes.fr/tel-00145147/</span></span><br><span class="line">classifier.learn(<span class="string">"Le panorama du Traitement Automatique des Langues est dominé par deux familles d'approches~: dans la première, la connaissance linguistique s'exprime sous forme de règles (grammaticales pour le traitement syntaxique, d'inférence pour le traitement sémantique, etc.)"</span>,<span class="string">"science"</span>)</span><br><span class="line"><span class="comment">// https://pdfs.semanticscholar.org/57d0/2d681a479094bbd570b7992952281c39e146.pdf</span></span><br><span class="line">classifier.learn(<span class="string">" Les outils disponibles de recherche d’information sur le Web ont une approche généraliste, ne prenant pas en compte les caractéristiques de l’utilisateur, ce qui limite la qualité des résultats"</span>,<span class="string">"science"</span>)</span><br></pre></td></tr></table></figure>
+<ul>
+<li>Maintenant nous allons tester notre modèle avec deux exemples non classés.</li>
+</ul>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="comment">// test the classifier</span></span><br><span class="line"><span class="keyword">var</span> f = classifier.categorize(<span class="string">"Je la contemplai avec une haine intense, celle qu'un cheveu seul sépare de l'amour ardent."</span>)</span><br><span class="line"><span class="keyword">var</span> s = classifier.categorize(<span class="string">" Par ailleurs la réalisation d’un système de ce type exige un assemblage de plusieurs techniques utilisées en apprentissage ou en recherche d’information "</span>)</span><br><span class="line"><span class="built_in">console</span>.log(<span class="string">"fiction"</span>,f);</span><br><span class="line"><span class="built_in">console</span>.log(<span class="string">"science"</span>,s);</span><br></pre></td></tr></table></figure>
+<p>La console affiche :<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">fiction fiction</span><br><span class="line">science science</span><br></pre></td></tr></table></figure></p>
+<p>On a un résultat concordant !</p>
+
+      
+    </div>
+
+    
+      
+
+    
+
+    <footer class="article-footer">
+      <a data-url="http://maximilienandile.github.io/2016/09/29/Machine-Learning-comment-fonctionne-la-classification-naive-Bayesienne/" data-id="citphvvot000cbgknmjmlkzpq" class="article-share-link">
+        <i class="fa fa-share"></i> Share
+      </a>
+      
+        <a href="http://maximilienandile.github.io/2016/09/29/Machine-Learning-comment-fonctionne-la-classification-naive-Bayesienne/#disqus_thread" class="article-comment-link">
+          <i class="fa fa-comment"></i> Comments
+        </a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Machine-Learning/">Machine Learning</a></li></ul>
+
+
+    </footer>
+  </div>
+  
+</article>
+
+
+
   
     <article id="post-L-algorithme-des-K-voisins-les-plus-proches-et-son-implementation-en-Nodejs" class="article article-type-post" itemscope itemprop="blogPost">
 
@@ -157,7 +286,7 @@ ga('send', 'pageview');
     
 
     <footer class="article-footer">
-      <a data-url="http://maximilienandile.github.io/2016/09/24/L-algorithme-des-K-voisins-les-plus-proches-et-son-implementation-en-Nodejs/" data-id="citn6xca80008djknjabye45x" class="article-share-link">
+      <a data-url="http://maximilienandile.github.io/2016/09/24/L-algorithme-des-K-voisins-les-plus-proches-et-son-implementation-en-Nodejs/" data-id="citphvvoq0009bgknekvp9j7l" class="article-share-link">
         <i class="fa fa-share"></i> Share
       </a>
       
@@ -254,7 +383,7 @@ ga('send', 'pageview');
     
 
     <footer class="article-footer">
-      <a data-url="http://maximilienandile.github.io/2016/09/24/Pourquoi-utiliser-RAML-pour-designer-une-API-RESTful/" data-id="citn6xcag000cdjkn4v3az9ae" class="article-share-link">
+      <a data-url="http://maximilienandile.github.io/2016/09/24/Pourquoi-utiliser-RAML-pour-designer-une-API-RESTful/" data-id="citphvvp0000fbgknhxcyakun" class="article-share-link">
         <i class="fa fa-share"></i> Share
       </a>
       
@@ -358,7 +487,7 @@ ga('send', 'pageview');
     
 
     <footer class="article-footer">
-      <a data-url="http://maximilienandile.github.io/2016/09/23/Comment-installer-PHPUnit-sur-macOs-sur-un-projet-PHP-existant-et-ecrire-un-test/" data-id="citn6xc9y0001djknc7zrb77i" class="article-share-link">
+      <a data-url="http://maximilienandile.github.io/2016/09/23/Comment-installer-PHPUnit-sur-macOs-sur-un-projet-PHP-existant-et-ecrire-un-test/" data-id="citphvvo90000bgkn6uysvkn9" class="article-share-link">
         <i class="fa fa-share"></i> Share
       </a>
       
@@ -447,7 +576,7 @@ ga('send', 'pageview');
     
 
     <footer class="article-footer">
-      <a data-url="http://maximilienandile.github.io/2016/09/23/Pourquoi-et-comment-creer-un-module-avec-nodejs/" data-id="citn6xcaa0009djknizcmqn64" class="article-share-link">
+      <a data-url="http://maximilienandile.github.io/2016/09/23/Pourquoi-et-comment-creer-un-module-avec-nodejs/" data-id="citphvvoy000dbgkngc6oxna1" class="article-share-link">
         <i class="fa fa-share"></i> Share
       </a>
       
@@ -532,7 +661,7 @@ ga('send', 'pageview');
     
 
     <footer class="article-footer">
-      <a data-url="http://maximilienandile.github.io/2016/06/07/How-to-use-tokenization-stopwords-and-synsets-with-NLTK-python/" data-id="citn6xca40004djknxoqpqpmo" class="article-share-link">
+      <a data-url="http://maximilienandile.github.io/2016/06/07/How-to-use-tokenization-stopwords-and-synsets-with-NLTK-python/" data-id="citphvvon0008bgkn00buhwkw" class="article-share-link">
         <i class="fa fa-share"></i> Share
       </a>
       
@@ -608,7 +737,7 @@ ga('send', 'pageview');
     
 
     <footer class="article-footer">
-      <a data-url="http://maximilienandile.github.io/2016/05/18/How-to-install-NLTK-and-compute-basic-statistics-on-a-text/" data-id="citn6xca30003djkn0xcaxeu7" class="article-share-link">
+      <a data-url="http://maximilienandile.github.io/2016/05/18/How-to-install-NLTK-and-compute-basic-statistics-on-a-text/" data-id="citphvvoj0004bgkn2doktsxd" class="article-share-link">
         <i class="fa fa-share"></i> Share
       </a>
       
@@ -674,7 +803,7 @@ ga('send', 'pageview');
     
 
     <footer class="article-footer">
-      <a data-url="http://maximilienandile.github.io/2016/05/08/How-to-use-promises-with-NodeJS/" data-id="citn6xca70006djknzdbtn2jr" class="article-share-link">
+      <a data-url="http://maximilienandile.github.io/2016/05/08/How-to-use-promises-with-NodeJS/" data-id="citphvvol0006bgknbn4ox4ir" class="article-share-link">
         <i class="fa fa-share"></i> Share
       </a>
       
@@ -749,7 +878,7 @@ ga('send', 'pageview');
     
 
     <footer class="article-footer">
-      <a data-url="http://maximilienandile.github.io/2016/05/08/How-to-create-a-model-with-Sequelize-for-Nodejs/" data-id="citn6xc9t0000djkniroixhtn" class="article-share-link">
+      <a data-url="http://maximilienandile.github.io/2016/05/08/How-to-create-a-model-with-Sequelize-for-Nodejs/" data-id="citphvvoi0003bgkn1j7k3c4h" class="article-share-link">
         <i class="fa fa-share"></i> Share
       </a>
       
@@ -789,7 +918,7 @@ ga('send', 'pageview');
   
   <div class="sidebar-module">
     <h4>Tags</h4>
-    <ul class="sidebar-module-list"><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/Machine-Learning/">Machine Learning</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/NLP/">NLP</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/Natural-Language-Processing/">Natural Language Processing</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/Nodejs/">Nodejs</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/PHP-Tests-unitaires/">PHP ; Tests unitaires</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/REST/">REST</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/SQL/">SQL</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/nodejs/">nodejs</a><span class="sidebar-module-list-count">1</span></li></ul>
+    <ul class="sidebar-module-list"><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/Machine-Learning/">Machine Learning</a><span class="sidebar-module-list-count">2</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/NLP/">NLP</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/Natural-Language-Processing/">Natural Language Processing</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/Nodejs/">Nodejs</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/PHP-Tests-unitaires/">PHP ; Tests unitaires</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/REST/">REST</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/SQL/">SQL</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/nodejs/">nodejs</a><span class="sidebar-module-list-count">1</span></li></ul>
   </div>
 
 
@@ -798,7 +927,7 @@ ga('send', 'pageview');
   <div class="sidebar-module">
     <h4>Tag Cloud</h4>
     <p class="tagcloud">
-      <a href="/tags/Machine-Learning/" style="font-size: 10px;">Machine Learning</a> <a href="/tags/NLP/" style="font-size: 10px;">NLP</a> <a href="/tags/Natural-Language-Processing/" style="font-size: 10px;">Natural Language Processing</a> <a href="/tags/Nodejs/" style="font-size: 10px;">Nodejs</a> <a href="/tags/PHP-Tests-unitaires/" style="font-size: 10px;">PHP ; Tests unitaires</a> <a href="/tags/REST/" style="font-size: 10px;">REST</a> <a href="/tags/SQL/" style="font-size: 10px;">SQL</a> <a href="/tags/nodejs/" style="font-size: 10px;">nodejs</a>
+      <a href="/tags/Machine-Learning/" style="font-size: 20px;">Machine Learning</a> <a href="/tags/NLP/" style="font-size: 10px;">NLP</a> <a href="/tags/Natural-Language-Processing/" style="font-size: 10px;">Natural Language Processing</a> <a href="/tags/Nodejs/" style="font-size: 10px;">Nodejs</a> <a href="/tags/PHP-Tests-unitaires/" style="font-size: 10px;">PHP ; Tests unitaires</a> <a href="/tags/REST/" style="font-size: 10px;">REST</a> <a href="/tags/SQL/" style="font-size: 10px;">SQL</a> <a href="/tags/nodejs/" style="font-size: 10px;">nodejs</a>
     </p>
   </div>
 
@@ -806,7 +935,7 @@ ga('send', 'pageview');
   
   <div class="sidebar-module">
     <h4>Archives</h4>
-    <ul class="sidebar-module-list"><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2016/09/">septembre 2016</a><span class="sidebar-module-list-count">4</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2016/06/">juin 2016</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2016/05/">mai 2016</a><span class="sidebar-module-list-count">3</span></li></ul>
+    <ul class="sidebar-module-list"><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2016/09/">septembre 2016</a><span class="sidebar-module-list-count">5</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2016/06/">juin 2016</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2016/05/">mai 2016</a><span class="sidebar-module-list-count">3</span></li></ul>
   </div>
 
 
@@ -815,6 +944,10 @@ ga('send', 'pageview');
   <div class="sidebar-module">
     <h4>Recents</h4>
     <ul class="sidebar-module-list">
+      
+        <li>
+          <a href="/2016/09/29/Machine-Learning-comment-fonctionne-la-classification-naive-Bayesienne/">Machine Learning : comment fonctionne la classification naïve Bayesienne</a>
+        </li>
       
         <li>
           <a href="/2016/09/24/L-algorithme-des-K-voisins-les-plus-proches-et-son-implementation-en-Nodejs/">L&#39;algorithme des K voisins les plus proches et son implémentation en NodeJs</a>
@@ -830,10 +963,6 @@ ga('send', 'pageview');
       
         <li>
           <a href="/2016/09/23/Pourquoi-et-comment-creer-un-module-avec-nodejs/">Pourquoi et comment créer des modules sur NodeJs</a>
-        </li>
-      
-        <li>
-          <a href="/2016/06/07/How-to-use-tokenization-stopwords-and-synsets-with-NLTK-python/">How to use tokenization, stopwords and synsets with NLTK (python)</a>
         </li>
       
     </ul>
@@ -873,7 +1002,24 @@ ga('send', 'pageview');
 
 
 
-<script src="/js/script.js"></script>
+<script src="/js/script.js"></script><!-- hexo-inject:begin --><!-- Begin: Injected MathJax -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({"tex2jax":{"inlineMath":[["$","$"],["\\(","\\)"]],"skipTags":["script","noscript","style","textarea","pre","code"],"processEscapes":true},"TeX":{"equationNumbers":{"autoNumber":"AMS"}}});
+</script>
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+      all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+  });
+</script>
+
+<script type="text/javascript" src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+<!-- End: Injected MathJax -->
+<!-- hexo-inject:end -->
 
 </body>
 </html>
