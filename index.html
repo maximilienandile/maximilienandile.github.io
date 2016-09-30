@@ -92,6 +92,156 @@ ga('send', 'pageview');
         <div class="col-sm-8 blog-main">
           
   
+    <article id="post-Comprendre-les-headers-d-une-requete-HTTP" class="article article-type-post" itemscope itemprop="blogPost">
+
+  <header class="article-header">
+    
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/09/30/Comprendre-les-headers-d-une-requete-HTTP/">Comprendre les headers d&#39;une requête HTTP</a>
+    </h1>
+  
+
+
+  </header>
+
+  <div class="article-meta">
+    <div class="article-datetime">
+  <a href="/2016/09/30/Comprendre-les-headers-d-une-requete-HTTP/" class="article-date"><time datetime="2016-09-30T12:31:36.000Z" itemprop="datePublished">30/09/2016</time></a>
+</div>
+
+    
+    
+
+  </div>
+  <div class="article-inner">
+
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="HTTP"><a href="#HTTP" class="headerlink" title="HTTP"></a>HTTP</h2><p>HTTP signifie (Hypertext Transfer Protocol), il s’agit d’un <strong>protocole de communication entre ordinateurs connectés au réseau internet*</strong>. Lorsque nous échangeons avec nos semblables nous utilisons nous même un protocole de communication : il s’agit de notre langue et de notre grammaire. L’Internet dispose aussi d’un langage et d’une grammaire bien déterminée et il s’agit d’HTTP.</p>
+<p>Contrairement au français ou comprendre et apprendre la grammaire nécessite un apprentissage long et douloureux, la grammaire du web est définit sous forme de <strong>RFC (“request for comments”)</strong>, il s’agit d’une pléthore de documents décrivant les règles de fonctionnement de notre web. Plus précisément, c’est la <a href="https://www.ietf.org/rfc/rfc2616.txt" target="_blank" rel="external"><strong>RFC 2616</strong></a> qui définit le fonctionnement du <strong>protocole HTTP version 1.1</strong>.</p>
+<h2 id="Client-et-Serveur"><a href="#Client-et-Serveur" class="headerlink" title="Client et Serveur"></a>Client et Serveur</h2><p><img src="img/HTTP_server_and_client.png" alt="Le trajet d&#39;une requête HTTP"></p>
+<p>Sur le schéma précédent nous voyons que les requêtes HTTP sont émises depuis le <strong>client</strong>. Le client est dans ce cas le navigateur web utilisé (ici Chrome). Ce dernier va envoyer au <strong>serveur</strong> la <strong>requête</strong> HTTP (la question). Ce dernier va ensuite traité la requête et renvoyer la <strong>ressource</strong> correspondante au client.</p>
+<h2 id="Les-principales-caracteristiques-du-protocole"><a href="#Les-principales-caracteristiques-du-protocole" class="headerlink" title="Les principales caractéristiques du protocole"></a>Les principales caractéristiques du protocole</h2><ol>
+<li>Les échanges du protocoles HTTP repose sur <strong>TCP/IP</strong> qui est une suite de protocoles destinés au transfert de données sur le réseau internet.</li>
+<li>On peut transférer via HTTP <strong>n’importe quel type de média</strong> ! Que cela soit du texte, du HTML, du JSON, des images, des films (pensez aux sites de streaming qui reposent grandement sur HTTP).</li>
+<li>Le protocole HTTP est <strong>sans état</strong>, c’est à dire que le serveur ne se souviendra pas de vous entre vos requêtes, d’une certaine façon HTTP n’a pas de mémoire. Et cela lui va très bien (cf <a href="/2016/09/24/Pourquoi-utiliser-RAML-pour-designer-une-API-RESTful/">REST</a>)</li>
+</ol>
+<h2 id="Visualisation-d’une-requete-HTTP"><a href="#Visualisation-d’une-requete-HTTP" class="headerlink" title="Visualisation d’une requête HTTP"></a>Visualisation d’une requête HTTP</h2><p>Comment peut on visualiser une requête HTTP dans Chrome ? Rien de plus simple il suffit de :</p>
+<ol>
+<li>Cliquer sur <code>Afficher</code></li>
+<li>Puis sur <code>Options pour les développeurs</code></li>
+<li>Puis cliquez sur <code>outil de développement</code></li>
+</ol>
+<p>Vous verrez s’afficher la fenêtre vous permettant de surveiller l’activité de <strong>networking</strong> de votre navigateur, autrement dit toutes les requêtes qui sortent de votre machine :</p>
+<p><img src="img/visualisation_http_chrome.png" alt="Les requêtes HTTP dans Chrome"></p>
+<p>Nous voyons donc ici toutes les requêtes lancées par <strong>chrome</strong> à la visite du site <strong>Le Monde</strong>. Et cela en fait un sacré paquet ! En effet les éléments du site sont chargés via HTTP. Souvenez vous, ce protocole est multimédia ! On va y recourir (enfin notre navigateur) pour charger les images, les feuilles de style CSS, les pages HTML, le favicon…</p>
+<p>Voici un exemple de requête HTTP.</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Request URL:http://www.lemonde.fr/</span><br><span class="line">Request Method:GET</span><br></pre></td></tr></table></figure>
+<p>L’URL permet de router notre requête vers le serveur correspondant au site web sur le réseau. Ensuite on précise la méthode, ici il s’agit de <strong>GET</strong>. La méthode <strong>GET</strong> est surtout celle utilisée pour charger les images et les pages  HTML. Il existe d’autres méthodes, appelées aussi <strong>verbes</strong> comme <strong>POST</strong> qui est utilisée notamment pour envoyer les données d’un formulaire sur un serveur. (par exemple pour envoyer votre formulaire d’inscription à Airbnb).</p>
+<p> Mais une <strong>requête HTTP</strong> est aussi composée d’un <strong>header</strong> dont voici un exemple :</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">GET / HTTP/1.1</span><br><span class="line">Host: www.lemonde.fr</span><br><span class="line">Connection: keep-alive</span><br><span class="line">Cache-Control: max-age=0</span><br><span class="line">Upgrade-Insecure-Requests: 1</span><br><span class="line">User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_4) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/54.0.2840.34 Safari/537.36</span><br><span class="line">Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8</span><br><span class="line">Accept-Encoding: gzip, deflate, sdch</span><br><span class="line">Accept-Language: fr-FR,fr;q=0.8,en-US;q=0.6,en;q=0.4</span><br><span class="line">Cookie: _ga=GA1.2.374864853.1475228586; xtvrn=<span class="variable">$43260</span>$; _cb_ls=1; lmdAbDay=1; __vrf=14752522666255dKTLyAPMbCEHo57kMWgskL26Q4Wie1W; __vrrefresh=http%253A%252F%252Fwww.lemonde.fr%252F; __utmt=1; __utma=194882738.374864853.1475228586.1475238480.1475252268.2; __utmb=194882738.1.10.1475252268; __utmc=194882738; __utmz=194882738.1475238480.1.1.utmcsr=google|utmccn=(organic)|utmcmd=organic|utmctr=(not%20provided); xtan43260=-; xtant43260=1; _cb=DQQzWqCueIlMC6ZCTd; _chartbeat2=.1475238481310.1475252269278.1; cdx_ses_1_10013=3342761584&amp;1577be3312a&amp;1577be3312a&amp;; kameleoonVisit=ml6c91nkhia4vvot/1/1475252301068/20160909/12726701/<span class="literal">true</span></span><br><span class="line">If-Modified-Since: Fri, 30 Sep 2016 16:10:47 GMT</span><br></pre></td></tr></table></figure>
+<p>Chaque ligne est générée par notre client (notre navigateur web). D’un point de vue développeur <strong>il ne faut d’ailleurs jamais se fier au header car ces données peuvent être manipulées avant d’être envoyées</strong> et changées à volonté par n’importe quel développeur.</p>
+<p>Voici le détail du header avec des explications pour chaque donnée</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">Propriété</th>
+<th style="text-align:center">Description</th>
+<th style="text-align:center">Exemple</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">Host</td>
+<td style="text-align:center">Il s’agit du nom de domaine du serveur auquel on envoie la requête, on pécise aussi le port si celui-ci n’est pas 80</td>
+<td style="text-align:center">www.lemonde.fr</td>
+</tr>
+<tr>
+<td style="text-align:center">Connection</td>
+<td style="text-align:center">Il s’agit du comportement de la connexion. Ici on va garder la connection TCP ouverte entre le moment entre les requêtes réponses, au lien d’en ouvrir une autre à chaque reprise</td>
+<td style="text-align:center">keep-alive</td>
+</tr>
+<tr>
+<td style="text-align:center">Cache-Control</td>
+<td style="text-align:center">Cette propriété indique au cache du serveur s’il doit recharger la page à chaque reprise ou suivant un délai précis. Ici c’est le cas, on doit recharger à chaque fois la page</td>
+<td style="text-align:center">max-age=0</td>
+</tr>
+<tr>
+<td style="text-align:center">Upgrade-Insecure-Requests</td>
+<td style="text-align:center">Indique au client que l’on préfèrera toujours une reconnection HTTPS si jamais celui-ci est en train de migrer entre HTTP et HTTPS</td>
+<td style="text-align:center">1</td>
+</tr>
+<tr>
+<td style="text-align:center">User-Agent</td>
+<td style="text-align:center">Il s’agit de la chaine de caractère permettant d’identifier formellement le navigateur qui a généré la requête;  on y trouve sa version son développeur … Renseignement très intéressant pour le web analytics</td>
+<td style="text-align:center">Mozilla/5.0 (Macintosh; ….</td>
+</tr>
+<tr>
+<td style="text-align:center">Accept</td>
+<td style="text-align:center">Indique le type de contenu (de média) que le client est en mesure d’accepter.</td>
+<td style="text-align:center">text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,<em>/</em>;q=0.8</td>
+</tr>
+<tr>
+<td style="text-align:center">Referer</td>
+<td style="text-align:center">Indique la page d’où vient le visiteur. (très utile pour l’analyse de la provenance des visiteurs). Vous noterez la coquille (il manque un r) qui provient directement d’une erreur sur la RFC :)</td>
+<td style="text-align:center"><a href="http://www.lemonde.fr/" target="_blank" rel="external">http://www.lemonde.fr/</a></td>
+</tr>
+<tr>
+<td style="text-align:center">Accept-Encoding</td>
+<td style="text-align:center">Spécifie le type de compression du contenu que le client (le navigateur) peut traiter. Le contenu est en effet souvent compresser pour optimiser le temps de transfert !</td>
+<td style="text-align:center">gzip, deflate, sdch</td>
+</tr>
+<tr>
+<td style="text-align:center">Accept-Language</td>
+<td style="text-align:center">Spécifie quel langage le client accepte</td>
+<td style="text-align:center">fr-FR,fr;q=0.8,en-US;q=0.6,en;q=0.4</td>
+</tr>
+<tr>
+<td style="text-align:center">Cookie</td>
+<td style="text-align:center">On retrouve ici le cookie (une série de données) qui avait été précédemment enregistré sur le navigateur de l’utilisateur et qui est renvoyé au serveur lors de chaque requêtes. On retrouve d’ailleurs ici des traces de Google Analytics</td>
+<td style="text-align:center">_ga=GA1.2.374864853.1475228586; xtvrn=$43260$; _cb_ls=1</td>
+</tr>
+<tr>
+<td style="text-align:center">If-Modified-Since</td>
+<td style="text-align:center">Permet au serveur de renvoyer la réponse “304 Not modified” si jamais la page n’a pas été modifiée depuis la date indiquée</td>
+<td style="text-align:center">Fri, 30 Sep 2016 16:16:34 GMT</td>
+</tr>
+</tbody>
+</table>
+<p>Précisons d’ailleurs que l’on peut mettre en place un <strong>système d’authentification</strong> utilisateur via les headers HTTP ! Le client rajoute simplement dans sa requête le nom d’utilisateur et le mot de passe demandé à l’utilisateur via une fenêtre native. Ce nom d’utilisateur est de mot de passe est encodé en <strong>base 64</strong><br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Authorization: Basic XXXXXXXXXXXX</span><br></pre></td></tr></table></figure></p>
+<p>XXXXXXXXXXXX représentant l’encodage de la chaine nom_de_l_utilisateur : mot_de_passe ! Remarquez aussi que lorsque vous transmettez des <strong>données sensibles</strong> sur vos sites favoris et que ces derniers n’utilisent pas HTTPS (la version sécurisée du protocole HTTP) cela <strong>représente un réel danger</strong>, car toute requête peut être interceptée ! et dans une requête POST de transmission de formulaire <strong>vos données sont lisibles</strong>! Faites l’essai en essayant de remplir un formulaire et en surveillant la requête HTTP qui sera émise ! </p>
+<p>J’espère que vous aurez maintenant envie d’ouvrir votre inspecteur chrome afin d’inspecter les requêtes que fait votre navigateur ! Cela peut être un moyen intéressant pour découvrir tous les services qu’un site utilise (par exemple les réseaux de pubilicités, les services de web analytics…). Fouillez !</p>
+
+      
+    </div>
+
+    
+      
+
+    
+
+    <footer class="article-footer">
+      <a data-url="http://maximilienandile.github.io/2016/09/30/Comprendre-les-headers-d-une-requete-HTTP/" data-id="citq10sw10000y3mi8r6l0ww3" class="article-share-link">
+        <i class="fa fa-share"></i> Share
+      </a>
+      
+        <a href="http://maximilienandile.github.io/2016/09/30/Comprendre-les-headers-d-une-requete-HTTP/#disqus_thread" class="article-comment-link">
+          <i class="fa fa-comment"></i> Comments
+        </a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/HTTP/">HTTP</a></li></ul>
+
+
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
     <article id="post-Machine-Learning-comment-fonctionne-la-classification-naive-Bayesienne" class="article article-type-post" itemscope itemprop="blogPost">
 
   <header class="article-header">
@@ -190,7 +340,7 @@ ga('send', 'pageview');
 </ul>
 <figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="comment">// test the classifier</span></span><br><span class="line"><span class="keyword">var</span> f = classifier.categorize(<span class="string">"Je la contemplai avec une haine intense, celle qu'un cheveu seul sépare de l'amour ardent."</span>)</span><br><span class="line"><span class="keyword">var</span> s = classifier.categorize(<span class="string">" Par ailleurs la réalisation d’un système de ce type exige un assemblage de plusieurs techniques utilisées en apprentissage ou en recherche d’information "</span>)</span><br><span class="line"><span class="built_in">console</span>.log(<span class="string">"fiction"</span>,f);</span><br><span class="line"><span class="built_in">console</span>.log(<span class="string">"science"</span>,s);</span><br></pre></td></tr></table></figure>
 <p>La console affiche :<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">fiction fiction</span><br><span class="line">science science</span><br></pre></td></tr></table></figure></p>
-<p>On a un résultat concordant !</p>
+<p>On a un résultat concordant ! Pour les impatients voici le repo contenant ce morceau de code : <a href="https://github.com/maximilienandile/bayes_classifier" target="_blank" rel="external">https://github.com/maximilienandile/bayes_classifier</a></p>
 
       
     </div>
@@ -201,7 +351,7 @@ ga('send', 'pageview');
     
 
     <footer class="article-footer">
-      <a data-url="http://maximilienandile.github.io/2016/09/29/Machine-Learning-comment-fonctionne-la-classification-naive-Bayesienne/" data-id="citphvvot000cbgknmjmlkzpq" class="article-share-link">
+      <a data-url="http://maximilienandile.github.io/2016/09/29/Machine-Learning-comment-fonctionne-la-classification-naive-Bayesienne/" data-id="citq10swt000fy3mi6kvfc83s" class="article-share-link">
         <i class="fa fa-share"></i> Share
       </a>
       
@@ -286,7 +436,7 @@ ga('send', 'pageview');
     
 
     <footer class="article-footer">
-      <a data-url="http://maximilienandile.github.io/2016/09/24/L-algorithme-des-K-voisins-les-plus-proches-et-son-implementation-en-Nodejs/" data-id="citphvvoq0009bgknekvp9j7l" class="article-share-link">
+      <a data-url="http://maximilienandile.github.io/2016/09/24/L-algorithme-des-K-voisins-les-plus-proches-et-son-implementation-en-Nodejs/" data-id="citq10swk0009y3miuq197t3r" class="article-share-link">
         <i class="fa fa-share"></i> Share
       </a>
       
@@ -383,7 +533,7 @@ ga('send', 'pageview');
     
 
     <footer class="article-footer">
-      <a data-url="http://maximilienandile.github.io/2016/09/24/Pourquoi-utiliser-RAML-pour-designer-une-API-RESTful/" data-id="citphvvp0000fbgknhxcyakun" class="article-share-link">
+      <a data-url="http://maximilienandile.github.io/2016/09/24/Pourquoi-utiliser-RAML-pour-designer-une-API-RESTful/" data-id="citq10sww000hy3mi5t5nvm4f" class="article-share-link">
         <i class="fa fa-share"></i> Share
       </a>
       
@@ -487,7 +637,7 @@ ga('send', 'pageview');
     
 
     <footer class="article-footer">
-      <a data-url="http://maximilienandile.github.io/2016/09/23/Comment-installer-PHPUnit-sur-macOs-sur-un-projet-PHP-existant-et-ecrire-un-test/" data-id="citphvvo90000bgkn6uysvkn9" class="article-share-link">
+      <a data-url="http://maximilienandile.github.io/2016/09/23/Comment-installer-PHPUnit-sur-macOs-sur-un-projet-PHP-existant-et-ecrire-un-test/" data-id="citq10swp000cy3miajy8vhnv" class="article-share-link">
         <i class="fa fa-share"></i> Share
       </a>
       
@@ -576,7 +726,7 @@ ga('send', 'pageview');
     
 
     <footer class="article-footer">
-      <a data-url="http://maximilienandile.github.io/2016/09/23/Pourquoi-et-comment-creer-un-module-avec-nodejs/" data-id="citphvvoy000dbgkngc6oxna1" class="article-share-link">
+      <a data-url="http://maximilienandile.github.io/2016/09/23/Pourquoi-et-comment-creer-un-module-avec-nodejs/" data-id="citq10swr000dy3midmm7lc44" class="article-share-link">
         <i class="fa fa-share"></i> Share
       </a>
       
@@ -661,7 +811,7 @@ ga('send', 'pageview');
     
 
     <footer class="article-footer">
-      <a data-url="http://maximilienandile.github.io/2016/06/07/How-to-use-tokenization-stopwords-and-synsets-with-NLTK-python/" data-id="citphvvon0008bgkn00buhwkw" class="article-share-link">
+      <a data-url="http://maximilienandile.github.io/2016/06/07/How-to-use-tokenization-stopwords-and-synsets-with-NLTK-python/" data-id="citq10swi0008y3mi0vbwxhxb" class="article-share-link">
         <i class="fa fa-share"></i> Share
       </a>
       
@@ -737,7 +887,7 @@ ga('send', 'pageview');
     
 
     <footer class="article-footer">
-      <a data-url="http://maximilienandile.github.io/2016/05/18/How-to-install-NLTK-and-compute-basic-statistics-on-a-text/" data-id="citphvvoj0004bgkn2doktsxd" class="article-share-link">
+      <a data-url="http://maximilienandile.github.io/2016/05/18/How-to-install-NLTK-and-compute-basic-statistics-on-a-text/" data-id="citq10swc0003y3mie8bg7vqh" class="article-share-link">
         <i class="fa fa-share"></i> Share
       </a>
       
@@ -803,7 +953,7 @@ ga('send', 'pageview');
     
 
     <footer class="article-footer">
-      <a data-url="http://maximilienandile.github.io/2016/05/08/How-to-use-promises-with-NodeJS/" data-id="citphvvol0006bgknbn4ox4ir" class="article-share-link">
+      <a data-url="http://maximilienandile.github.io/2016/05/08/How-to-use-promises-with-NodeJS/" data-id="citq10swg0006y3miq8wdewa9" class="article-share-link">
         <i class="fa fa-share"></i> Share
       </a>
       
@@ -878,7 +1028,7 @@ ga('send', 'pageview');
     
 
     <footer class="article-footer">
-      <a data-url="http://maximilienandile.github.io/2016/05/08/How-to-create-a-model-with-Sequelize-for-Nodejs/" data-id="citphvvoi0003bgkn1j7k3c4h" class="article-share-link">
+      <a data-url="http://maximilienandile.github.io/2016/05/08/How-to-create-a-model-with-Sequelize-for-Nodejs/" data-id="citq10sw70001y3mil1ut9xx4" class="article-share-link">
         <i class="fa fa-share"></i> Share
       </a>
       
@@ -918,7 +1068,7 @@ ga('send', 'pageview');
   
   <div class="sidebar-module">
     <h4>Tags</h4>
-    <ul class="sidebar-module-list"><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/Machine-Learning/">Machine Learning</a><span class="sidebar-module-list-count">2</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/NLP/">NLP</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/Natural-Language-Processing/">Natural Language Processing</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/Nodejs/">Nodejs</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/PHP-Tests-unitaires/">PHP ; Tests unitaires</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/REST/">REST</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/SQL/">SQL</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/nodejs/">nodejs</a><span class="sidebar-module-list-count">1</span></li></ul>
+    <ul class="sidebar-module-list"><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/HTTP/">HTTP</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/Machine-Learning/">Machine Learning</a><span class="sidebar-module-list-count">2</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/NLP/">NLP</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/Natural-Language-Processing/">Natural Language Processing</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/Nodejs/">Nodejs</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/PHP-Tests-unitaires/">PHP ; Tests unitaires</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/REST/">REST</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/SQL/">SQL</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/nodejs/">nodejs</a><span class="sidebar-module-list-count">1</span></li></ul>
   </div>
 
 
@@ -927,7 +1077,7 @@ ga('send', 'pageview');
   <div class="sidebar-module">
     <h4>Tag Cloud</h4>
     <p class="tagcloud">
-      <a href="/tags/Machine-Learning/" style="font-size: 20px;">Machine Learning</a> <a href="/tags/NLP/" style="font-size: 10px;">NLP</a> <a href="/tags/Natural-Language-Processing/" style="font-size: 10px;">Natural Language Processing</a> <a href="/tags/Nodejs/" style="font-size: 10px;">Nodejs</a> <a href="/tags/PHP-Tests-unitaires/" style="font-size: 10px;">PHP ; Tests unitaires</a> <a href="/tags/REST/" style="font-size: 10px;">REST</a> <a href="/tags/SQL/" style="font-size: 10px;">SQL</a> <a href="/tags/nodejs/" style="font-size: 10px;">nodejs</a>
+      <a href="/tags/HTTP/" style="font-size: 10px;">HTTP</a> <a href="/tags/Machine-Learning/" style="font-size: 20px;">Machine Learning</a> <a href="/tags/NLP/" style="font-size: 10px;">NLP</a> <a href="/tags/Natural-Language-Processing/" style="font-size: 10px;">Natural Language Processing</a> <a href="/tags/Nodejs/" style="font-size: 10px;">Nodejs</a> <a href="/tags/PHP-Tests-unitaires/" style="font-size: 10px;">PHP ; Tests unitaires</a> <a href="/tags/REST/" style="font-size: 10px;">REST</a> <a href="/tags/SQL/" style="font-size: 10px;">SQL</a> <a href="/tags/nodejs/" style="font-size: 10px;">nodejs</a>
     </p>
   </div>
 
@@ -935,7 +1085,7 @@ ga('send', 'pageview');
   
   <div class="sidebar-module">
     <h4>Archives</h4>
-    <ul class="sidebar-module-list"><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2016/09/">septembre 2016</a><span class="sidebar-module-list-count">5</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2016/06/">juin 2016</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2016/05/">mai 2016</a><span class="sidebar-module-list-count">3</span></li></ul>
+    <ul class="sidebar-module-list"><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2016/09/">septembre 2016</a><span class="sidebar-module-list-count">6</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2016/06/">juin 2016</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2016/05/">mai 2016</a><span class="sidebar-module-list-count">3</span></li></ul>
   </div>
 
 
@@ -944,6 +1094,10 @@ ga('send', 'pageview');
   <div class="sidebar-module">
     <h4>Recents</h4>
     <ul class="sidebar-module-list">
+      
+        <li>
+          <a href="/2016/09/30/Comprendre-les-headers-d-une-requete-HTTP/">Comprendre les headers d&#39;une requête HTTP</a>
+        </li>
       
         <li>
           <a href="/2016/09/29/Machine-Learning-comment-fonctionne-la-classification-naive-Bayesienne/">Machine Learning : comment fonctionne la classification naïve Bayesienne</a>
@@ -959,10 +1113,6 @@ ga('send', 'pageview');
       
         <li>
           <a href="/2016/09/23/Comment-installer-PHPUnit-sur-macOs-sur-un-projet-PHP-existant-et-ecrire-un-test/">Comment installer PHPUnit sur macOs sur un projet PHP existant et écrire son premier cas de test</a>
-        </li>
-      
-        <li>
-          <a href="/2016/09/23/Pourquoi-et-comment-creer-un-module-avec-nodejs/">Pourquoi et comment créer des modules sur NodeJs</a>
         </li>
       
     </ul>
