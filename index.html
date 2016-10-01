@@ -92,6 +92,79 @@ ga('send', 'pageview');
         <div class="col-sm-8 blog-main">
           
   
+    <article id="post-Comment-installer-PHPUnit-sur-un-projet-necessitant-composer-et-utilisant-des-variables-d-environnement" class="article article-type-post" itemscope itemprop="blogPost">
+
+  <header class="article-header">
+    
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/10/01/Comment-installer-PHPUnit-sur-un-projet-necessitant-composer-et-utilisant-des-variables-d-environnement/">Comment installer PHPUnit sur un projet nécessitant composer et utilisant des variables d&#39;environnement</a>
+    </h1>
+  
+
+
+  </header>
+
+  <div class="article-meta">
+    <div class="article-datetime">
+  <a href="/2016/10/01/Comment-installer-PHPUnit-sur-un-projet-necessitant-composer-et-utilisant-des-variables-d-environnement/" class="article-date"><time datetime="2016-10-01T14:13:20.000Z" itemprop="datePublished">01/10/2016</time></a>
+</div>
+
+    
+    
+
+  </div>
+  <div class="article-inner">
+
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="Installation-de-PHPUnit-macOS"><a href="#Installation-de-PHPUnit-macOS" class="headerlink" title="Installation de PHPUnit (macOS)"></a>Installation de PHPUnit (macOS)</h2><p>Afin d’installer PHPUnit nous allons devoir ouvrir le terminal  et taper les commandes suivantes :</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$ curl https://phar.phpunit.de/phpunit.phar -L -o phpunit.phar</span><br><span class="line">$ chmod +x phpunit.phar</span><br><span class="line">$ mv phpunit.phar /usr/local/bin/phpunit</span><br></pre></td></tr></table></figure>
+<p>Ces commandes permettent de télécharger le fichier <code>.phar</code>. (Un fichier <code>.PHAR</code> est une PHP Archive, une application PHP compactée dans un seul et même fichier). Elles permettent ensuite d’étendre le niveau des droits sur ce dernier fichier (lecture, écriture, exécution). Nous déplaçons ensuite <code>phpunit.phar</code> dans le dossier <code>/usr/local/bin/phpunit</code> afin que nous puissions l’exécuter directement depuis notre terminal via la commande <code>phpunit</code>.</p>
+<h2 id="Creation-du-fichier-phpunit-xml-contenant-l’ensemble-des-variables-d’environnement"><a href="#Creation-du-fichier-phpunit-xml-contenant-l’ensemble-des-variables-d’environnement" class="headerlink" title="Création du fichier phpunit.xml contenant l’ensemble des variables d’environnement"></a>Création du fichier phpunit.xml contenant l’ensemble des variables d’environnement</h2><p>Si vos scripts PHP font usage de <strong>variables d’environnement</strong>. Vous vous devez de <strong>fournir une valeur à ces variables dans vos tests unitaires</strong>. En effet si vous exécutez vos tests unitaires sans ces variables définies vos test échoueront, faute de variables définies.</p>
+<p>PHPUnit permet la configuration de ces variables de manière très simple. Il vous suffit de créer un fichier nommé <code>phpunit.xml</code> à la racine du dossier de votre application :</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">phpunit</span> <span class="attr">bootstrap</span>=<span class="string">"bootstrap_file.php"</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">php</span>&gt;</span></span><br><span class="line">       <span class="tag">&lt;<span class="name">env</span> <span class="attr">name</span>=<span class="string">"DB_HOST"</span> <span class="attr">value</span>=<span class="string">"127.0.0.1:3306"</span>/&gt;</span></span><br><span class="line">       <span class="tag">&lt;<span class="name">env</span> <span class="attr">name</span>=<span class="string">"DB_USER"</span> <span class="attr">value</span>=<span class="string">"root"</span>/&gt;</span></span><br><span class="line">       <span class="tag">&lt;<span class="name">env</span> <span class="attr">name</span>=<span class="string">"DB_PASS"</span> <span class="attr">value</span>=<span class="string">"root"</span>/&gt;</span></span><br><span class="line">       ...</span><br><span class="line">  <span class="tag">&lt;/<span class="name">php</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">phpunit</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>Dans notre cas nous définissons ici <code>3</code> variables d’environnement nommées <code>DB_HOST</code>, <code>DB_USER</code> et <code>DB_PASS</code> ayant respectivement les valeurs <code>127.0.0.1:3306</code>, <code>root</code>, <code>root</code>.</p>
+<p>D’autre part dans ce fichier de configuration est aussi définit un fichier de <code>bootstrap</code> qui va nous permettre de créer une procédure de démarrage spécifique au test de notre application.</p>
+<h2 id="Creation-du-script-de-bootstrap"><a href="#Creation-du-script-de-bootstrap" class="headerlink" title="Création du script de bootstrap."></a>Création du script de bootstrap.</h2><p>Notre script de <code>bootstrap</code> devra effectuer une tâche :</p>
+<ul>
+<li>Charger l’ensemble des classes que nous avons développées afin que nous n’ayons pas à faire des <code>require</code> dans chaque fichier décrivant un test unitaire. Cette astuce permet de gagner un temps précieux !</li>
+</ul>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">my_autoloader</span><span class="params">($class)</span> </span>&#123;</span><br><span class="line">	<span class="keyword">include</span> <span class="string">'classes/'</span> . $class . <span class="string">'.php'</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">spl_autoload_register(<span class="string">'my_autoloader'</span>);</span><br><span class="line"></span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+<p>Si <strong>toutes vos classes sont regroupées</strong> dans le dossier <code>classes</code> (sans sous-dossiers) situé à la racine de votre application vous pouvez adopter cet autoloader simple. Une autre contrainte est que le nom de vos classes doit correspondre trait pour trait au nom du fichier dans lesquels elles sont définies.</p>
+<p> Jess Telford fournit une implémentation plus complexe permettant d’inclure les sous dossiers : <a href="http://jes.st/2011/phpunit-bootstrap-and-autoloading-classes/" target="_blank" rel="external">http://jes.st/2011/phpunit-bootstrap-and-autoloading-classes/</a>.</p>
+<h2 id="Un-test-unitaire"><a href="#Un-test-unitaire" class="headerlink" title="Un test unitaire"></a>Un test unitaire</h2><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line">date_default_timezone_set(<span class="string">'America/Los_Angeles'</span>);</span><br><span class="line"><span class="comment">// require composer classes</span></span><br><span class="line"><span class="keyword">require_once</span> <span class="keyword">__DIR__</span> .<span class="string">'/../vendor/autoload.php'</span>;</span><br><span class="line"><span class="keyword">use</span> <span class="title">PHPUnit</span>\<span class="title">Framework</span>\<span class="title">TestCase</span>;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">UserTest</span> <span class="keyword">extends</span> <span class="title">TestCase</span></span><br><span class="line"></span>&#123;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>Et voilà. Vous pouvez tester des fonctions disposant de <code>variables d&#39;environnement</code> et tester toutes vos classes sans avoir à penser à appeler <code>require</code> à chaque utilisation d’une nouvelle classe.</p>
+
+      
+    </div>
+
+    
+      
+
+    
+
+    <footer class="article-footer">
+      <a data-url="http://maximilienandile.github.io/2016/10/01/Comment-installer-PHPUnit-sur-un-projet-necessitant-composer-et-utilisant-des-variables-d-environnement/" data-id="citrcz0gd0002vdmi8d19wjfg" class="article-share-link">
+        <i class="fa fa-share"></i> Share
+      </a>
+      
+        <a href="http://maximilienandile.github.io/2016/10/01/Comment-installer-PHPUnit-sur-un-projet-necessitant-composer-et-utilisant-des-variables-d-environnement/#disqus_thread" class="article-comment-link">
+          <i class="fa fa-comment"></i> Comments
+        </a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/PHP/">PHP</a></li></ul>
+
+
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
     <article id="post-Comprendre-les-headers-d-une-requete-HTTP" class="article article-type-post" itemscope itemprop="blogPost">
 
   <header class="article-header">
@@ -222,7 +295,7 @@ ga('send', 'pageview');
     
 
     <footer class="article-footer">
-      <a data-url="http://maximilienandile.github.io/2016/09/30/Comprendre-les-headers-d-une-requete-HTTP/" data-id="citqxas6h000355kn8ua3xkbv" class="article-share-link">
+      <a data-url="http://maximilienandile.github.io/2016/09/30/Comprendre-les-headers-d-une-requete-HTTP/" data-id="citrcz0gj0005vdmicg674l42" class="article-share-link">
         <i class="fa fa-share"></i> Share
       </a>
       
@@ -351,7 +424,7 @@ ga('send', 'pageview');
     
 
     <footer class="article-footer">
-      <a data-url="http://maximilienandile.github.io/2016/09/29/Machine-Learning-comment-fonctionne-la-classification-naive-Bayesienne/" data-id="citqxas6u000c55knxrccyxvm" class="article-share-link">
+      <a data-url="http://maximilienandile.github.io/2016/09/29/Machine-Learning-comment-fonctionne-la-classification-naive-Bayesienne/" data-id="citrcz0gw000dvdmi43m6iyq0" class="article-share-link">
         <i class="fa fa-share"></i> Share
       </a>
       
@@ -436,7 +509,7 @@ ga('send', 'pageview');
     
 
     <footer class="article-footer">
-      <a data-url="http://maximilienandile.github.io/2016/09/24/L-algorithme-des-K-voisins-les-plus-proches-et-son-implementation-en-Nodejs/" data-id="citqxas6x000d55knu1e2flqb" class="article-share-link">
+      <a data-url="http://maximilienandile.github.io/2016/09/24/L-algorithme-des-K-voisins-les-plus-proches-et-son-implementation-en-Nodejs/" data-id="citrcz0gt000avdmii1sbx5ku" class="article-share-link">
         <i class="fa fa-share"></i> Share
       </a>
       
@@ -533,7 +606,7 @@ ga('send', 'pageview');
     
 
     <footer class="article-footer">
-      <a data-url="http://maximilienandile.github.io/2016/09/24/Pourquoi-utiliser-RAML-pour-designer-une-API-RESTful/" data-id="citqxas6z000h55knc1ebfyx7" class="article-share-link">
+      <a data-url="http://maximilienandile.github.io/2016/09/24/Pourquoi-utiliser-RAML-pour-designer-une-API-RESTful/" data-id="citrcz0h3000ivdmi4cna8sv4" class="article-share-link">
         <i class="fa fa-share"></i> Share
       </a>
       
@@ -637,7 +710,7 @@ ga('send', 'pageview');
     
 
     <footer class="article-footer">
-      <a data-url="http://maximilienandile.github.io/2016/09/23/Comment-installer-PHPUnit-sur-macOs-sur-un-projet-PHP-existant-et-ecrire-un-test/" data-id="citqxas6d000155knuz2apclo" class="article-share-link">
+      <a data-url="http://maximilienandile.github.io/2016/09/23/Comment-installer-PHPUnit-sur-macOs-sur-un-projet-PHP-existant-et-ecrire-un-test/" data-id="citrcz0gb0001vdmixwk0blhf" class="article-share-link">
         <i class="fa fa-share"></i> Share
       </a>
       
@@ -726,7 +799,7 @@ ga('send', 'pageview');
     
 
     <footer class="article-footer">
-      <a data-url="http://maximilienandile.github.io/2016/09/23/Pourquoi-et-comment-creer-un-module-avec-nodejs/" data-id="citqxas6y000f55kni7pm7n4f" class="article-share-link">
+      <a data-url="http://maximilienandile.github.io/2016/09/23/Pourquoi-et-comment-creer-un-module-avec-nodejs/" data-id="citrcz0h1000gvdmihv5yq3bo" class="article-share-link">
         <i class="fa fa-share"></i> Share
       </a>
       
@@ -811,7 +884,7 @@ ga('send', 'pageview');
     
 
     <footer class="article-footer">
-      <a data-url="http://maximilienandile.github.io/2016/06/07/How-to-use-tokenization-stopwords-and-synsets-with-NLTK-python/" data-id="citqxas6p000955knfe17pdel" class="article-share-link">
+      <a data-url="http://maximilienandile.github.io/2016/06/07/How-to-use-tokenization-stopwords-and-synsets-with-NLTK-python/" data-id="citrcz0gy000evdmiuydm7dd6" class="article-share-link">
         <i class="fa fa-share"></i> Share
       </a>
       
@@ -887,7 +960,7 @@ ga('send', 'pageview');
     
 
     <footer class="article-footer">
-      <a data-url="http://maximilienandile.github.io/2016/05/18/How-to-install-NLTK-and-compute-basic-statistics-on-a-text/" data-id="citqxas6l000655kn13f3i7ma" class="article-share-link">
+      <a data-url="http://maximilienandile.github.io/2016/05/18/How-to-install-NLTK-and-compute-basic-statistics-on-a-text/" data-id="citrcz0gn0009vdmi8qq5l082" class="article-share-link">
         <i class="fa fa-share"></i> Share
       </a>
       
@@ -953,7 +1026,7 @@ ga('send', 'pageview');
     
 
     <footer class="article-footer">
-      <a data-url="http://maximilienandile.github.io/2016/05/08/How-to-use-promises-with-NodeJS/" data-id="citqxas6n000855kn190m7b41" class="article-share-link">
+      <a data-url="http://maximilienandile.github.io/2016/05/08/How-to-use-promises-with-NodeJS/" data-id="citrcz0gl0007vdmil4fi57jy" class="article-share-link">
         <i class="fa fa-share"></i> Share
       </a>
       
@@ -973,82 +1046,11 @@ ga('send', 'pageview');
 
 
   
-    <article id="post-How-to-create-a-model-with-Sequelize-for-Nodejs" class="article article-type-post" itemscope itemprop="blogPost">
-
-  <header class="article-header">
-    
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2016/05/08/How-to-create-a-model-with-Sequelize-for-Nodejs/">How to create a model with Sequelize for Nodejs</a>
-    </h1>
-  
 
 
-  </header>
-
-  <div class="article-meta">
-    <div class="article-datetime">
-  <a href="/2016/05/08/How-to-create-a-model-with-Sequelize-for-Nodejs/" class="article-date"><time datetime="2016-05-07T23:29:00.000Z" itemprop="datePublished">08/05/2016</time></a>
-</div>
-
-    
-    
-
+  <div id="page-nav">
+    <nav><ul class="pagination"><li class="disabled"><span class="page-prev"><i class="fa fa-chevron-left"></i> Prev</a></li><li class="active"><span class="page-number">1</span></li><li><a class="page-number" href="/page/2/">2</a></li><li><a class="page-next" rel="next" href="/page/2/">Next <i class="fa fa-chevron-right"></i></a></li></ul></nav>
   </div>
-  <div class="article-inner">
-
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h2 id="What-is-Sequelize"><a href="#What-is-Sequelize" class="headerlink" title="What is Sequelize"></a>What is Sequelize</h2><p>Sequelize is a SQL ORM for Nodejs. ORM means Object-Relational Mapping. This type of interface offers you to take some distance from the database administration hassle. It will create the tables, the indexes and auto generate and execute the queries directly for you. You don’t have to execute those very painful and repetitive tasks.</p>
-<p>Sequelize is an ORM that is developed for database using SQL as a query language. MySQL for instance or Postgresql.</p>
-<h2 id="Installation"><a href="#Installation" class="headerlink" title="Installation"></a>Installation</h2><p>Go to the directory of your nodejs project :</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ cd my_project_forlder</span><br></pre></td></tr></table></figure>
-<p>Then use npm to install sequelize ad all it’s dependencies.<br>We will use the <code>--save</code>option to write in our <code>package.json</code> file that the project needs this module.<br>It will be more easier when you will deploy it, or update your packages.</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ npm install sequelize —-save</span><br></pre></td></tr></table></figure>
-<h2 id="Configuration"><a href="#Configuration" class="headerlink" title="Configuration"></a>Configuration</h2><p>Prerequesite having a running SQL database. For demonstration purpose we will use a MySQL one.</p>
-<p>Create a new file in your project folder named <code>sequelize.js</code> with the following content :</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Let's require our module</span></span><br><span class="line"><span class="keyword">var</span> Sequelize=<span class="built_in">require</span>(<span class="string">'sequelize'</span>);</span><br><span class="line"><span class="comment">// Let's create a new sequelize instance</span></span><br><span class="line"><span class="comment">// And connect tou our database</span></span><br><span class="line"><span class="keyword">var</span> sequelize = <span class="keyword">new</span> Sequelize(<span class="string">'database_name'</span>, <span class="string">'username'</span>, <span class="string">'password'</span>, &#123;</span><br><span class="line">  host: <span class="string">'XXX.us-west-2.rds.amazonaws.com'</span>,</span><br><span class="line">  dialect: <span class="string">'mysql'</span>,</span><br><span class="line"></span><br><span class="line">  pool: &#123;</span><br><span class="line">    max: <span class="number">5</span>,</span><br><span class="line">    min: <span class="number">0</span>,</span><br><span class="line">    idle: <span class="number">10000</span></span><br><span class="line">  &#125;,</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
-<p>That’s it ! You have now a brand new connection to your server.<br>By default sequelize will use a pool connection. We give it in the last lines some additional options to configure the pooling system. Basically a pool of connection is a cache of database connections that can be used again and again in case of multiple queries to perform.</p>
-<h2 id="Creation-of-the-model"><a href="#Creation-of-the-model" class="headerlink" title="Creation of the model"></a>Creation of the model</h2><p>You can see the model as an abstract representation of data that will be stored in your system. By definig a model you will warn Sequelize that you want to be able to insert, select, delete or update rows of data that will be stored and retrieved following the instruction you specified when you define your model.</p>
-<p>Do not be affraid by this abstraction step. I have experienced with many of my students that being able to fully understand what is a model and what it brings to developer can be really hard. Just keep in mind that you are just defining the structure of a traditional database table with indexes, constraints and types.</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Creation of the model "client"</span></span><br><span class="line"><span class="keyword">var</span> client = sequelize.define(<span class="string">'client'</span>, &#123;</span><br><span class="line">  <span class="comment">// Here are the columns of the table</span></span><br><span class="line">  family_name: &#123;type: Sequelize.STRING&#125;,</span><br><span class="line">  surname: &#123;type: Sequelize.STRING&#125;,</span><br><span class="line">  title: &#123;type: Sequelize.STRING&#125;,</span><br><span class="line">  email: &#123;type: Sequelize.STRING&#125;</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
-<p>In this code we have created a model client, (that will be stored in the table client) with the columns family_name, surname …</p>
-<h2 id="Synchronization-with-the-database"><a href="#Synchronization-with-the-database" class="headerlink" title="Synchronization with the database"></a>Synchronization with the database</h2><p>Creating a model is cool, but now you have to synchronize it with your physic database. If you forget this step you will get errors because the table will not be created and it will be impossible to insert or select data for a non existing table.</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">client.sync().then(<span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="comment">// Table created</span></span><br><span class="line">  <span class="keyword">return</span> client.create(&#123;</span><br><span class="line">    family_name: <span class="string">'Jean'</span>,</span><br><span class="line">    surname: <span class="string">'Dupont'</span>,</span><br><span class="line">    title : <span class="string">"Mr"</span>,</span><br><span class="line">    email : <span class="string">"jean.dupont@gmail.com"</span></span><br><span class="line">  &#125;);</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
-<p>This code will create the tables and the column defined before. Bonus : Sequelize will add automatically an <code>id</code> , <code>createdAt</code>and <code>updatedAt</code> column !</p>
-<p>After the creatin is done it will create a client with the information provided  in the create method of our model object (<code>client</code>).</p>
-<p>Enjoy and use without moderation but becareful ! Never use (unless you know what you are doing) the method <code>sync</code> with the option <code>force:true</code>. It will drop the table if one exist with the same name and create a new one ! It can be a real disaster in a production environment !</p>
-
-      
-    </div>
-
-    
-      
-
-    
-
-    <footer class="article-footer">
-      <a data-url="http://maximilienandile.github.io/2016/05/08/How-to-create-a-model-with-Sequelize-for-Nodejs/" data-id="citqxas68000055knyhso1zxr" class="article-share-link">
-        <i class="fa fa-share"></i> Share
-      </a>
-      
-        <a href="http://maximilienandile.github.io/2016/05/08/How-to-create-a-model-with-Sequelize-for-Nodejs/#disqus_thread" class="article-comment-link">
-          <i class="fa fa-comment"></i> Comments
-        </a>
-      
-      
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/SQL/">SQL</a></li></ul>
-
-
-    </footer>
-  </div>
-  
-</article>
-
-
-
-  
-
 
 
 
@@ -1068,7 +1070,7 @@ ga('send', 'pageview');
   
   <div class="sidebar-module">
     <h4>Tags</h4>
-    <ul class="sidebar-module-list"><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/HTTP/">HTTP</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/Machine-Learning/">Machine Learning</a><span class="sidebar-module-list-count">2</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/NLP/">NLP</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/Natural-Language-Processing/">Natural Language Processing</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/Nodejs/">Nodejs</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/PHP-Tests-unitaires/">PHP ; Tests unitaires</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/REST/">REST</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/SQL/">SQL</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/nodejs/">nodejs</a><span class="sidebar-module-list-count">1</span></li></ul>
+    <ul class="sidebar-module-list"><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/HTTP/">HTTP</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/Machine-Learning/">Machine Learning</a><span class="sidebar-module-list-count">2</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/NLP/">NLP</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/Natural-Language-Processing/">Natural Language Processing</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/Nodejs/">Nodejs</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/PHP/">PHP</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/PHP-Tests-unitaires/">PHP ; Tests unitaires</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/REST/">REST</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/SQL/">SQL</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/nodejs/">nodejs</a><span class="sidebar-module-list-count">1</span></li></ul>
   </div>
 
 
@@ -1077,7 +1079,7 @@ ga('send', 'pageview');
   <div class="sidebar-module">
     <h4>Tag Cloud</h4>
     <p class="tagcloud">
-      <a href="/tags/HTTP/" style="font-size: 10px;">HTTP</a> <a href="/tags/Machine-Learning/" style="font-size: 20px;">Machine Learning</a> <a href="/tags/NLP/" style="font-size: 10px;">NLP</a> <a href="/tags/Natural-Language-Processing/" style="font-size: 10px;">Natural Language Processing</a> <a href="/tags/Nodejs/" style="font-size: 10px;">Nodejs</a> <a href="/tags/PHP-Tests-unitaires/" style="font-size: 10px;">PHP ; Tests unitaires</a> <a href="/tags/REST/" style="font-size: 10px;">REST</a> <a href="/tags/SQL/" style="font-size: 10px;">SQL</a> <a href="/tags/nodejs/" style="font-size: 10px;">nodejs</a>
+      <a href="/tags/HTTP/" style="font-size: 10px;">HTTP</a> <a href="/tags/Machine-Learning/" style="font-size: 20px;">Machine Learning</a> <a href="/tags/NLP/" style="font-size: 10px;">NLP</a> <a href="/tags/Natural-Language-Processing/" style="font-size: 10px;">Natural Language Processing</a> <a href="/tags/Nodejs/" style="font-size: 10px;">Nodejs</a> <a href="/tags/PHP/" style="font-size: 10px;">PHP</a> <a href="/tags/PHP-Tests-unitaires/" style="font-size: 10px;">PHP ; Tests unitaires</a> <a href="/tags/REST/" style="font-size: 10px;">REST</a> <a href="/tags/SQL/" style="font-size: 10px;">SQL</a> <a href="/tags/nodejs/" style="font-size: 10px;">nodejs</a>
     </p>
   </div>
 
@@ -1085,7 +1087,7 @@ ga('send', 'pageview');
   
   <div class="sidebar-module">
     <h4>Archives</h4>
-    <ul class="sidebar-module-list"><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2016/09/">septembre 2016</a><span class="sidebar-module-list-count">6</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2016/06/">juin 2016</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2016/05/">mai 2016</a><span class="sidebar-module-list-count">3</span></li></ul>
+    <ul class="sidebar-module-list"><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2016/10/">octobre 2016</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2016/09/">septembre 2016</a><span class="sidebar-module-list-count">6</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2016/06/">juin 2016</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2016/05/">mai 2016</a><span class="sidebar-module-list-count">3</span></li></ul>
   </div>
 
 
@@ -1094,6 +1096,10 @@ ga('send', 'pageview');
   <div class="sidebar-module">
     <h4>Recents</h4>
     <ul class="sidebar-module-list">
+      
+        <li>
+          <a href="/2016/10/01/Comment-installer-PHPUnit-sur-un-projet-necessitant-composer-et-utilisant-des-variables-d-environnement/">Comment installer PHPUnit sur un projet nécessitant composer et utilisant des variables d&#39;environnement</a>
+        </li>
       
         <li>
           <a href="/2016/09/30/Comprendre-les-headers-d-une-requete-HTTP/">Comprendre les headers d&#39;une requête HTTP</a>
@@ -1109,10 +1115,6 @@ ga('send', 'pageview');
       
         <li>
           <a href="/2016/09/24/Pourquoi-utiliser-RAML-pour-designer-une-API-RESTful/">Pourquoi utiliser RAML pour designer une API RESTful</a>
-        </li>
-      
-        <li>
-          <a href="/2016/09/23/Comment-installer-PHPUnit-sur-macOs-sur-un-projet-PHP-existant-et-ecrire-un-test/">Comment installer PHPUnit sur macOs sur un projet PHP existant et écrire son premier cas de test</a>
         </li>
       
     </ul>

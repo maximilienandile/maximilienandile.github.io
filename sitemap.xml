@@ -2,6 +2,13 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>http://maximilienandile.github.io/2016/10/01/Comment-installer-PHPUnit-sur-un-projet-necessitant-composer-et-utilisant-des-variables-d-environnement/</loc>
+    
+    <lastmod>2016-10-01T15:56:16.000Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>http://maximilienandile.github.io/2016/09/30/Comprendre-les-headers-d-une-requete-HTTP/</loc>
     
     <lastmod>2016-09-30T17:21:15.000Z</lastmod>
@@ -58,14 +65,14 @@
   </url>
   
   <url>
-    <loc>http://maximilienandile.github.io/2016/05/18/How-to-install-NLTK-and-compute-basic-statistics-on-a-text/</loc>
+    <loc>http://maximilienandile.github.io/2016/05/08/How-to-use-promises-with-NodeJS/</loc>
     
     <lastmod>2016-09-23T08:48:27.000Z</lastmod>
     
   </url>
   
   <url>
-    <loc>http://maximilienandile.github.io/2016/05/08/How-to-use-promises-with-NodeJS/</loc>
+    <loc>http://maximilienandile.github.io/2016/05/18/How-to-install-NLTK-and-compute-basic-statistics-on-a-text/</loc>
     
     <lastmod>2016-09-23T08:48:27.000Z</lastmod>
     
