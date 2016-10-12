@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="utf-8">
+  
+  <title>Base de données : comprendre les différences entre le modèle relationnel et le modèle multidimensionnel | M@XCode</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="google-site-verification" content="zhe_jVE6TPFbrQb7K-ra2FFxgiDsn6ZeFoKSz9EXmGk" />
+  <meta name="description" content="Le modèle relationnel est dominantLorsqu’on est amené à construire une application web on utilise en général le modèle relationnel (cette question ne se pose pas toutefois si on travaille avec une bas">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Base de données : comprendre les différences entre le modèle relationnel et le modèle multidimensionnel">
+<meta property="og:url" content="http://maximilienandile.github.io/2016/10/03/Base-de-donnees-comprendre-les-differences-entre-le-modele-relationnel-et-le-modele-multidimensionnel/index.html">
+<meta property="og:site_name" content="M@XCode">
+<meta property="og:description" content="Le modèle relationnel est dominantLorsqu’on est amené à construire une application web on utilise en général le modèle relationnel (cette question ne se pose pas toutefois si on travaille avec une bas">
+<meta property="og:image" content="http://maximilienandile.github.io/img/repartition_usage_databases_octobre_2016.png">
+<meta property="og:image" content="http://maximilienandile.github.io/img/star_schema_presentation.png">
+<meta property="og:updated_time" content="2016-10-12T15:43:52.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Base de données : comprendre les différences entre le modèle relationnel et le modèle multidimensionnel">
+<meta name="twitter:description" content="Le modèle relationnel est dominantLorsqu’on est amené à construire une application web on utilise en général le modèle relationnel (cette question ne se pose pas toutefois si on travaille avec une bas">
+<meta name="twitter:image" content="http://maximilienandile.github.io/img/repartition_usage_databases_octobre_2016.png">
+  
+    <link rel="alternate" href="/atom.xml" title="M@XCode" type="application/atom+xml">
+  
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css" integrity="sha384-XdYbMnZ/QjLh6iI4ogqCTaIjrFk87ip+ekIjefZch0Y+PvJ8CDYtEs1ipDmPorQ+" crossorigin="anonymous">
+
+  <link rel="stylesheet" href="/css/styles.css">
+  
+<!-- Google Analytics -->
+<script type="text/javascript">
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-77397884-1', 'auto');
+ga('send', 'pageview');
+
+</script>
+<!-- End Google Analytics --><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+
+
+</head>
+
+<body>
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><nav class="navbar navbar-inverse">
+  <div class="container">
+    <!-- Brand and toggle get grouped for better mobile display -->
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#main-menu-navbar" aria-expanded="false">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      
+    </div>
+
+    <!-- Collect the nav links, forms, and other content for toggling -->
+    <div class="collapse navbar-collapse" id="main-menu-navbar">
+      <ul class="nav navbar-nav">
+        
+          <li><a class=""
+                 href="/index.html">Home</a></li>
+        
+          <li><a class=""
+                 href="/archives/">Archives</a></li>
+        
+      </ul>
+
+      <!--
+      <ul class="nav navbar-nav navbar-right">
+        
+          <li><a href="/atom.xml" title="RSS Feed"><i class="fa fa-rss"></i></a></li>
+        
+      </ul>
+      -->
+    </div><!-- /.navbar-collapse -->
+  </div><!-- /.container-fluid -->
+</nav>
+
+  <div class="container">
+    <div class="blog-header">
+  <h3 class="blog-title">M@XCode</h3>
+  
+</div>
+
+    <div class="row">
+        <div class="col-sm-8 blog-main">
+          <article id="post-Base-de-donnees-comprendre-les-differences-entre-le-modele-relationnel-et-le-modele-multidimensionnel" class="article article-type-post" itemscope itemprop="blogPost">
+
+  <header class="article-header">
+    
+  
+    <h1 class="article-title" itemprop="name">
+      Base de données : comprendre les différences entre le modèle relationnel et le modèle multidimensionnel
+    </h1>
+  
+
+
+  </header>
+
+  <div class="article-meta">
+    <div class="article-datetime">
+  <a href="/2016/10/03/Base-de-donnees-comprendre-les-differences-entre-le-modele-relationnel-et-le-modele-multidimensionnel/" class="article-date"><time datetime="2016-10-03T09:20:09.000Z" itemprop="datePublished">03/10/2016</time></a>
+</div>
+
+    
+    
+
+  </div>
+  <div class="article-inner">
+
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="Le-modele-relationnel-est-dominant"><a href="#Le-modele-relationnel-est-dominant" class="headerlink" title="Le modèle relationnel est dominant"></a>Le modèle relationnel est dominant</h2><p>Lorsqu’on est amené à construire une application web on utilise en général le modèle relationnel (cette question ne se pose pas toutefois si on travaille avec une base de données de type <strong>NoSQL</strong>, comme MongoDB, Couchbase …). Nous utilisons tous finalement le <strong>modèle relationnel</strong> sans forcément en avoir conscience. Sa manière de fonctionner étant relativement naturelle. D’ailleurs si nous revenons une étape avant, on peut légitimement s’interroger sur ce qu’est un <strong>modèle</strong> de base de données… Il s’agit simplement de <strong>règles de construction et d’utilisation d’une base de données</strong>. Un modèle est en général très <strong>normé</strong> afin que l’architecture d’une base reste compréhensible même en cas de changement d’équipe.</p>
+<p>Les bases de données avec des modèles relationnels sont encore largement utilisées :</p>
+<p><img src="img/repartition_usage_databases_octobre_2016.png" alt="Répartition de l&#39;utilisation des SGBD(Système de gestion de bases de données) en Octobre 2016, http://db-engines.com/en/ranking "></p>
+<h2 id="Caracteristiques-du-modele-relationnel"><a href="#Caracteristiques-du-modele-relationnel" class="headerlink" title="Caractéristiques du modèle relationnel"></a>Caractéristiques du modèle relationnel</h2><p>Modéliser une donnée de façon relationnel revient à penser les données de son application sous forme d’une <strong>multitude d’objets</strong> qui disposent de <strong>relations</strong> permettant de les <strong>lier</strong> ensemble. La modélisation de la base de données amène à la génération d’un <strong>schéma</strong> de la base de données. Cette définition semble abstraite, prenons un exemple pour mieux la comprendre : le commerce électronique.</p>
+<p>Pour un site e-commerce nous avons plusieurs <strong>objets</strong> : des clients, des commandes, des adresses, des produits, des fabricants. Ces objets disposent d’une multitude de liens entre eux. Par exemple un client dispose de plusieurs adresses, une commande de produits, un client de commandes …  On voit aussi que si certains objets ont des relations multiples avec d’autres, on a aussi des relations uniques entre certains objets. Un produit à par exemple un seul et unique fabricant. Il ne peut en avoir deux…</p>
+<h3 id="Les-differents-types-de-relations"><a href="#Les-differents-types-de-relations" class="headerlink" title="Les différents types de relations"></a>Les différents types de relations</h3><p>Ainsi les liens entre les objets sont de différents types :</p>
+<ul>
+<li><strong>1-n</strong> : ou encore relations <strong>un à plusieurs</strong> par exemple entre l’objet client et l’objet commande : un client peut avoir plusieurs commandes, mais une commande ne peut avoir qu’un seul client.</li>
+<li><strong>n-n</strong> : ou encore relations <strong>plusieurs à plusieurs</strong> : un produit peut avoir plusieurs couleurs et une couleur n’est pas spécifique à un produit. Il peut y avoir plus d’un produit de couleur X.</li>
+<li><strong>1-1</strong> : ou encore les relations <strong>un à un</strong> par exemple si nous stockions les numéros de carte d’identité de nos clients. Un client ne peux avoir qu’un seul numéro de CNI et un numéro de CNI correspond à un unique client. Ce type de relation est toutefois extrêmement rare.</li>
+</ul>
+<h3 id="Tables-et-objets"><a href="#Tables-et-objets" class="headerlink" title="Tables et objets"></a>Tables et objets</h3><p>Chaque famille d’objet est stocké dans une <strong>table</strong>. On a ainsi une table <code>client</code>, une table <code>commande</code>…</p>
+<p>Chaque objet <code>client</code> dispose d’un clé <strong>primaire</strong>. Cette clé est un identifiant unique <strong>d’un objet particulier stocké dans la table</strong>. Cette clé unique permet ensuite de lier l’objet en question à un autre objet cible (par exemple une <code>commande</code>). Dans la table des <code>commandes</code> on trouvera une clé primaire (qui permet d’identifier formellement la commande), mais aussi une <strong>clé étrangère</strong> <code>client</code> qui permet de <strong>lier cette commande à un client</strong>.</p>
+<h2 id="Limites-du-modele-relationnel"><a href="#Limites-du-modele-relationnel" class="headerlink" title="Limites du modèle relationnel"></a>Limites du modèle relationnel</h2><p>Le type de modélisation relationnel est particulièrement efficace pour traiter les données provenant d’applications transactionnelles. Par exemple pour un site e-commerce l’utilisation d’une modélisation relationnelle est bien adapté. On parle de systèmes de type OLTP (OnLine Transaction Processing). Un système de facturation client est ainsi assez aisé à créer dans le cadre du paradigme relationnel : on aura la table client, la table facture, la table des acomptes…etc chacune étant reliée grâce aux clés primaires (d’un côté) et étrangères (de l’autre).</p>
+<h2 id="Le-modele-multidimensionnel-des-requetes-analytiques-performantes-et-plus-facile-a-ecrire"><a href="#Le-modele-multidimensionnel-des-requetes-analytiques-performantes-et-plus-facile-a-ecrire" class="headerlink" title="Le modèle multidimensionnel : des requêtes analytiques performantes et plus facile à écrire"></a>Le modèle multidimensionnel : des requêtes analytiques performantes et plus facile à écrire</h2><p>Mais pourquoi donc aurait-on besoin d’ajouter un autre schéma ? La réponse est simple lorsque les bases relationnelles commencent à accumuler un volume de données important le temps nécessaires aux requêtes analytiques augmente significativement. Précisons bien d’emblé que seules les <strong>requêtes analytiques</strong> sont concernées. Par exemple voiloir calculer un taux de rétention sur une table regroupant l’ensemble des activités des utilisateurs peut s’avérer très <strong>couteux en temps de calcul</strong>.</p>
+<p>Le modèle multidimensionnel permet aussi de <strong>réduire la difficulté d’écriture des requêtes</strong> qui dans le cadre des bases classiques peuvent vite devenir illisible. Et qui dit illisible, dit temps perdu par le développeur ! Ainsi <strong>on peut interroger plus facilement ces modèles tout en ayant des temps de réponses bien meilleurs</strong>.</p>
+<h3 id="Comparaison-des-requetes-SQL-amp-MDX"><a href="#Comparaison-des-requetes-SQL-amp-MDX" class="headerlink" title="Comparaison des requêtes SQL &amp; MDX"></a>Comparaison des requêtes SQL &amp; MDX</h3><p>Par exemple dans le cas d’un modèle relationnel (en supposant un schéma permettant cette requête); pour avoir le nombre distinct de commandes d’un produit de la catégorie <code>X</code> par client on pourrait avoir une requête comme suis :</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> c.first_name , c.last_name, <span class="keyword">COUNT</span>(<span class="keyword">DISTINCT</span> o.id)</span><br><span class="line"><span class="keyword">FROM</span></span><br><span class="line">order_detail od</span><br><span class="line"><span class="comment">-- Obtention de l'information produit à partir de la table order detail</span></span><br><span class="line"><span class="keyword">INNER</span> <span class="keyword">JOIN</span> product p <span class="keyword">ON</span> od.product_id = p.id</span><br><span class="line"><span class="comment">-- Obtention de la catégorie</span></span><br><span class="line"><span class="keyword">INNER</span> <span class="keyword">JOIN</span> <span class="keyword">category</span> c <span class="keyword">ON</span> p.category_id = c.id</span><br><span class="line"><span class="comment">-- Obtention de la commande pour avoir le client</span></span><br><span class="line"><span class="keyword">INNER</span> <span class="keyword">JOIN</span> <span class="keyword">order</span> o <span class="keyword">ON</span> od.order_id = o.id</span><br><span class="line"><span class="comment">-- Obtention de la données client (pour pouvoir afficher la data par client)</span></span><br><span class="line"><span class="keyword">INNER</span> <span class="keyword">JOIN</span> <span class="keyword">client</span> c <span class="keyword">ON</span> o.client_id = c.id</span><br><span class="line"><span class="comment">-- Nous ne souhaitons que les produits d'id X</span></span><br><span class="line"><span class="keyword">WHERE</span> c.name = <span class="string">'X'</span></span><br><span class="line"><span class="comment">-- On groupe les résultats par client</span></span><br><span class="line"><span class="keyword">GROUP</span> <span class="keyword">BY</span> c.first_name+<span class="string">' '</span>+c.last_name</span><br></pre></td></tr></table></figure>
+<p>On est obligé de faire une jointure sur plusieurs tables et <strong>la requête devient assez longue et peu élégante</strong>, de suite elle est plus complexe à débugger. Tandis qu’on aura une version plus courte de la requête avec l’aide du <code>MDX</code> (un simili SQL qui permet d’interroger des bases multidimensionnelles de manière plus simple) :</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> [<span class="keyword">Measures</span>].[Orders <span class="keyword">Count</span>] <span class="keyword">ON</span> <span class="keyword">COLUMNS</span>,</span><br><span class="line">[Customer].[Customer].Members <span class="keyword">ON</span> <span class="keyword">ROWS</span></span><br><span class="line"><span class="keyword">FROM</span> [<span class="keyword">Data</span> Warehouse <span class="keyword">project</span>]</span><br><span class="line"><span class="keyword">WHERE</span> [Product].[Product Categories].[<span class="keyword">Category</span>].[X]</span><br></pre></td></tr></table></figure>
+<p>Beaucoup plus simple et lisible !</p>
+<h2 id="Dimensions-faits-et-mesures-le-modele-en-etoile"><a href="#Dimensions-faits-et-mesures-le-modele-en-etoile" class="headerlink" title="Dimensions, faits et mesures : le modèle en étoile"></a>Dimensions, faits et mesures : le modèle en étoile</h2><p>Voici un modèle d’organisation multidimensionnel (aussi appelé OLAP) :</p>
+<p><img src="img/star_schema_presentation.png" alt="Le modèle multidimensionnel en étoile (star schema)"></p>
+<p>On voit donc qu’<strong>on organise la données en pensant d’abord aux analyses</strong> qui vont y être faite. Ici on veut pouvoir comprendre la répartition du profit et du revenu net en fonction du produit, du client, de la catégorie, du code postal de livraison, de la méthode de livraison ! On va donc créer nos dimensions d’analyse : on aura donc 5 dimensions. Ce qui se manifestera dans le schéma par <strong>5 tables de dimensions</strong>.</p>
+<p>A ces 5 tables de dimensions on ajoute une table centrale, qui est la <strong>table de fait</strong> (<code>fact table</code>). Cette table de fait va regrouper les clés étrangères des tables de dimensions (<code>ID_client</code>, <code>ID_product</code>, …) mais aussi nos <code>mesures</code>(ou <strong>metrics</strong>) : ici le profit, le revenu net et la TVA.</p>
+<p>On voit donc bien maintenant pourquoi il s’agit d’un <strong>modèle en étoile</strong>. Les dimensions ne sont pas liées entre elles et c’est la table de fait qui fait le lien entre les mesures et l’ensemble des dimensions !</p>
+<h2 id="Les-metiers-peuvent-interroger-directement-les-bases"><a href="#Les-metiers-peuvent-interroger-directement-les-bases" class="headerlink" title="Les métiers peuvent interroger directement les bases !"></a>Les métiers peuvent interroger directement les bases !</h2><p>Par la suite on peut donner la possibilité au métier d’interroger directement la base afin de faire des analyses à volonté à partir de ces dimensions. De nombreuses solutions d’interrogations existent. L’une de mes préférée est <strong>Saiku</strong> (<a href="http://www.meteorite.bi/" target="_blank" rel="external">http://www.meteorite.bi/</a>) qui dispose d’une version open source ! Les métiers peuvent générer des tableaux à la volée en couplant les dimensions, sans avoir à maitriser le MDX !</p>
+<p>Le modèle dispose encore de bien d’autres avantages et caractéristiques, j’essayerai ‘écrire à nouveau sur ce sujet passionnant.</p>
+<p>Lectures :</p>
+<ul>
+<li><a href="http://www.joyofdata.de/" target="_blank" rel="external">http://www.joyofdata.de/</a> : un blog passionnant sur la BI</li>
+<li><a href="http://pentaho-bi-suite.blogspot.fr/" target="_blank" rel="external">http://pentaho-bi-suite.blogspot.fr/</a> : un autre blog plus orienté Pentaho, mais tout aussi intéressant à suivre.</li>
+</ul>
+
+      
+    </div>
+
+    
+      
+
+    
+
+    <footer class="article-footer">
+      <a data-url="http://maximilienandile.github.io/2016/10/03/Base-de-donnees-comprendre-les-differences-entre-le-modele-relationnel-et-le-modele-multidimensionnel/" data-id="ciu736xyw0000gtmibdkm6wxq" class="article-share-link">
+        <i class="fa fa-share"></i> Share
+      </a>
+      
+        <a href="http://maximilienandile.github.io/2016/10/03/Base-de-donnees-comprendre-les-differences-entre-le-modele-relationnel-et-le-modele-multidimensionnel/#disqus_thread" class="article-comment-link">
+          <i class="fa fa-comment"></i> Comments
+        </a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Business-Intelligence/">Business Intelligence</a></li></ul>
+
+
+    </footer>
+  </div>
+  
+    
+<ul id="article-nav" class="nav nav-pills nav-justified">
+  
+  <li role="presentation">
+    <a href="/2016/10/01/Comment-installer-PHPUnit-sur-un-projet-necessitant-composer-et-utilisant-des-variables-d-environnement/" id="article-nav-older" class="article-nav-link-wrap">
+      <i class="fa fa-chevron-left pull-left"></i>
+      <span class="article-nav-link-title">Comment installer PHPUnit sur un projet nécessitant composer et utilisant des variables d&#39;environnement</span>
+    </a>
+  </li>
+  
+  
+</ul>
+
+
+  
+</article>
+
+
+<section id="comments">
+  <div id="disqus_thread">
+    <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+  </div>
+</section>
+
+
+
+        </div>
+        <div class="col-sm-3 col-sm-offset-1 blog-sidebar">
+          
+  <div class="sidebar-module sidebar-module-inset">
+  <h4>About</h4>
+  <p>I am Maximilien Andile a Tech enthusiast and teacher who is always happy to share knowledge</p>
+
+</div>
+
+
+  
+
+
+  
+  <div class="sidebar-module">
+    <h4>Tags</h4>
+    <ul class="sidebar-module-list"><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/Business-Intelligence/">Business Intelligence</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/HTTP/">HTTP</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/Machine-Learning/">Machine Learning</a><span class="sidebar-module-list-count">2</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/NLP/">NLP</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/Natural-Language-Processing/">Natural Language Processing</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/Nodejs/">Nodejs</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/PHP/">PHP</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/PHP-Tests-unitaires/">PHP ; Tests unitaires</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/REST/">REST</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/SQL/">SQL</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/nodejs/">nodejs</a><span class="sidebar-module-list-count">1</span></li></ul>
+  </div>
+
+
+
+  
+  <div class="sidebar-module">
+    <h4>Tag Cloud</h4>
+    <p class="tagcloud">
+      <a href="/tags/Business-Intelligence/" style="font-size: 10px;">Business Intelligence</a> <a href="/tags/HTTP/" style="font-size: 10px;">HTTP</a> <a href="/tags/Machine-Learning/" style="font-size: 20px;">Machine Learning</a> <a href="/tags/NLP/" style="font-size: 10px;">NLP</a> <a href="/tags/Natural-Language-Processing/" style="font-size: 10px;">Natural Language Processing</a> <a href="/tags/Nodejs/" style="font-size: 10px;">Nodejs</a> <a href="/tags/PHP/" style="font-size: 10px;">PHP</a> <a href="/tags/PHP-Tests-unitaires/" style="font-size: 10px;">PHP ; Tests unitaires</a> <a href="/tags/REST/" style="font-size: 10px;">REST</a> <a href="/tags/SQL/" style="font-size: 10px;">SQL</a> <a href="/tags/nodejs/" style="font-size: 10px;">nodejs</a>
+    </p>
+  </div>
+
+
+  
+  <div class="sidebar-module">
+    <h4>Archives</h4>
+    <ul class="sidebar-module-list"><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2016/10/">octobre 2016</a><span class="sidebar-module-list-count">2</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2016/09/">septembre 2016</a><span class="sidebar-module-list-count">6</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2016/06/">juin 2016</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2016/05/">mai 2016</a><span class="sidebar-module-list-count">3</span></li></ul>
+  </div>
+
+
+
+  
+  <div class="sidebar-module">
+    <h4>Recents</h4>
+    <ul class="sidebar-module-list">
+      
+        <li>
+          <a href="/2016/10/03/Base-de-donnees-comprendre-les-differences-entre-le-modele-relationnel-et-le-modele-multidimensionnel/">Base de données : comprendre les différences entre le modèle relationnel et le modèle multidimensionnel</a>
+        </li>
+      
+        <li>
+          <a href="/2016/10/01/Comment-installer-PHPUnit-sur-un-projet-necessitant-composer-et-utilisant-des-variables-d-environnement/">Comment installer PHPUnit sur un projet nécessitant composer et utilisant des variables d&#39;environnement</a>
+        </li>
+      
+        <li>
+          <a href="/2016/09/30/Comprendre-les-headers-d-une-requete-HTTP/">Comprendre les headers d&#39;une requête HTTP</a>
+        </li>
+      
+        <li>
+          <a href="/2016/09/29/Machine-Learning-comment-fonctionne-la-classification-naive-Bayesienne/">Machine Learning : comment fonctionne la classification naïve Bayesienne</a>
+        </li>
+      
+        <li>
+          <a href="/2016/09/24/L-algorithme-des-K-voisins-les-plus-proches-et-son-implementation-en-Nodejs/">L&#39;algorithme des K voisins les plus proches et son implémentation en NodeJs</a>
+        </li>
+      
+    </ul>
+  </div>
+
+
+
+        </div>
+    </div>
+  </div>
+  <footer class="blog-footer">
+  <div class="container">
+    <div id="footer-info" class="inner">
+      &copy; 2016 Maximilien Andile<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+
+  
+<script>
+  var disqus_shortname = 'maximilienandile';
+  
+  var disqus_url = 'http://maximilienandile.github.io/2016/10/03/Base-de-donnees-comprendre-les-differences-entre-le-modele-relationnel-et-le-modele-multidimensionnel/';
+  
+  (function(){
+    var dsq = document.createElement('script');
+    dsq.type = 'text/javascript';
+    dsq.async = true;
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+  })();
+</script>
+
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js" integrity="sha384-8gBf6Y4YYq7Jx97PIqmTwLPin4hxIzQw5aDmUg/DDhul9fFpbbLcLh3nTIIDJKhx" crossorigin="anonymous"></script>
+
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
+
+
+
+<script src="/js/script.js"></script><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+
+</body>
+</html>
