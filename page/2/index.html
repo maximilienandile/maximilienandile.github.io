@@ -92,6 +92,82 @@ ga('send', 'pageview');
         <div class="col-sm-8 blog-main">
           
   
+    <article id="post-How-to-install-NLTK-and-compute-basic-statistics-on-a-text" class="article article-type-post" itemscope itemprop="blogPost">
+
+  <header class="article-header">
+    
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/05/18/How-to-install-NLTK-and-compute-basic-statistics-on-a-text/">How to install NLTK and compute basic statistics on a text</a>
+    </h1>
+  
+
+
+  </header>
+
+  <div class="article-meta">
+    <div class="article-datetime">
+  <a href="/2016/05/18/How-to-install-NLTK-and-compute-basic-statistics-on-a-text/" class="article-date"><time datetime="2016-05-18T06:39:24.000Z" itemprop="datePublished">18/05/2016</time></a>
+</div>
+
+    
+    
+
+  </div>
+  <div class="article-inner">
+
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="NLTK-is-a-free-library-for-NLP"><a href="#NLTK-is-a-free-library-for-NLP" class="headerlink" title="NLTK is a free library for NLP"></a>NLTK is a free library for NLP</h2><p>NLTK (Natural Language Toolkit) is a free python library that is really helpful to execute NLP (Natural Language processing) tasks. The main challenge of NLP is to give the ability to an anlgorithm to understand the meaning of a text written by the human brain. The first application og NLP began during the 1950’s with the Georgetow Experiment (that was organised by IBM). The objective of that experiment was to show to the government the capabilities of machines in the translation field.</p>
+<h2 id="How-to-install-it"><a href="#How-to-install-it" class="headerlink" title="How to install it"></a>How to install it</h2><h3 id="For-Windows-Users"><a href="#For-Windows-Users" class="headerlink" title="For Windows Users :"></a>For Windows Users :</h3><ul>
+<li>Go to <a href="https://pypi.python.org/pypi/nltk" target="_blank" rel="external">https://pypi.python.org/pypi/nltk</a> and download the <code>nltk-3.2.1.win32.exe</code> file</li>
+<li>After the downloading is complete double click on it and follow the instalation process</li>
+<li>In order to check your installation, launch python. (Start menu &gt; Python)<br>and type on the black window :</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&gt;&gt;&gt; import nltk</span><br></pre></td></tr></table></figure>
+<p>If you have no errors you are good to go !</p>
+<h3 id="For-MAC-Users"><a href="#For-MAC-Users" class="headerlink" title="For MAC Users"></a>For MAC Users</h3><p>The installation procedure is easier. Open your terminal and just type :</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ sudo pip install -U nltk</span><br></pre></td></tr></table></figure>
+<h2 id="Import-your-own-text-from-the-filesystem"><a href="#Import-your-own-text-from-the-filesystem" class="headerlink" title="Import your own text from the filesystem"></a>Import your own text from the filesystem</h2><p>We will use the filesystem capability of python. The function <code>open(filename,mode)</code> will help us to import from the filesystem our file, in order to use NLTK against it.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">f= open(&quot;my_file.txt&quot;,&quot;r&quot;)</span><br><span class="line">text=f.read()</span><br></pre></td></tr></table></figure>
+<p>The first parameter is the name of the file (placed at the root of your project). The second argument is the treatment option of the file. For this application we only need to read the file. Thus we will use the <code>r</code> option.</p>
+<p>The second line will store the raw input in the <code>text</code> variable.</p>
+<h2 id="Compute-basic-statistics"><a href="#Compute-basic-statistics" class="headerlink" title="Compute basic statistics"></a>Compute basic statistics</h2><h3 id="Words-that-appear-in-the-same-contexts"><a href="#Words-that-appear-in-the-same-contexts" class="headerlink" title="Words that appear in the same contexts"></a>Words that appear in the same contexts</h3><p>With this method you can find other words that appear in a similar context. The words are arranged in a way that the most similar words will appear first in the output list.<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">text.similar(&apos;banana&apos;)</span><br></pre></td></tr></table></figure></p>
+<h3 id="Counting-words"><a href="#Counting-words" class="headerlink" title="Counting words"></a>Counting words</h3><p>NLTK provides an easy method to count how many time a word appears in a text<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">text.count(&apos;alexa&apos;)</span><br></pre></td></tr></table></figure></p>
+<p>It will output an integer.</p>
+<h3 id="Get-the-number-of-words-and-punctuation"><a href="#Get-the-number-of-words-and-punctuation" class="headerlink" title="Get the number of words and punctuation"></a>Get the number of words and punctuation</h3><p>You can use the <code>len</code> function that will output an integer. Be careful, this function returns the number of words but also the number of punctuation signs in a corpus</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">len(text)</span><br></pre></td></tr></table></figure>
+<p>In the next blog article I will try to focus on text classifiers. (Bayesian text classifiers). Nltk gives you the power of building one really easily.</p>
+
+      
+    </div>
+
+    
+      
+
+    
+
+    <footer class="article-footer">
+      <a data-url="http://maximilienandile.github.io/2016/05/18/How-to-install-NLTK-and-compute-basic-statistics-on-a-text/" data-id="ciutxoo0g000991mi39zderfj" class="article-share-link">
+        <i class="fa fa-share"></i> Share
+      </a>
+      
+        <a href="http://maximilienandile.github.io/2016/05/18/How-to-install-NLTK-and-compute-basic-statistics-on-a-text/#disqus_thread" class="article-comment-link">
+          <i class="fa fa-comment"></i> Comments
+        </a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Natural-Language-Processing/">Natural Language Processing</a></li></ul>
+
+
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
     <article id="post-How-to-use-promises-with-NodeJS" class="article article-type-post" itemscope itemprop="blogPost">
 
   <header class="article-header">
@@ -138,7 +214,7 @@ ga('send', 'pageview');
     
 
     <footer class="article-footer">
-      <a data-url="http://maximilienandile.github.io/2016/05/08/How-to-use-promises-with-NodeJS/" data-id="ciu736xzh000cgtmivb45ef17" class="article-share-link">
+      <a data-url="http://maximilienandile.github.io/2016/05/08/How-to-use-promises-with-NodeJS/" data-id="ciutxoo0k000a91mi7shh2z0e" class="article-share-link">
         <i class="fa fa-share"></i> Share
       </a>
       
@@ -213,7 +289,7 @@ ga('send', 'pageview');
     
 
     <footer class="article-footer">
-      <a data-url="http://maximilienandile.github.io/2016/05/08/How-to-create-a-model-with-Sequelize-for-Nodejs/" data-id="ciu736xz90006gtmi3pvbfrke" class="article-share-link">
+      <a data-url="http://maximilienandile.github.io/2016/05/08/How-to-create-a-model-with-Sequelize-for-Nodejs/" data-id="ciutxoo0e000791mi6mhdrf8a" class="article-share-link">
         <i class="fa fa-share"></i> Share
       </a>
       
@@ -274,7 +350,7 @@ ga('send', 'pageview');
   
   <div class="sidebar-module">
     <h4>Archives</h4>
-    <ul class="sidebar-module-list"><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2016/10/">octobre 2016</a><span class="sidebar-module-list-count">2</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2016/09/">septembre 2016</a><span class="sidebar-module-list-count">6</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2016/06/">juin 2016</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2016/05/">mai 2016</a><span class="sidebar-module-list-count">3</span></li></ul>
+    <ul class="sidebar-module-list"><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2016/10/">octobre 2016</a><span class="sidebar-module-list-count">3</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2016/09/">septembre 2016</a><span class="sidebar-module-list-count">6</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2016/06/">juin 2016</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2016/05/">mai 2016</a><span class="sidebar-module-list-count">3</span></li></ul>
   </div>
 
 
@@ -285,7 +361,11 @@ ga('send', 'pageview');
     <ul class="sidebar-module-list">
       
         <li>
-          <a href="/2016/10/03/Base-de-donnees-comprendre-les-differences-entre-le-modele-relationnel-et-le-modele-multidimensionnel/">Base de données : comprendre les différences entre le modèle relationnel et le modèle multidimensionnel</a>
+          <a href="/2016/10/17/Machine-Learning-classification-a-l-aide-des-arbres-de-decisions-fonctionnement-et-application-en-NodeJS/">Machine Learning : classification à l&#39;aide des arbres de décisions : fonctionnement et application en NodeJS</a>
+        </li>
+      
+        <li>
+          <a href="/2016/10/12/Base-de-donnees-comprendre-les-differences-entre-le-modele-relationnel-et-le-modele-multidimensionnel/">Base de données : comprendre les différences entre le modèle relationnel et le modèle multidimensionnel</a>
         </li>
       
         <li>
@@ -298,10 +378,6 @@ ga('send', 'pageview');
       
         <li>
           <a href="/2016/09/29/Machine-Learning-comment-fonctionne-la-classification-naive-Bayesienne/">Machine Learning : comment fonctionne la classification naïve Bayesienne</a>
-        </li>
-      
-        <li>
-          <a href="/2016/09/24/L-algorithme-des-K-voisins-les-plus-proches-et-son-implementation-en-Nodejs/">L&#39;algorithme des K voisins les plus proches et son implémentation en NodeJs</a>
         </li>
       
     </ul>
