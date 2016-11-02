@@ -123,19 +123,19 @@ ga('send', 'pageview');
 <li>After the downloading is complete double click on it and follow the instalation process</li>
 <li>In order to check your installation, launch python. (Start menu &gt; Python)<br>and type on the black window :</li>
 </ul>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&gt;&gt;&gt; import nltk</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">&gt;&gt;&gt; import nltk</div></pre></td></tr></table></figure>
 <p>If you have no errors you are good to go !</p>
 <h3 id="For-MAC-Users"><a href="#For-MAC-Users" class="headerlink" title="For MAC Users"></a>For MAC Users</h3><p>The installation procedure is easier. Open your terminal and just type :</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ sudo pip install -U nltk</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ sudo pip install -U nltk</div></pre></td></tr></table></figure>
 <h2 id="Import-your-own-text-from-the-filesystem"><a href="#Import-your-own-text-from-the-filesystem" class="headerlink" title="Import your own text from the filesystem"></a>Import your own text from the filesystem</h2><p>We will use the filesystem capability of python. The function <code>open(filename,mode)</code> will help us to import from the filesystem our file, in order to use NLTK against it.</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">f= open(&quot;my_file.txt&quot;,&quot;r&quot;)</span><br><span class="line">text=f.read()</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">f= open(&quot;my_file.txt&quot;,&quot;r&quot;)</div><div class="line">text=f.read()</div></pre></td></tr></table></figure>
 <p>The first parameter is the name of the file (placed at the root of your project). The second argument is the treatment option of the file. For this application we only need to read the file. Thus we will use the <code>r</code> option.</p>
 <p>The second line will store the raw input in the <code>text</code> variable.</p>
-<h2 id="Compute-basic-statistics"><a href="#Compute-basic-statistics" class="headerlink" title="Compute basic statistics"></a>Compute basic statistics</h2><h3 id="Words-that-appear-in-the-same-contexts"><a href="#Words-that-appear-in-the-same-contexts" class="headerlink" title="Words that appear in the same contexts"></a>Words that appear in the same contexts</h3><p>With this method you can find other words that appear in a similar context. The words are arranged in a way that the most similar words will appear first in the output list.<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">text.similar(&apos;banana&apos;)</span><br></pre></td></tr></table></figure></p>
-<h3 id="Counting-words"><a href="#Counting-words" class="headerlink" title="Counting words"></a>Counting words</h3><p>NLTK provides an easy method to count how many time a word appears in a text<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">text.count(&apos;alexa&apos;)</span><br></pre></td></tr></table></figure></p>
+<h2 id="Compute-basic-statistics"><a href="#Compute-basic-statistics" class="headerlink" title="Compute basic statistics"></a>Compute basic statistics</h2><h3 id="Words-that-appear-in-the-same-contexts"><a href="#Words-that-appear-in-the-same-contexts" class="headerlink" title="Words that appear in the same contexts"></a>Words that appear in the same contexts</h3><p>With this method you can find other words that appear in a similar context. The words are arranged in a way that the most similar words will appear first in the output list.<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">text.similar(&apos;banana&apos;)</div></pre></td></tr></table></figure></p>
+<h3 id="Counting-words"><a href="#Counting-words" class="headerlink" title="Counting words"></a>Counting words</h3><p>NLTK provides an easy method to count how many time a word appears in a text<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">text.count(&apos;alexa&apos;)</div></pre></td></tr></table></figure></p>
 <p>It will output an integer.</p>
 <h3 id="Get-the-number-of-words-and-punctuation"><a href="#Get-the-number-of-words-and-punctuation" class="headerlink" title="Get the number of words and punctuation"></a>Get the number of words and punctuation</h3><p>You can use the <code>len</code> function that will output an integer. Be careful, this function returns the number of words but also the number of punctuation signs in a corpus</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">len(text)</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">len(text)</div></pre></td></tr></table></figure>
 <p>In the next blog article I will try to focus on text classifiers. (Bayesian text classifiers). Nltk gives you the power of building one really easily.</p>
 
       
@@ -147,7 +147,7 @@ ga('send', 'pageview');
     
 
     <footer class="article-footer">
-      <a data-url="http://maximilienandile.github.io/2016/05/18/How-to-install-NLTK-and-compute-basic-statistics-on-a-text/" data-id="ciutxoo0g000991mi39zderfj" class="article-share-link">
+      <a data-url="http://maximilienandile.github.io/2016/05/18/How-to-install-NLTK-and-compute-basic-statistics-on-a-text/" data-id="civ0s40hd0005i8miipt0pg67" class="article-share-link">
         <i class="fa fa-share"></i> Share
       </a>
       
@@ -228,7 +228,7 @@ ga('send', 'pageview');
   
   <div class="sidebar-module">
     <h4>Archives</h4>
-    <ul class="sidebar-module-list"><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2016/10/">octobre 2016</a><span class="sidebar-module-list-count">3</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2016/09/">septembre 2016</a><span class="sidebar-module-list-count">6</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2016/06/">juin 2016</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2016/05/">mai 2016</a><span class="sidebar-module-list-count">3</span></li></ul>
+    <ul class="sidebar-module-list"><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2016/11/">novembre 2016</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2016/10/">octobre 2016</a><span class="sidebar-module-list-count">3</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2016/09/">septembre 2016</a><span class="sidebar-module-list-count">6</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2016/06/">juin 2016</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2016/05/">mai 2016</a><span class="sidebar-module-list-count">3</span></li></ul>
   </div>
 
 
@@ -237,6 +237,10 @@ ga('send', 'pageview');
   <div class="sidebar-module">
     <h4>Recents</h4>
     <ul class="sidebar-module-list">
+      
+        <li>
+          <a href="/2016/11/02/Comment-creer-un-script-shell-permettant-de-recuperer-et-d-analyser-des-articles-wikipedia-avec-lynx/">Comment créer un script shell permettant de récupérer et d&#39;analyser des articles wikipedia avec lynx</a>
+        </li>
       
         <li>
           <a href="/2016/10/17/Machine-Learning-classification-a-l-aide-des-arbres-de-decisions-fonctionnement-et-application-en-NodeJS/">Machine Learning : classification à l&#39;aide des arbres de décisions : fonctionnement et application en NodeJS</a>
@@ -252,10 +256,6 @@ ga('send', 'pageview');
       
         <li>
           <a href="/2016/09/30/Comprendre-les-headers-d-une-requete-HTTP/">Comprendre les headers d&#39;une requête HTTP</a>
-        </li>
-      
-        <li>
-          <a href="/2016/09/29/Machine-Learning-comment-fonctionne-la-classification-naive-Bayesienne/">Machine Learning : comment fonctionne la classification naïve Bayesienne</a>
         </li>
       
     </ul>

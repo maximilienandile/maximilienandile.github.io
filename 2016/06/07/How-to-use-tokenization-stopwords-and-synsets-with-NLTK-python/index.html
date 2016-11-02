@@ -121,21 +121,21 @@ ga('send', 'pageview');
 <h2 id="Tokenization-the-transformation-of-text-into-understandable-chunks"><a href="#Tokenization-the-transformation-of-text-into-understandable-chunks" class="headerlink" title="Tokenization : the transformation of text into understandable chunks"></a>Tokenization : the transformation of text into understandable chunks</h2><p>In Natural Language processing a token is a small piece of text. There are different tokenization techniques, but you have to keep in mind that the process consists in cutting an amount of words into smaller bags of word. This is usually the very first task of a complex NLP algorithm.</p>
 <h3 id="Sentence-tokenization"><a href="#Sentence-tokenization" class="headerlink" title="Sentence tokenization"></a>Sentence tokenization</h3><p>If you want to analyze all the sentences of a given text you can use the punkt tokenizer.</p>
 <p>Let’s say that you have stored into the data variable the text you want to tokenize:</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">data= <span class="string">"This is my text. I want to tokenize it. But what is exactly tokenization ?"</span></span><br><span class="line"><span class="keyword">import</span> nltk.data</span><br><span class="line">tokenizer = nltk.data.load(<span class="string">'tokenizers/punkt/PY3/english.pickle'</span>)</span><br><span class="line">tokenizer.tokenize(data)</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">data= <span class="string">"This is my text. I want to tokenize it. But what is exactly tokenization ?"</span></div><div class="line"><span class="keyword">import</span> nltk.data</div><div class="line">tokenizer = nltk.data.load(<span class="string">'tokenizers/punkt/PY3/english.pickle'</span>)</div><div class="line">tokenizer.tokenize(data)</div></pre></td></tr></table></figure>
 <p>The first line will import the necessary classes we will need to create a new tokenizer. On the second line we create a new variable that loads the English <code>Punkt tokenize</code>. Note that NLTK provides tokenizer for different languages!</p>
 <p>The output of the following code chunk will be :</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[<span class="string">'This is my text.'</span>,<span class="string">'I want to tokenize it.'</span>,<span class="string">'But what is exactly tokenization ?'</span>]</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">[<span class="string">'This is my text.'</span>,<span class="string">'I want to tokenize it.'</span>,<span class="string">'But what is exactly tokenization ?'</span>]</div></pre></td></tr></table></figure>
 <p>Note that the punctuation is included into the list.</p>
 <h3 id="Word-tokenization"><a href="#Word-tokenization" class="headerlink" title="Word tokenization"></a>Word tokenization</h3><p>The sentence scope might not be precise enough if you want to pursue a text analysis. You will probably need to go down to the word level:</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> nltk.tokenize <span class="keyword">import</span> TreebankWordTokenizer</span><br><span class="line">tokenizer = TreebankWordTokenizer()</span><br><span class="line">tokenizer.tokenize(<span class="string">'This is my text'</span>)</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">from</span> nltk.tokenize <span class="keyword">import</span> TreebankWordTokenizer</div><div class="line">tokenizer = TreebankWordTokenizer()</div><div class="line">tokenizer.tokenize(<span class="string">'This is my text'</span>)</div></pre></td></tr></table></figure>
 <p>Again we import the <code>TreebankWordTokenizer</code> class from <code>nltk.tokenize</code>. You have the to instantiate the class : <code>TreebankWordTokenizer()</code>. <code>tokenizer</code> will be an instance of that class. You can then call the method tokenize and provide it with your string of data.</p>
 <p>The output will be :</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[<span class="string">'This'</span>,<span class="string">'is'</span>,<span class="string">'my'</span>,<span class="string">'text'</span>]</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">[<span class="string">'This'</span>,<span class="string">'is'</span>,<span class="string">'my'</span>,<span class="string">'text'</span>]</div></pre></td></tr></table></figure>
 <h3 id="Stop-words"><a href="#Stop-words" class="headerlink" title="Stop words"></a>Stop words</h3><p>Stop words can be really interesting. In a text you have many of them, those stop words do not give vital information in the understanding of a text. Hence they can be removed in order to perform a better analysis of a corpus.</p>
 <p>NLTK provides a list of usual stop words that you can use to filter a text.</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> nltk.corpus <span class="keyword">import</span> stopwords</span><br><span class="line">stop_words = set(stopwords.words(<span class="string">'english'</span>))</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">from</span> nltk.corpus <span class="keyword">import</span> stopwords</div><div class="line">stop_words = set(stopwords.words(<span class="string">'english'</span>))</div></pre></td></tr></table></figure>
 <p>This list is exposed inside <code>nltk.corpus</code>. The first line will import the stopwords class. We will then access to the list by invoking the <code>words</code>method and providing <code>&#39;english&#39;</code> as parameter to load only the English corpus.</p>
-<h4 id="How-to-filter-a-text-from-it’s-stopwords"><a href="#How-to-filter-a-text-from-it’s-stopwords" class="headerlink" title="How to filter a text from it’s stopwords."></a>How to filter a text from it’s stopwords.</h4><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">words_list=[<span class="string">"baltimore"</span>,<span class="string">"you"</span>,<span class="string">"love"</span>,<span class="string">"hate"</span>,<span class="string">"can"</span>]</span><br><span class="line">[w <span class="keyword">for</span> w <span class="keyword">in</span> words_list <span class="keyword">if</span> w <span class="keyword">not</span> <span class="keyword">in</span> stop_words]</span><br></pre></td></tr></table></figure>
+<h4 id="How-to-filter-a-text-from-it’s-stopwords"><a href="#How-to-filter-a-text-from-it’s-stopwords" class="headerlink" title="How to filter a text from it’s stopwords."></a>How to filter a text from it’s stopwords.</h4><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">words_list=[<span class="string">"baltimore"</span>,<span class="string">"you"</span>,<span class="string">"love"</span>,<span class="string">"hate"</span>,<span class="string">"can"</span>]</div><div class="line">[w <span class="keyword">for</span> w <span class="keyword">in</span> words_list <span class="keyword">if</span> w <span class="keyword">not</span> <span class="keyword">in</span> stop_words]</div></pre></td></tr></table></figure>
 <p>You first have a list of tokenized words. Then create another one with the following method :</p>
 <ol>
 <li>We take each element of the first list</li>
@@ -143,7 +143,7 @@ ga('send', 'pageview');
 <li>Else we include it.</li>
 </ol>
 <h3 id="Synset-how-to-get-the-definition-of-a-word-token"><a href="#Synset-how-to-get-the-definition-of-a-word-token" class="headerlink" title="Synset : how to get the definition of a word token"></a>Synset : how to get the definition of a word token</h3><p><code>Wordnet</code>  is an English dictionary that gives you the ability to lookup for definition and synonyms of a word.<br>With a <code>Synsets</code> instance you can ask for the definition of the word :</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> nltk.corpus <span class="keyword">import</span> wordnet</span><br><span class="line">s = wordnet.synsets(<span class="string">'computer'</span>)[<span class="number">0</span>]</span><br><span class="line">s.definition()</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">from</span> nltk.corpus <span class="keyword">import</span> wordnet</div><div class="line">s = wordnet.synsets(<span class="string">'computer'</span>)[<span class="number">0</span>]</div><div class="line">s.definition()</div></pre></td></tr></table></figure>
 <p>The code is pretty simple !</p>
 <p>In my next blog post I will talk about hypernyms and how to use it. I will also try to find a way to use NLTK with npm and provide a tutorial for installing it with npm. Thanks for reading!</p>
 
@@ -156,7 +156,7 @@ ga('send', 'pageview');
     
 
     <footer class="article-footer">
-      <a data-url="http://maximilienandile.github.io/2016/06/07/How-to-use-tokenization-stopwords-and-synsets-with-NLTK-python/" data-id="ciutxoo0m000d91mizuammv7o" class="article-share-link">
+      <a data-url="http://maximilienandile.github.io/2016/06/07/How-to-use-tokenization-stopwords-and-synsets-with-NLTK-python/" data-id="civ0s40hl000ei8miwgiq2rwn" class="article-share-link">
         <i class="fa fa-share"></i> Share
       </a>
       
@@ -237,7 +237,7 @@ ga('send', 'pageview');
   
   <div class="sidebar-module">
     <h4>Archives</h4>
-    <ul class="sidebar-module-list"><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2016/10/">octobre 2016</a><span class="sidebar-module-list-count">3</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2016/09/">septembre 2016</a><span class="sidebar-module-list-count">6</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2016/06/">juin 2016</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2016/05/">mai 2016</a><span class="sidebar-module-list-count">3</span></li></ul>
+    <ul class="sidebar-module-list"><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2016/11/">novembre 2016</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2016/10/">octobre 2016</a><span class="sidebar-module-list-count">3</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2016/09/">septembre 2016</a><span class="sidebar-module-list-count">6</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2016/06/">juin 2016</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2016/05/">mai 2016</a><span class="sidebar-module-list-count">3</span></li></ul>
   </div>
 
 
@@ -246,6 +246,10 @@ ga('send', 'pageview');
   <div class="sidebar-module">
     <h4>Recents</h4>
     <ul class="sidebar-module-list">
+      
+        <li>
+          <a href="/2016/11/02/Comment-creer-un-script-shell-permettant-de-recuperer-et-d-analyser-des-articles-wikipedia-avec-lynx/">Comment créer un script shell permettant de récupérer et d&#39;analyser des articles wikipedia avec lynx</a>
+        </li>
       
         <li>
           <a href="/2016/10/17/Machine-Learning-classification-a-l-aide-des-arbres-de-decisions-fonctionnement-et-application-en-NodeJS/">Machine Learning : classification à l&#39;aide des arbres de décisions : fonctionnement et application en NodeJS</a>
@@ -261,10 +265,6 @@ ga('send', 'pageview');
       
         <li>
           <a href="/2016/09/30/Comprendre-les-headers-d-une-requete-HTTP/">Comprendre les headers d&#39;une requête HTTP</a>
-        </li>
-      
-        <li>
-          <a href="/2016/09/29/Machine-Learning-comment-fonctionne-la-classification-naive-Bayesienne/">Machine Learning : comment fonctionne la classification naïve Bayesienne</a>
         </li>
       
     </ul>

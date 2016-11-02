@@ -139,10 +139,10 @@ ga('send', 'pageview');
 <p><img src="img/visualisation_http_chrome.png" alt="Les requêtes HTTP dans Chrome"></p>
 <p>Nous voyons donc ici toutes les requêtes lancées par <strong>chrome</strong> à la visite du site <strong>Le Monde</strong>. Et cela en fait un sacré paquet ! En effet les éléments du site sont chargés via HTTP. Souvenez vous, ce protocole est multimédia ! On va y recourir (enfin notre navigateur) pour charger les images, les feuilles de style CSS, les pages HTML, le favicon…</p>
 <p>Voici un exemple de requête HTTP.</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Request URL:http://www.lemonde.fr/</span><br><span class="line">Request Method:GET</span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">Request URL:http://www.lemonde.fr/</div><div class="line">Request Method:GET</div></pre></td></tr></table></figure>
 <p>L’URL permet de router notre requête vers le serveur correspondant au site web sur le réseau. Ensuite on précise la méthode, ici il s’agit de <strong>GET</strong>. La méthode <strong>GET</strong> est surtout celle utilisée pour charger les images et les pages  HTML. Il existe d’autres méthodes, appelées aussi <strong>verbes</strong> comme <strong>POST</strong> qui est utilisée notamment pour envoyer les données d’un formulaire sur un serveur. (par exemple pour envoyer votre formulaire d’inscription à Airbnb).</p>
 <p> Mais une <strong>requête HTTP</strong> est aussi composée d’un <strong>header</strong> dont voici un exemple :</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">GET / HTTP/1.1</span><br><span class="line">Host: www.lemonde.fr</span><br><span class="line">Connection: keep-alive</span><br><span class="line">Cache-Control: max-age=0</span><br><span class="line">Upgrade-Insecure-Requests: 1</span><br><span class="line">User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_4) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/54.0.2840.34 Safari/537.36</span><br><span class="line">Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8</span><br><span class="line">Accept-Encoding: gzip, deflate, sdch</span><br><span class="line">Accept-Language: fr-FR,fr;q=0.8,en-US;q=0.6,en;q=0.4</span><br><span class="line">Cookie: _ga=GA1.2.374864853.1475228586; xtvrn=<span class="variable">$43260</span>$; _cb_ls=1; lmdAbDay=1; __vrf=14752522666255dKTLyAPMbCEHo57kMWgskL26Q4Wie1W; __vrrefresh=http%253A%252F%252Fwww.lemonde.fr%252F; __utmt=1; __utma=194882738.374864853.1475228586.1475238480.1475252268.2; __utmb=194882738.1.10.1475252268; __utmc=194882738; __utmz=194882738.1475238480.1.1.utmcsr=google|utmccn=(organic)|utmcmd=organic|utmctr=(not%20provided); xtan43260=-; xtant43260=1; _cb=DQQzWqCueIlMC6ZCTd; _chartbeat2=.1475238481310.1475252269278.1; cdx_ses_1_10013=3342761584&amp;1577be3312a&amp;1577be3312a&amp;; kameleoonVisit=ml6c91nkhia4vvot/1/1475252301068/20160909/12726701/<span class="literal">true</span></span><br><span class="line">If-Modified-Since: Fri, 30 Sep 2016 16:10:47 GMT</span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">GET / HTTP/1.1</div><div class="line">Host: www.lemonde.fr</div><div class="line">Connection: keep-alive</div><div class="line">Cache-Control: max-age=0</div><div class="line">Upgrade-Insecure-Requests: 1</div><div class="line">User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_4) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/54.0.2840.34 Safari/537.36</div><div class="line">Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8</div><div class="line">Accept-Encoding: gzip, deflate, sdch</div><div class="line">Accept-Language: fr-FR,fr;q=0.8,en-US;q=0.6,en;q=0.4</div><div class="line">Cookie: _ga=GA1.2.374864853.1475228586; xtvrn=<span class="variable">$43260</span>$; _cb_ls=1; lmdAbDay=1; __vrf=14752522666255dKTLyAPMbCEHo57kMWgskL26Q4Wie1W; __vrrefresh=http%253A%252F%252Fwww.lemonde.fr%252F; __utmt=1; __utma=194882738.374864853.1475228586.1475238480.1475252268.2; __utmb=194882738.1.10.1475252268; __utmc=194882738; __utmz=194882738.1475238480.1.1.utmcsr=google|utmccn=(organic)|utmcmd=organic|utmctr=(not%20provided); xtan43260=-; xtant43260=1; _cb=DQQzWqCueIlMC6ZCTd; _chartbeat2=.1475238481310.1475252269278.1; cdx_ses_1_10013=3342761584&amp;1577be3312a&amp;1577be3312a&amp;; kameleoonVisit=ml6c91nkhia4vvot/1/1475252301068/20160909/12726701/<span class="literal">true</span></div><div class="line">If-Modified-Since: Fri, 30 Sep 2016 16:10:47 GMT</div></pre></td></tr></table></figure>
 <p>Chaque ligne est générée par notre client (notre navigateur web). D’un point de vue développeur <strong>il ne faut d’ailleurs jamais se fier au header car ces données peuvent être manipulées avant d’être envoyées</strong> et changées à volonté par n’importe quel développeur.</p>
 <p>Voici le détail du header avec des explications pour chaque donnée</p>
 <table>
@@ -211,7 +211,7 @@ ga('send', 'pageview');
 </tr>
 </tbody>
 </table>
-<p>Précisons d’ailleurs que l’on peut mettre en place un <strong>système d’authentification</strong> utilisateur via les headers HTTP ! Le client rajoute simplement dans sa requête le nom d’utilisateur et le mot de passe demandé à l’utilisateur via une fenêtre native. Ce nom d’utilisateur est de mot de passe est encodé en <strong>base 64</strong><br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Authorization: Basic XXXXXXXXXXXX</span><br></pre></td></tr></table></figure></p>
+<p>Précisons d’ailleurs que l’on peut mettre en place un <strong>système d’authentification</strong> utilisateur via les headers HTTP ! Le client rajoute simplement dans sa requête le nom d’utilisateur et le mot de passe demandé à l’utilisateur via une fenêtre native. Ce nom d’utilisateur est de mot de passe est encodé en <strong>base 64</strong><br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">Authorization: Basic XXXXXXXXXXXX</div></pre></td></tr></table></figure></p>
 <p>XXXXXXXXXXXX représentant l’encodage de la chaine nom_de_l_utilisateur : mot_de_passe ! Remarquez aussi que lorsque vous transmettez des <strong>données sensibles</strong> sur vos sites favoris et que ces derniers n’utilisent pas HTTPS (la version sécurisée du protocole HTTP) cela <strong>représente un réel danger</strong>, car toute requête peut être interceptée ! et dans une requête POST de transmission de formulaire <strong>vos données sont lisibles</strong>! Faites l’essai en essayant de remplir un formulaire et en surveillant la requête HTTP qui sera émise ! </p>
 <p>J’espère que vous aurez maintenant envie d’ouvrir votre inspecteur chrome afin d’inspecter les requêtes que fait votre navigateur ! Cela peut être un moyen intéressant pour découvrir tous les services qu’un site utilise (par exemple les réseaux de pubilicités, les services de web analytics…). Fouillez !</p>
 
@@ -224,7 +224,7 @@ ga('send', 'pageview');
     
 
     <footer class="article-footer">
-      <a data-url="http://maximilienandile.github.io/2016/09/30/Comprendre-les-headers-d-une-requete-HTTP/" data-id="ciutxoo0b000591mi0wgqo0cd" class="article-share-link">
+      <a data-url="http://maximilienandile.github.io/2016/09/30/Comprendre-les-headers-d-une-requete-HTTP/" data-id="civ0s40hj000ai8mit37j8c3v" class="article-share-link">
         <i class="fa fa-share"></i> Share
       </a>
       
@@ -305,7 +305,7 @@ ga('send', 'pageview');
   
   <div class="sidebar-module">
     <h4>Archives</h4>
-    <ul class="sidebar-module-list"><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2016/10/">octobre 2016</a><span class="sidebar-module-list-count">3</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2016/09/">septembre 2016</a><span class="sidebar-module-list-count">6</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2016/06/">juin 2016</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2016/05/">mai 2016</a><span class="sidebar-module-list-count">3</span></li></ul>
+    <ul class="sidebar-module-list"><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2016/11/">novembre 2016</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2016/10/">octobre 2016</a><span class="sidebar-module-list-count">3</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2016/09/">septembre 2016</a><span class="sidebar-module-list-count">6</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2016/06/">juin 2016</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2016/05/">mai 2016</a><span class="sidebar-module-list-count">3</span></li></ul>
   </div>
 
 
@@ -314,6 +314,10 @@ ga('send', 'pageview');
   <div class="sidebar-module">
     <h4>Recents</h4>
     <ul class="sidebar-module-list">
+      
+        <li>
+          <a href="/2016/11/02/Comment-creer-un-script-shell-permettant-de-recuperer-et-d-analyser-des-articles-wikipedia-avec-lynx/">Comment créer un script shell permettant de récupérer et d&#39;analyser des articles wikipedia avec lynx</a>
+        </li>
       
         <li>
           <a href="/2016/10/17/Machine-Learning-classification-a-l-aide-des-arbres-de-decisions-fonctionnement-et-application-en-NodeJS/">Machine Learning : classification à l&#39;aide des arbres de décisions : fonctionnement et application en NodeJS</a>
@@ -329,10 +333,6 @@ ga('send', 'pageview');
       
         <li>
           <a href="/2016/09/30/Comprendre-les-headers-d-une-requete-HTTP/">Comprendre les headers d&#39;une requête HTTP</a>
-        </li>
-      
-        <li>
-          <a href="/2016/09/29/Machine-Learning-comment-fonctionne-la-classification-naive-Bayesienne/">Machine Learning : comment fonctionne la classification naïve Bayesienne</a>
         </li>
       
     </ul>

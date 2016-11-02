@@ -3,18 +3,19 @@
 <head>
   <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="utf-8">
   
-  <title>Tag: Natural Language Processing | M@XCode</title>
+  <title>Comment créer un script shell permettant de récupérer et d&#39;analyser des articles wikipedia avec lynx | M@XCode</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   <meta name="google-site-verification" content="zhe_jVE6TPFbrQb7K-ra2FFxgiDsn6ZeFoKSz9EXmGk" />
-  <meta name="description" content="Blog dédié au partage du savoir informatique">
-<meta property="og:type" content="website">
-<meta property="og:title" content="M@XCode">
-<meta property="og:url" content="http://maximilienandile.github.io/tags/Natural-Language-Processing/index.html">
+  <meta name="description" content="Qu’est ce qu’un script shellUn script “shell” est un programme écrit pour être éxécuté via l’interpréteur de commande UNIX. Ces script sont facile à générer et suivent les paterns des langages de prog">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Comment créer un script shell permettant de récupérer et d'analyser des articles wikipedia avec lynx">
+<meta property="og:url" content="http://maximilienandile.github.io/2016/11/02/Comment-creer-un-script-shell-permettant-de-recuperer-et-d-analyser-des-articles-wikipedia-avec-lynx/index.html">
 <meta property="og:site_name" content="M@XCode">
-<meta property="og:description" content="Blog dédié au partage du savoir informatique">
+<meta property="og:description" content="Qu’est ce qu’un script shellUn script “shell” est un programme écrit pour être éxécuté via l’interpréteur de commande UNIX. Ces script sont facile à générer et suivent les paterns des langages de prog">
+<meta property="og:updated_time" content="2016-11-02T10:26:51.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="M@XCode">
-<meta name="twitter:description" content="Blog dédié au partage du savoir informatique">
+<meta name="twitter:title" content="Comment créer un script shell permettant de récupérer et d'analyser des articles wikipedia avec lynx">
+<meta name="twitter:description" content="Qu’est ce qu’un script shellUn script “shell” est un programme écrit pour être éxécuté via l’interpréteur de commande UNIX. Ces script sont facile à générer et suivent les paterns des langages de prog">
   
     <link rel="alternate" href="/atom.xml" title="M@XCode" type="application/atom+xml">
   
@@ -90,41 +91,84 @@ ga('send', 'pageview');
 
     <div class="row">
         <div class="col-sm-8 blog-main">
-          
-  
-  
-    
-    
-      
-      
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2016" class="archive-year">2016</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <header class="archive-article-header">
+          <article id="post-Comment-creer-un-script-shell-permettant-de-recuperer-et-d-analyser-des-articles-wikipedia-avec-lynx" class="article article-type-post" itemscope itemprop="blogPost">
+
+  <header class="article-header">
     
   
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2016/05/18/How-to-install-NLTK-and-compute-basic-statistics-on-a-text/">How to install NLTK and compute basic statistics on a text</a>
+    <h1 class="article-title" itemprop="name">
+      Comment créer un script shell permettant de récupérer et d&#39;analyser des articles wikipedia avec lynx
     </h1>
   
 
 
+  </header>
+
+  <div class="article-meta">
     <div class="article-datetime">
-  <a href="/2016/05/18/How-to-install-NLTK-and-compute-basic-statistics-on-a-text/" class="archive-article-date"><time datetime="2016-05-18T06:39:24.000Z" itemprop="datePublished">mai 18</time></a>
+  <a href="/2016/11/02/Comment-creer-un-script-shell-permettant-de-recuperer-et-d-analyser-des-articles-wikipedia-avec-lynx/" class="article-date"><time datetime="2016-11-02T10:15:24.000Z" itemprop="datePublished">02/11/2016</time></a>
 </div>
 
-  </header>
+    
+    
+
+  </div>
+  <div class="article-inner">
+
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="Qu’est-ce-qu’un-script-shell"><a href="#Qu’est-ce-qu’un-script-shell" class="headerlink" title="Qu’est ce qu’un script shell"></a>Qu’est ce qu’un script shell</h2><p>Un script “shell” est un programme écrit pour être éxécuté via l’interpréteur de commande UNIX. Ces script sont facile à générer et suivent les paterns des langages de programmation communs. Ainsi on a la possibilité de créer des boucles et des structures conditionnelles par exemple.</p>
+<p>Un script shell est dans les fait un fichier avec l’extension <strong>sh</strong>. On l’éxécute en ouvrant <strong>cmd</strong> sous windows, ou le <strong>terminal</strong> sur macOS. La commande permettant d’executer un script shell est la suivante:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ sh name_of_the_script.sh</div></pre></td></tr></table></figure></p>
+<p>NB : Par habitude on rajoute un sigle dollar devant la commande. Il s’agit juste d’une convention permettant d’indiquer au lecteur que cette commande doit être éxécutée dans le terminal.</p>
+<h2 id="Iterer-sur-les-lignes-d’un-fichier"><a href="#Iterer-sur-les-lignes-d’un-fichier" class="headerlink" title="Itérer sur les lignes d’un fichier"></a>Itérer sur les lignes d’un fichier</h2><p>Afin de lire les lignes d’un fichier les unes des autres on peut utiliser la structure <code>for</code>. <code>For</code>indique à l’algorithme qu’il faut itérer pour chaque élément d’un input (ici l’ensemble des lignes de notre fichier) :</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">#!/bin/bash</div><div class="line">location_of_the_url_file = &quot;./urls.txt&quot;</div><div class="line">for nom in `cat $location_of_the_url_file`</div><div class="line">&#123;</div><div class="line">  echo $nom</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>Ce script</p>
+
+      
+    </div>
+
+    
+      
+
+    
+
+    <footer class="article-footer">
+      <a data-url="http://maximilienandile.github.io/2016/11/02/Comment-creer-un-script-shell-permettant-de-recuperer-et-d-analyser-des-articles-wikipedia-avec-lynx/" data-id="civ0s40h20000i8miv8p17lpz" class="article-share-link">
+        <i class="fa fa-share"></i> Share
+      </a>
+      
+        <a href="http://maximilienandile.github.io/2016/11/02/Comment-creer-un-script-shell-permettant-de-recuperer-et-d-analyser-des-articles-wikipedia-avec-lynx/#disqus_thread" class="article-comment-link">
+          <i class="fa fa-comment"></i> Comments
+        </a>
+      
+      
+
+    </footer>
+  </div>
+  
+    
+<ul id="article-nav" class="nav nav-pills nav-justified">
+  
+  <li role="presentation">
+    <a href="/2016/10/17/Machine-Learning-classification-a-l-aide-des-arbres-de-decisions-fonctionnement-et-application-en-NodeJS/" id="article-nav-older" class="article-nav-link-wrap">
+      <i class="fa fa-chevron-left pull-left"></i>
+      <span class="article-nav-link-title">Machine Learning : classification à l&#39;aide des arbres de décisions : fonctionnement et application en NodeJS</span>
+    </a>
+  </li>
+  
+  
+</ul>
+
+
+  
 </article>
 
-  
-  
-    </div></section>
-  
 
+<section id="comments">
+  <div id="disqus_thread">
+    <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+  </div>
+</section>
 
 
 
@@ -212,11 +256,13 @@ ga('send', 'pageview');
 <script>
   var disqus_shortname = 'maximilienandile';
   
+  var disqus_url = 'http://maximilienandile.github.io/2016/11/02/Comment-creer-un-script-shell-permettant-de-recuperer-et-d-analyser-des-articles-wikipedia-avec-lynx/';
+  
   (function(){
     var dsq = document.createElement('script');
     dsq.type = 'text/javascript';
     dsq.async = true;
-    dsq.src = '//' + disqus_shortname + '.disqus.com/count.js';
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
     (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
   })();
 </script>
@@ -228,7 +274,24 @@ ga('send', 'pageview');
 
 
 
-<script src="/js/script.js"></script><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+<script src="/js/script.js"></script><!-- hexo-inject:begin --><!-- Begin: Injected MathJax -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({"tex2jax":{"inlineMath":[["$","$"],["\\(","\\)"]],"skipTags":["script","noscript","style","textarea","pre","code"],"processEscapes":true},"TeX":{"equationNumbers":{"autoNumber":"AMS"}}});
+</script>
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+      all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+  });
+</script>
+
+<script type="text/javascript" src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+<!-- End: Injected MathJax -->
+<!-- hexo-inject:end -->
 
 </body>
 </html>
