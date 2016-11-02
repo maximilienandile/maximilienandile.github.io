@@ -6,16 +6,18 @@
   <title>Comment créer un script shell permettant de récupérer et d&#39;analyser des articles wikipedia avec lynx | M@XCode</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   <meta name="google-site-verification" content="zhe_jVE6TPFbrQb7K-ra2FFxgiDsn6ZeFoKSz9EXmGk" />
-  <meta name="description" content="Qu’est ce qu’un script shellUn script “shell” est un programme écrit pour être éxécuté via l’interpréteur de commande UNIX. Ces script sont facile à générer et suivent les paterns des langages de prog">
+  <meta name="description" content="Qu’est ce qu’un script shellUn script “shell” est un programme écrit pour être exécuté via l’interpréteur de commande UNIX. Ces scripts sont facile à générer et suivent les patterns des langages de pr">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Comment créer un script shell permettant de récupérer et d'analyser des articles wikipedia avec lynx">
 <meta property="og:url" content="http://maximilienandile.github.io/2016/11/02/Comment-creer-un-script-shell-permettant-de-recuperer-et-d-analyser-des-articles-wikipedia-avec-lynx/index.html">
 <meta property="og:site_name" content="M@XCode">
-<meta property="og:description" content="Qu’est ce qu’un script shellUn script “shell” est un programme écrit pour être éxécuté via l’interpréteur de commande UNIX. Ces script sont facile à générer et suivent les paterns des langages de prog">
-<meta property="og:updated_time" content="2016-11-02T10:26:51.000Z">
+<meta property="og:description" content="Qu’est ce qu’un script shellUn script “shell” est un programme écrit pour être exécuté via l’interpréteur de commande UNIX. Ces scripts sont facile à générer et suivent les patterns des langages de pr">
+<meta property="og:image" content="http://maximilienandile.github.io/images/google_version_lynx.png">
+<meta property="og:updated_time" content="2016-11-02T11:19:53.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Comment créer un script shell permettant de récupérer et d'analyser des articles wikipedia avec lynx">
-<meta name="twitter:description" content="Qu’est ce qu’un script shellUn script “shell” est un programme écrit pour être éxécuté via l’interpréteur de commande UNIX. Ces script sont facile à générer et suivent les paterns des langages de prog">
+<meta name="twitter:description" content="Qu’est ce qu’un script shellUn script “shell” est un programme écrit pour être exécuté via l’interpréteur de commande UNIX. Ces scripts sont facile à générer et suivent les patterns des langages de pr">
+<meta name="twitter:image" content="http://maximilienandile.github.io/images/google_version_lynx.png">
   
     <link rel="alternate" href="/atom.xml" title="M@XCode" type="application/atom+xml">
   
@@ -117,12 +119,25 @@ ga('send', 'pageview');
 
     <div class="article-entry" itemprop="articleBody">
       
-        <h2 id="Qu’est-ce-qu’un-script-shell"><a href="#Qu’est-ce-qu’un-script-shell" class="headerlink" title="Qu’est ce qu’un script shell"></a>Qu’est ce qu’un script shell</h2><p>Un script “shell” est un programme écrit pour être éxécuté via l’interpréteur de commande UNIX. Ces script sont facile à générer et suivent les paterns des langages de programmation communs. Ainsi on a la possibilité de créer des boucles et des structures conditionnelles par exemple.</p>
-<p>Un script shell est dans les fait un fichier avec l’extension <strong>sh</strong>. On l’éxécute en ouvrant <strong>cmd</strong> sous windows, ou le <strong>terminal</strong> sur macOS. La commande permettant d’executer un script shell est la suivante:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ sh name_of_the_script.sh</div></pre></td></tr></table></figure></p>
-<p>NB : Par habitude on rajoute un sigle dollar devant la commande. Il s’agit juste d’une convention permettant d’indiquer au lecteur que cette commande doit être éxécutée dans le terminal.</p>
-<h2 id="Iterer-sur-les-lignes-d’un-fichier"><a href="#Iterer-sur-les-lignes-d’un-fichier" class="headerlink" title="Itérer sur les lignes d’un fichier"></a>Itérer sur les lignes d’un fichier</h2><p>Afin de lire les lignes d’un fichier les unes des autres on peut utiliser la structure <code>for</code>. <code>For</code>indique à l’algorithme qu’il faut itérer pour chaque élément d’un input (ici l’ensemble des lignes de notre fichier) :</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">#!/bin/bash</div><div class="line">location_of_the_url_file = &quot;./urls.txt&quot;</div><div class="line">for nom in `cat $location_of_the_url_file`</div><div class="line">&#123;</div><div class="line">  echo $nom</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>Ce script</p>
+        <h2 id="Qu’est-ce-qu’un-script-shell"><a href="#Qu’est-ce-qu’un-script-shell" class="headerlink" title="Qu’est ce qu’un script shell"></a>Qu’est ce qu’un script shell</h2><p>Un script “shell” est un programme écrit pour être exécuté via l’interpréteur de commande UNIX. Ces scripts sont facile à générer et suivent les patterns des langages de programmation communs. Ainsi on a la possibilité de créer des boucles et des structures conditionnelles par exemple.</p>
+<p>Un script shell est dans les fait un fichier avec l’extension <strong>sh</strong>. On l’exécute en ouvrant <strong>cmd</strong> sous windows, ou le <strong>terminal</strong> sur macOS. La commande permettant d’executer un script shell est la suivante:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ sh name_of_the_script.sh</div></pre></td></tr></table></figure></p>
+<p>NB : Par habitude on rajoute un sigle dollar devant la commande. Il s’agit juste d’une convention permettant d’indiquer au lecteur que cette commande doit être exécutée dans le terminal.</p>
+<h2 id="Iterer-sur-les-lignes-d’un-fichier-via-shell"><a href="#Iterer-sur-les-lignes-d’un-fichier-via-shell" class="headerlink" title="Itérer sur les lignes d’un fichier via shell"></a>Itérer sur les lignes d’un fichier via shell</h2><p>Afin de lire les lignes d’un fichier les unes des autres on peut utiliser la structure <code>for</code>. <code>For</code> indique à l’algorithme qu’il faut itérer pour chaque élément d’un input (ici l’ensemble des lignes de notre fichier) :</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">location_of_the_url_file = &quot;./urls.txt&quot;</div><div class="line">for url in `cat  $location_of_the_url_file `</div><div class="line">&#123;</div><div class="line">  echo $url</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>Dans un premier lieu on déclare la variable <code>location_of_the_url_file</code> qui stocke l’emplacement de notre fichier relativement à notre dossier de travail.</p>
+<p>Dans un second temps on va récupérer l’ensemble des lignes de notre fichier via la commande :<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">`cat $location_of_the_url_file`</div></pre></td></tr></table></figure></p>
+<h2 id="Recuperer-le-contenu-d’une-page-web-via-wget"><a href="#Recuperer-le-contenu-d’une-page-web-via-wget" class="headerlink" title="Récupérer le contenu d’une page web via wget"></a>Récupérer le contenu d’une page web via <code>wget</code></h2><p><code>wget</code> est un outil de téléchargement très puissant. On peut donc l’utiliser pour télécharger le contenu d’une page web directement depuis le terminal. Il faut d’abord bien s’assurer de l’avoir installer sur sa machine.</p>
+<p>Si ce n’est pas le cas on peut utiliser la commande <code>brew install wget</code>. Homebrew est un gestionnaire de dépendance très pratique qui permet des installations rapides. Pour plus d’information voici la page : <a href="http://brew.sh/index_fr.html" target="_blank" rel="external">http://brew.sh/index_fr.html</a></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">wget -O ./pages/wiki.html $url</div></pre></td></tr></table></figure>
+<p>La commande suivante permet de télécharger la page dont l’url est <code>$url</code> et de stocker cette dernière dans le dossier pages sous le nom <code>wiki.html</code>. Le téléchargement dans un répertoire cible est géré par la commande <code>-O</code>.</p>
+<h2 id="Creer-un-dump-en-format-plain-text-de-notre-page-html-grace-a-lynx"><a href="#Creer-un-dump-en-format-plain-text-de-notre-page-html-grace-a-lynx" class="headerlink" title="Créer un dump en format plain text de notre page html grâce à lynx"></a>Créer un dump en format plain text de notre page html grâce à lynx</h2><p>Lynx est un outil permettant la manipulation de pages HTML. Il s’agit en fait d’un navigateur en mode ligne de commande. Une sorte de chrome version simplifiée.</p>
+<p>Pour accéder à google depuis votre terminal :</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">lynx http://www.google.fr</div></pre></td></tr></table></figure>
+<p><img src="images/google_version_lynx.png" alt="Google en version Lynx"></p>
+<p> On peut donc produire une version <code>.txt</code> de notre page</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">lynx -dump $url &gt;./plain_text/page_version_txt.txt</div></pre></td></tr></table></figure>
+<p>Cette version txt de nos pages web nous permettra de nous livrer à des analyses de type “NLP” (Natural Language Processing). Nous traiterons plus en détail cet aspect dans un prochain billet.</p>
+<p>Voici le code complet du programme : <a href="https://github.com/maximilienandile/shell_web_page_to_plain_text" target="_blank" rel="external">https://github.com/maximilienandile/shell_web_page_to_plain_text</a></p>
 
       
     </div>
@@ -133,7 +148,7 @@ ga('send', 'pageview');
     
 
     <footer class="article-footer">
-      <a data-url="http://maximilienandile.github.io/2016/11/02/Comment-creer-un-script-shell-permettant-de-recuperer-et-d-analyser-des-articles-wikipedia-avec-lynx/" data-id="civ0s40h20000i8miv8p17lpz" class="article-share-link">
+      <a data-url="http://maximilienandile.github.io/2016/11/02/Comment-creer-un-script-shell-permettant-de-recuperer-et-d-analyser-des-articles-wikipedia-avec-lynx/" data-id="civ0u11nn0001hcmiia8hzl48" class="article-share-link">
         <i class="fa fa-share"></i> Share
       </a>
       
@@ -142,6 +157,8 @@ ga('send', 'pageview');
         </a>
       
       
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/NLP/">NLP</a></li></ul>
+
 
     </footer>
   </div>
@@ -188,7 +205,7 @@ ga('send', 'pageview');
   
   <div class="sidebar-module">
     <h4>Tags</h4>
-    <ul class="sidebar-module-list"><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/Business-Intelligence/">Business Intelligence</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/HTTP/">HTTP</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/Machine-Learning/">Machine Learning</a><span class="sidebar-module-list-count">2</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/NLP/">NLP</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/Natural-Language-Processing/">Natural Language Processing</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/Nodejs/">Nodejs</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/PHP/">PHP</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/PHP-Tests-unitaires/">PHP ; Tests unitaires</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/REST/">REST</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/SQL/">SQL</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/nodejs/">nodejs</a><span class="sidebar-module-list-count">1</span></li></ul>
+    <ul class="sidebar-module-list"><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/Business-Intelligence/">Business Intelligence</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/HTTP/">HTTP</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/Machine-Learning/">Machine Learning</a><span class="sidebar-module-list-count">2</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/NLP/">NLP</a><span class="sidebar-module-list-count">2</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/Natural-Language-Processing/">Natural Language Processing</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/Nodejs/">Nodejs</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/PHP/">PHP</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/PHP-Tests-unitaires/">PHP ; Tests unitaires</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/REST/">REST</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/SQL/">SQL</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/nodejs/">nodejs</a><span class="sidebar-module-list-count">1</span></li></ul>
   </div>
 
 
@@ -197,7 +214,7 @@ ga('send', 'pageview');
   <div class="sidebar-module">
     <h4>Tag Cloud</h4>
     <p class="tagcloud">
-      <a href="/tags/Business-Intelligence/" style="font-size: 10px;">Business Intelligence</a> <a href="/tags/HTTP/" style="font-size: 10px;">HTTP</a> <a href="/tags/Machine-Learning/" style="font-size: 20px;">Machine Learning</a> <a href="/tags/NLP/" style="font-size: 10px;">NLP</a> <a href="/tags/Natural-Language-Processing/" style="font-size: 10px;">Natural Language Processing</a> <a href="/tags/Nodejs/" style="font-size: 10px;">Nodejs</a> <a href="/tags/PHP/" style="font-size: 10px;">PHP</a> <a href="/tags/PHP-Tests-unitaires/" style="font-size: 10px;">PHP ; Tests unitaires</a> <a href="/tags/REST/" style="font-size: 10px;">REST</a> <a href="/tags/SQL/" style="font-size: 10px;">SQL</a> <a href="/tags/nodejs/" style="font-size: 10px;">nodejs</a>
+      <a href="/tags/Business-Intelligence/" style="font-size: 10px;">Business Intelligence</a> <a href="/tags/HTTP/" style="font-size: 10px;">HTTP</a> <a href="/tags/Machine-Learning/" style="font-size: 20px;">Machine Learning</a> <a href="/tags/NLP/" style="font-size: 20px;">NLP</a> <a href="/tags/Natural-Language-Processing/" style="font-size: 10px;">Natural Language Processing</a> <a href="/tags/Nodejs/" style="font-size: 10px;">Nodejs</a> <a href="/tags/PHP/" style="font-size: 10px;">PHP</a> <a href="/tags/PHP-Tests-unitaires/" style="font-size: 10px;">PHP ; Tests unitaires</a> <a href="/tags/REST/" style="font-size: 10px;">REST</a> <a href="/tags/SQL/" style="font-size: 10px;">SQL</a> <a href="/tags/nodejs/" style="font-size: 10px;">nodejs</a>
     </p>
   </div>
 
