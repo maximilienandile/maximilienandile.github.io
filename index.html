@@ -119,33 +119,33 @@ ga('send', 'pageview');
     <div class="article-entry" itemprop="articleBody">
       
         <p>Les sources de stockage actuelles sont paradoxalement moins durables plus le temps avance. Par exemple une écriture gravée sur la pierre se conserve en moyenne 10.000 ans, une écriture sur parchemin se conserve 1.000 ans. Un DVD conserve les données au maximum une dizaine d’années. Un disque dur est rarement garanti par le fabricant plus de 5 années, tant il est fragile.</p>
-<p>La solution pour un stockage durable de l’information serait la réplication multiple. Dès qu’un support de stockage atteint la fin de sa vie, on copie la données sur un support similaire. Cette solution est écologiquement problématique. C’est sans compté sur les erreurs de copies qui peuvent compromettre les informations stockées.</p>
+<p>La solution pour un stockage durable de l’information serait la réplication multiple. Dès qu’un support de stockage atteint la fin de sa vie, on copie la donnée sur un support similaire. Cette solution est écologiquement problématique. C’est sans compté sur les erreurs de copies qui peuvent compromettre les informations stockées.</p>
 <p>Je suis passé par hasard sur un papier de recherche sur le stockage de l’information sur le support ADN ! Incroyable me suis-je dit. Essayons de comprendre le mécanisme…</p>
 <p>Pour les curieux voici le papier : (<a href="https://www.ncbi.nlm.nih.gov/pmc/articles/PMC3672958/" target="_blank" rel="external">https://www.ncbi.nlm.nih.gov/pmc/articles/PMC3672958/</a>). Publié dans <strong>Nature</strong> en 2013.</p>
 <h2 id="Avantages-du-stockage-de-l’information-sur-les-brins-d’ADN"><a href="#Avantages-du-stockage-de-l’information-sur-les-brins-d’ADN" class="headerlink" title="Avantages du stockage de l’information sur les brins d’ADN"></a>Avantages du stockage de l’information sur les brins d’ADN</h2><ul>
 <li>La capacité de stockage est très importante, on peut stocker sur un volume très faible un volume important de données</li>
 <li>Les brins d’ADN peuvent se conserver longtemps.</li>
 </ul>
-<h2 id="Methodes-de-transcription-de-l’information"><a href="#Methodes-de-transcription-de-l’information" class="headerlink" title="Méthodes de transcription de l’information."></a>Méthodes de transcription de l’information.</h2><p>Les résultats de l’équipe de recherche sont très intéressant puisqu’ils ont réussi à encoder 739kB de données dans un brin d’ADN synthétique puis ont réussi à redrécrypter les fragements de data sans aucune erreur ni compromission.</p>
-<h3 id="Etape-1-Encodage-de-la-donnees-en-Base-3-Huffman"><a href="#Etape-1-Encodage-de-la-donnees-en-Base-3-Huffman" class="headerlink" title="Etape 1 : Encodage de la données en Base 3 Huffman"></a>Etape 1 : Encodage de la données en Base 3 Huffman</h3><p>Le codage de Huffman part du principe que plus un aractère est utilisé moins son encodage sera large. Les caractères les plus utilisés de la source de données tiendront donc moins de place ! C’est un avantage très intéressant pour stocker de large volume de textes.</p>
+<h2 id="Methodes-de-transcription-de-l’information"><a href="#Methodes-de-transcription-de-l’information" class="headerlink" title="Méthodes de transcription de l’information."></a>Méthodes de transcription de l’information.</h2><p>Les résultats de l’équipe de recherche sont très intéressant puisqu’ils ont réussi à encoder 739kB de données dans un brin d’ADN synthétique puis ont réussi à re-décrypter les fragments de data sans aucune erreur ni compromission.</p>
+<h3 id="Etape-1-Encodage-de-la-donnees-en-Base-3-Huffman"><a href="#Etape-1-Encodage-de-la-donnees-en-Base-3-Huffman" class="headerlink" title="Etape 1 : Encodage de la données en Base 3 Huffman"></a>Etape 1 : Encodage de la données en Base 3 Huffman</h3><p>Le codage de Huffman part du principe que plus un caractère est utilisé moins son encodage sera large. Les caractères les plus utilisés de la source de données tiendront donc moins de place ! C’est un avantage très intéressant pour stocker de large volume de textes.</p>
 <p>Dans le cadre de l’expérimentation chaque byte est encodé avec 5 ou 6 caractères base 3 (appelés <code>trits</code>).</p>
 <p>Les trits peuvent être égaux à 0,1 ou 2.</p>
 <figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// Chaine originale</span></div><div class="line"><span class="string">"Thou"</span></div><div class="line"><span class="comment">// Base-3 Huffman</span></div><div class="line"><span class="string">"20112202000211010002"</span></div></pre></td></tr></table></figure>
 <p>Ainsi <code>T</code> est encodé sous la forme <code>20112</code> , <code>h</code> sous la forme <code>20200</code></p>
-<h2 id="Etape-2-conversion-des-trits-en-nucleotides"><a href="#Etape-2-conversion-des-trits-en-nucleotides" class="headerlink" title="Etape 2 : conversion des trits en nucleotides"></a>Etape 2 : conversion des <code>trits</code> en <code>nucleotides</code></h2><p>Chaque lettre est donc convertie en <code>trits</code>. On va ensuite prendre chaque <code>trit</code>est le traduire par un nucléotide.</p>
-<p>Les <code>nucléotides</code> sont l’unité de base de la contruction de l’ADN. Il existe 4 nucléotides différents :  l’adénine (A), la guanine (G), la thymine (T) et la cytosine (C).</p>
+<h2 id="Etape-2-conversion-des-trits-en-nucleotides"><a href="#Etape-2-conversion-des-trits-en-nucleotides" class="headerlink" title="Etape 2 : conversion des trits en nucléotides"></a>Etape 2 : conversion des <code>trits</code> en <code>nucléotides</code></h2><p>Chaque lettre est donc convertie en <code>trits</code>. On va ensuite prendre chaque <code>trit</code> est le traduire par un nucléotide.</p>
+<p>Les <code>nucléotides</code> sont l’unité de base de la construction de l’ADN. Il existe 4 nucléotides différents : l’adénine (A), la guanine (G), la thymine (T) et la cytosine (C).</p>
 <p>On va donc remplacer chaque trit par un nucléotide différent de celui qui le précède si il y a répétition.</p>
 <figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// Chaine originale</span></div><div class="line"><span class="string">"T"</span></div><div class="line"><span class="comment">// Base-3 Huffman</span></div><div class="line"><span class="string">"20112"</span></div><div class="line"><span class="comment">// ADN</span></div><div class="line"><span class="string">"TAGAT"</span></div></pre></td></tr></table></figure>
 <p>On souhaite en effet éviter les répétitions de nucléotides. pour éviter de former ce que l’on nomme en chimie des <code>homopolymères</code>.</p>
-<h2 id="Etape-3-Generation-des-fragments-d’ADN-avec-overlap"><a href="#Etape-3-Generation-des-fragments-d’ADN-avec-overlap" class="headerlink" title="Etape 3 : Génération des fragments d’ADN avec overlap."></a>Etape 3 : Génération des fragments d’ADN avec overlap.</h2><p>L’équipe a ensuite procédé à la génération de muliples fragments d’ADN contenant 100 bases chacun, avec un overlap de 75 bases à chaque fois.</p>
+<h2 id="Etape-3-Generation-des-fragments-d’ADN-avec-overlap"><a href="#Etape-3-Generation-des-fragments-d’ADN-avec-overlap" class="headerlink" title="Etape 3 : Génération des fragments d’ADN avec overlap."></a>Etape 3 : Génération des fragments d’ADN avec overlap.</h2><p>L’équipe a ensuite procédé à la génération de multiples fragments d’ADN contenant 100 bases chacun, avec un overlap de 75 bases à chaque fois.</p>
 <p>Cette méthode permettant d’avoir une donnée redondante pour éviter les pertes de données en cas de problèmes de conservation.</p>
 <p>Dans chaque fragment on ajoute des données d’indexation du fragment afin de savoir où ce dernier se situe dans la chaîne complète :</p>
 <p><img src="/images/dna.png" alt="Stockage ADN et indexing"></p>
 <h2 id="Perspectives"><a href="#Perspectives" class="headerlink" title="Perspectives :"></a>Perspectives :</h2><ul>
 <li>Le stockage reste encore très cher car il nécessite une équipe importante et du matériel haut de gamme…</li>
-<li>$12,400/MB pour le stockage et $220/MB pour le décodage !</li>
-<li>Les coûts toutefois sont ammenés à se réduire drastiquement (l’équipe envisage un rapport de 100 par rapport aux coûts actuels)</li>
-<li>Le volume de stockage est très important comparé à la taille du receptacle !</li>
+<li>12,400 dollars/MB pour le stockage et 220 dollars/MB pour le décodage !</li>
+<li>Les coûts toutefois sont amenés à se réduire drastiquement (l’équipe envisage un rapport de 100 par rapport aux coûts actuels)</li>
+<li>Le volume de stockage est très important comparé à la taille du réceptacle !</li>
 </ul>
 
       
@@ -157,7 +157,7 @@ ga('send', 'pageview');
     
 
     <footer class="article-footer">
-      <a data-url="http://maximilienandile.github.io/2016/12/18/l-ADN-une-nouvelle-source-de-stockage-de-donnees-durable/" data-id="ciwuzpnmi000r8jknzugze4w3" class="article-share-link">
+      <a data-url="http://maximilienandile.github.io/2016/12/18/l-ADN-une-nouvelle-source-de-stockage-de-donnees-durable/" data-id="ciwuzyfk7000odokn7n8ndz9u" class="article-share-link">
         <i class="fa fa-share"></i> Share
       </a>
       
@@ -232,7 +232,7 @@ ga('send', 'pageview');
     
 
     <footer class="article-footer">
-      <a data-url="http://maximilienandile.github.io/2016/11/02/Comment-creer-un-script-shell-permettant-de-recuperer-et-d-analyser-des-articles-wikipedia-avec-lynx/" data-id="ciwuzpnlq00028jknm6kvuy0o" class="article-share-link">
+      <a data-url="http://maximilienandile.github.io/2016/11/02/Comment-creer-un-script-shell-permettant-de-recuperer-et-d-analyser-des-articles-wikipedia-avec-lynx/" data-id="ciwuzyfjf0001dokn1serhngn" class="article-share-link">
         <i class="fa fa-share"></i> Share
       </a>
       
@@ -339,7 +339,7 @@ ga('send', 'pageview');
     
 
     <footer class="article-footer">
-      <a data-url="http://maximilienandile.github.io/2016/10/17/Machine-Learning-classification-a-l-aide-des-arbres-de-decisions-fonctionnement-et-application-en-NodeJS/" data-id="ciwuzpnma000i8jkne2ezb16e" class="article-share-link">
+      <a data-url="http://maximilienandile.github.io/2016/10/17/Machine-Learning-classification-a-l-aide-des-arbres-de-decisions-fonctionnement-et-application-en-NodeJS/" data-id="ciwuzyfk4000ndokne4bec9r7" class="article-share-link">
         <i class="fa fa-share"></i> Share
       </a>
       
@@ -426,7 +426,7 @@ ga('send', 'pageview');
     
 
     <footer class="article-footer">
-      <a data-url="http://maximilienandile.github.io/2016/10/12/Base-de-donnees-comprendre-les-differences-entre-le-modele-relationnel-et-le-modele-multidimensionnel/" data-id="ciwuzpnlo00018jknenufk9es" class="article-share-link">
+      <a data-url="http://maximilienandile.github.io/2016/10/12/Base-de-donnees-comprendre-les-differences-entre-le-modele-relationnel-et-le-modele-multidimensionnel/" data-id="ciwuzyfjw000edoknfgyrugoi" class="article-share-link">
         <i class="fa fa-share"></i> Share
       </a>
       
@@ -499,7 +499,7 @@ ga('send', 'pageview');
     
 
     <footer class="article-footer">
-      <a data-url="http://maximilienandile.github.io/2016/10/01/Comment-installer-PHPUnit-sur-un-projet-necessitant-composer-et-utilisant-des-variables-d-environnement/" data-id="ciwuzpnlx00058jknjocrxe9m" class="article-share-link">
+      <a data-url="http://maximilienandile.github.io/2016/10/01/Comment-installer-PHPUnit-sur-un-projet-necessitant-composer-et-utilisant-des-variables-d-environnement/" data-id="ciwuzyfjp0006doknqdlllwmn" class="article-share-link">
         <i class="fa fa-share"></i> Share
       </a>
       
@@ -649,7 +649,7 @@ ga('send', 'pageview');
     
 
     <footer class="article-footer">
-      <a data-url="http://maximilienandile.github.io/2016/09/30/Comprendre-les-headers-d-une-requete-HTTP/" data-id="ciwuzpnlz00068jkn4906nfoh" class="article-share-link">
+      <a data-url="http://maximilienandile.github.io/2016/09/30/Comprendre-les-headers-d-une-requete-HTTP/" data-id="ciwuzyfjh0002doknlk1uzz6r" class="article-share-link">
         <i class="fa fa-share"></i> Share
       </a>
       
@@ -778,7 +778,7 @@ ga('send', 'pageview');
     
 
     <footer class="article-footer">
-      <a data-url="http://maximilienandile.github.io/2016/09/29/Machine-Learning-comment-fonctionne-la-classification-naive-Bayesienne/" data-id="ciwuzpnmc000l8jknhw70p6ru" class="article-share-link">
+      <a data-url="http://maximilienandile.github.io/2016/09/29/Machine-Learning-comment-fonctionne-la-classification-naive-Bayesienne/" data-id="ciwuzyfk0000jdokndahgd2qx" class="article-share-link">
         <i class="fa fa-share"></i> Share
       </a>
       
@@ -863,7 +863,7 @@ ga('send', 'pageview');
     
 
     <footer class="article-footer">
-      <a data-url="http://maximilienandile.github.io/2016/09/24/L-algorithme-des-K-voisins-les-plus-proches-et-son-implementation-en-Nodejs/" data-id="ciwuzpnm6000e8jknotflyiy3" class="article-share-link">
+      <a data-url="http://maximilienandile.github.io/2016/09/24/L-algorithme-des-K-voisins-les-plus-proches-et-son-implementation-en-Nodejs/" data-id="ciwuzyfjz000hdoknhwquqgc2" class="article-share-link">
         <i class="fa fa-share"></i> Share
       </a>
       
@@ -960,7 +960,7 @@ ga('send', 'pageview');
     
 
     <footer class="article-footer">
-      <a data-url="http://maximilienandile.github.io/2016/09/24/Pourquoi-utiliser-RAML-pour-designer-une-API-RESTful/" data-id="ciwuzpnmg000o8jkn2h2j3f95" class="article-share-link">
+      <a data-url="http://maximilienandile.github.io/2016/09/24/Pourquoi-utiliser-RAML-pour-designer-une-API-RESTful/" data-id="ciwuzyfk8000rdoknu4atadbm" class="article-share-link">
         <i class="fa fa-share"></i> Share
       </a>
       
@@ -1064,7 +1064,7 @@ ga('send', 'pageview');
     
 
     <footer class="article-footer">
-      <a data-url="http://maximilienandile.github.io/2016/09/23/Comment-installer-PHPUnit-sur-macOs-sur-un-projet-PHP-existant-et-ecrire-un-test/" data-id="ciwuzpnlv00048jknstq15u6l" class="article-share-link">
+      <a data-url="http://maximilienandile.github.io/2016/09/23/Comment-installer-PHPUnit-sur-macOs-sur-un-projet-PHP-existant-et-ecrire-un-test/" data-id="ciwuzyfjv000cdokndrewji22" class="article-share-link">
         <i class="fa fa-share"></i> Share
       </a>
       
