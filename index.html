@@ -92,6 +92,91 @@ ga('send', 'pageview');
         <div class="col-sm-8 blog-main">
           
   
+    <article id="post-l-ADN-une-nouvelle-source-de-stockage-de-donnees-durable" class="article article-type-post" itemscope itemprop="blogPost">
+
+  <header class="article-header">
+    
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/12/18/l-ADN-une-nouvelle-source-de-stockage-de-donnees-durable/">ADN : une nouvelle source de stockage de données durable</a>
+    </h1>
+  
+
+
+  </header>
+
+  <div class="article-meta">
+    <div class="article-datetime">
+  <a href="/2016/12/18/l-ADN-une-nouvelle-source-de-stockage-de-donnees-durable/" class="article-date"><time datetime="2016-12-18T17:18:59.000Z" itemprop="datePublished">18/12/2016</time></a>
+</div>
+
+    
+    
+
+  </div>
+  <div class="article-inner">
+
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>Les sources de stockage actuelles sont paradoxalement moins durables plus le temps avance. Par exemple une écriture gravée sur la pierre se conserve en moyenne 10.000 ans, une écriture sur parchemin se conserve 1.000 ans. Un DVD conserve les données au maximum une dizaine d’années. Un disque dur est rarement garanti par le fabricant plus de 5 années, tant il est fragile.</p>
+<p>La solution pour un stockage durable de l’information serait la réplication multiple. Dès qu’un support de stockage atteint la fin de sa vie, on copie la données sur un support similaire. Cette solution est écologiquement problématique. C’est sans compté sur les erreurs de copies qui peuvent compromettre les informations stockées.</p>
+<p>Je suis passé par hasard sur un papier de recherche sur le stockage de l’information sur le support ADN ! Incroyable me suis-je dit. Essayons de comprendre le mécanisme…</p>
+<p>Pour les curieux voici le papier : (<a href="https://www.ncbi.nlm.nih.gov/pmc/articles/PMC3672958/" target="_blank" rel="external">https://www.ncbi.nlm.nih.gov/pmc/articles/PMC3672958/</a>). Publié dans <strong>Nature</strong> en 2013.</p>
+<h2 id="Avantages-du-stockage-de-l’information-sur-les-brins-d’ADN"><a href="#Avantages-du-stockage-de-l’information-sur-les-brins-d’ADN" class="headerlink" title="Avantages du stockage de l’information sur les brins d’ADN"></a>Avantages du stockage de l’information sur les brins d’ADN</h2><ul>
+<li>La capacité de stockage est très importante, on peut stocker sur un volume très faible un volume important de données</li>
+<li>Les brins d’ADN peuvent se conserver longtemps.</li>
+</ul>
+<h2 id="Methodes-de-transcription-de-l’information"><a href="#Methodes-de-transcription-de-l’information" class="headerlink" title="Méthodes de transcription de l’information."></a>Méthodes de transcription de l’information.</h2><p>Les résultats de l’équipe de recherche sont très intéressant puisqu’ils ont réussi à encoder 739kB de données dans un brin d’ADN synthétique puis ont réussi à redrécrypter les fragements de data sans aucune erreur ni compromission.</p>
+<h3 id="Etape-1-Encodage-de-la-donnees-en-Base-3-Huffman"><a href="#Etape-1-Encodage-de-la-donnees-en-Base-3-Huffman" class="headerlink" title="Etape 1 : Encodage de la données en Base 3 Huffman"></a>Etape 1 : Encodage de la données en Base 3 Huffman</h3><p>Le codage de Huffman part du principe que plus un aractère est utilisé moins son encodage sera large. Les caractères les plus utilisés de la source de données tiendront donc moins de place ! C’est un avantage très intéressant pour stocker de large volume de textes.</p>
+<p>Dans le cadre de l’expérimentation chaque byte est encodé avec 5 ou 6 caractères base 3 (appelés <code>trits</code>).</p>
+<p>Les trits peuvent être égaux à 0,1 ou 2.</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// Chaine originale</span></div><div class="line"><span class="string">"Thou"</span></div><div class="line"><span class="comment">// Base-3 Huffman</span></div><div class="line"><span class="string">"20112202000211010002"</span></div></pre></td></tr></table></figure>
+<p>Ainsi <code>T</code> est encodé sous la forme <code>20112</code> , <code>h</code> sous la forme <code>20200</code></p>
+<h2 id="Etape-2-conversion-des-trits-en-nucleotides"><a href="#Etape-2-conversion-des-trits-en-nucleotides" class="headerlink" title="Etape 2 : conversion des trits en nucleotides"></a>Etape 2 : conversion des <code>trits</code> en <code>nucleotides</code></h2><p>Chaque lettre est donc convertie en <code>trits</code>. On va ensuite prendre chaque <code>trit</code>est le traduire par un nucléotide.</p>
+<p>Les <code>nucléotides</code> sont l’unité de base de la contruction de l’ADN. Il existe 4 nucléotides différents :  l’adénine (A), la guanine (G), la thymine (T) et la cytosine (C).</p>
+<p>On va donc remplacer chaque trit par un nucléotide différent de celui qui le précède si il y a répétition.</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// Chaine originale</span></div><div class="line"><span class="string">"T"</span></div><div class="line"><span class="comment">// Base-3 Huffman</span></div><div class="line"><span class="string">"20112"</span></div><div class="line"><span class="comment">// ADN</span></div><div class="line"><span class="string">"TAGAT"</span></div></pre></td></tr></table></figure>
+<p>On souhaite en effet éviter les répétitions de nucléotides. pour éviter de former ce que l’on nomme en chimie des <code>homopolymères</code>.</p>
+<h2 id="Etape-3-Generation-des-fragments-d’ADN-avec-overlap"><a href="#Etape-3-Generation-des-fragments-d’ADN-avec-overlap" class="headerlink" title="Etape 3 : Génération des fragments d’ADN avec overlap."></a>Etape 3 : Génération des fragments d’ADN avec overlap.</h2><p>L’équipe a ensuite procédé à la génération de muliples fragments d’ADN contenant 100 bases chacun, avec un overlap de 75 bases à chaque fois.</p>
+<p>Cette méthode permettant d’avoir une donnée redondante pour éviter les pertes de données en cas de problèmes de conservation.</p>
+<p>Dans chaque fragment on ajoute des données d’indexation du fragment afin de savoir où ce dernier se situe dans la chaîne complète :</p>
+<p><img src="/images/dna.png" alt="Stockage ADN et indexing"></p>
+<h2 id="Perspectives"><a href="#Perspectives" class="headerlink" title="Perspectives :"></a>Perspectives :</h2><ul>
+<li>Le stockage reste encore très cher car il nécessite une équipe importante et du matériel haut de gamme…</li>
+<li>$12,400/MB pour le stockage et $220/MB pour le décodage !</li>
+<li>Les coûts toutefois sont ammenés à se réduire drastiquement (l’équipe envisage un rapport de 100 par rapport aux coûts actuels)</li>
+<li>Le volume de stockage est très important comparé à la taille du receptacle !</li>
+</ul>
+
+      
+    </div>
+
+    
+      
+
+    
+
+    <footer class="article-footer">
+      <a data-url="http://maximilienandile.github.io/2016/12/18/l-ADN-une-nouvelle-source-de-stockage-de-donnees-durable/" data-id="ciwuzpnmi000r8jknzugze4w3" class="article-share-link">
+        <i class="fa fa-share"></i> Share
+      </a>
+      
+        <a href="http://maximilienandile.github.io/2016/12/18/l-ADN-une-nouvelle-source-de-stockage-de-donnees-durable/#disqus_thread" class="article-comment-link">
+          <i class="fa fa-comment"></i> Comments
+        </a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Recherche/">Recherche</a></li></ul>
+
+
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
     <article id="post-Comment-creer-un-script-shell-permettant-de-recuperer-et-d-analyser-des-articles-wikipedia-avec-lynx" class="article article-type-post" itemscope itemprop="blogPost">
 
   <header class="article-header">
@@ -147,7 +232,7 @@ ga('send', 'pageview');
     
 
     <footer class="article-footer">
-      <a data-url="http://maximilienandile.github.io/2016/11/02/Comment-creer-un-script-shell-permettant-de-recuperer-et-d-analyser-des-articles-wikipedia-avec-lynx/" data-id="civ0u4vjv0001l0mi1vllpdk6" class="article-share-link">
+      <a data-url="http://maximilienandile.github.io/2016/11/02/Comment-creer-un-script-shell-permettant-de-recuperer-et-d-analyser-des-articles-wikipedia-avec-lynx/" data-id="ciwuzpnlq00028jknm6kvuy0o" class="article-share-link">
         <i class="fa fa-share"></i> Share
       </a>
       
@@ -254,7 +339,7 @@ ga('send', 'pageview');
     
 
     <footer class="article-footer">
-      <a data-url="http://maximilienandile.github.io/2016/10/17/Machine-Learning-classification-a-l-aide-des-arbres-de-decisions-fonctionnement-et-application-en-NodeJS/" data-id="civ0u4vk8000al0mimz2ojfuw" class="article-share-link">
+      <a data-url="http://maximilienandile.github.io/2016/10/17/Machine-Learning-classification-a-l-aide-des-arbres-de-decisions-fonctionnement-et-application-en-NodeJS/" data-id="ciwuzpnma000i8jkne2ezb16e" class="article-share-link">
         <i class="fa fa-share"></i> Share
       </a>
       
@@ -341,7 +426,7 @@ ga('send', 'pageview');
     
 
     <footer class="article-footer">
-      <a data-url="http://maximilienandile.github.io/2016/10/12/Base-de-donnees-comprendre-les-differences-entre-le-modele-relationnel-et-le-modele-multidimensionnel/" data-id="civ0u4vk9000dl0mimfhimwsb" class="article-share-link">
+      <a data-url="http://maximilienandile.github.io/2016/10/12/Base-de-donnees-comprendre-les-differences-entre-le-modele-relationnel-et-le-modele-multidimensionnel/" data-id="ciwuzpnlo00018jknenufk9es" class="article-share-link">
         <i class="fa fa-share"></i> Share
       </a>
       
@@ -414,7 +499,7 @@ ga('send', 'pageview');
     
 
     <footer class="article-footer">
-      <a data-url="http://maximilienandile.github.io/2016/10/01/Comment-installer-PHPUnit-sur-un-projet-necessitant-composer-et-utilisant-des-variables-d-environnement/" data-id="civ0u4vjx0002l0mipqxigaik" class="article-share-link">
+      <a data-url="http://maximilienandile.github.io/2016/10/01/Comment-installer-PHPUnit-sur-un-projet-necessitant-composer-et-utilisant-des-variables-d-environnement/" data-id="ciwuzpnlx00058jknjocrxe9m" class="article-share-link">
         <i class="fa fa-share"></i> Share
       </a>
       
@@ -564,7 +649,7 @@ ga('send', 'pageview');
     
 
     <footer class="article-footer">
-      <a data-url="http://maximilienandile.github.io/2016/09/30/Comprendre-les-headers-d-une-requete-HTTP/" data-id="civ0u4vkb000hl0mi76dczjr1" class="article-share-link">
+      <a data-url="http://maximilienandile.github.io/2016/09/30/Comprendre-les-headers-d-une-requete-HTTP/" data-id="ciwuzpnlz00068jkn4906nfoh" class="article-share-link">
         <i class="fa fa-share"></i> Share
       </a>
       
@@ -693,7 +778,7 @@ ga('send', 'pageview');
     
 
     <footer class="article-footer">
-      <a data-url="http://maximilienandile.github.io/2016/09/29/Machine-Learning-comment-fonctionne-la-classification-naive-Bayesienne/" data-id="civ0u4vkg000ll0mifwoiarkl" class="article-share-link">
+      <a data-url="http://maximilienandile.github.io/2016/09/29/Machine-Learning-comment-fonctionne-la-classification-naive-Bayesienne/" data-id="ciwuzpnmc000l8jknhw70p6ru" class="article-share-link">
         <i class="fa fa-share"></i> Share
       </a>
       
@@ -778,7 +863,7 @@ ga('send', 'pageview');
     
 
     <footer class="article-footer">
-      <a data-url="http://maximilienandile.github.io/2016/09/24/L-algorithme-des-K-voisins-les-plus-proches-et-son-implementation-en-Nodejs/" data-id="civ0u4vkd000jl0mih2ea7rr5" class="article-share-link">
+      <a data-url="http://maximilienandile.github.io/2016/09/24/L-algorithme-des-K-voisins-les-plus-proches-et-son-implementation-en-Nodejs/" data-id="ciwuzpnm6000e8jknotflyiy3" class="article-share-link">
         <i class="fa fa-share"></i> Share
       </a>
       
@@ -875,7 +960,7 @@ ga('send', 'pageview');
     
 
     <footer class="article-footer">
-      <a data-url="http://maximilienandile.github.io/2016/09/24/Pourquoi-utiliser-RAML-pour-designer-une-API-RESTful/" data-id="civ0u4vkk000ol0mikfncwhrd" class="article-share-link">
+      <a data-url="http://maximilienandile.github.io/2016/09/24/Pourquoi-utiliser-RAML-pour-designer-une-API-RESTful/" data-id="ciwuzpnmg000o8jkn2h2j3f95" class="article-share-link">
         <i class="fa fa-share"></i> Share
       </a>
       
@@ -979,7 +1064,7 @@ ga('send', 'pageview');
     
 
     <footer class="article-footer">
-      <a data-url="http://maximilienandile.github.io/2016/09/23/Comment-installer-PHPUnit-sur-macOs-sur-un-projet-PHP-existant-et-ecrire-un-test/" data-id="civ0u4vka000fl0mipkx78t2r" class="article-share-link">
+      <a data-url="http://maximilienandile.github.io/2016/09/23/Comment-installer-PHPUnit-sur-macOs-sur-un-projet-PHP-existant-et-ecrire-un-test/" data-id="ciwuzpnlv00048jknstq15u6l" class="article-share-link">
         <i class="fa fa-share"></i> Share
       </a>
       
@@ -989,95 +1074,6 @@ ga('send', 'pageview');
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/PHP-Tests-unitaires/">PHP ; Tests unitaires</a></li></ul>
-
-
-    </footer>
-  </div>
-  
-</article>
-
-
-
-  
-    <article id="post-Pourquoi-et-comment-creer-un-module-avec-nodejs" class="article article-type-post" itemscope itemprop="blogPost">
-
-  <header class="article-header">
-    
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2016/09/23/Pourquoi-et-comment-creer-un-module-avec-nodejs/">Pourquoi et comment créer des modules sur NodeJs</a>
-    </h1>
-  
-
-
-  </header>
-
-  <div class="article-meta">
-    <div class="article-datetime">
-  <a href="/2016/09/23/Pourquoi-et-comment-creer-un-module-avec-nodejs/" class="article-date"><time datetime="2016-09-22T22:34:20.000Z" itemprop="datePublished">23/09/2016</time></a>
-</div>
-
-    
-    
-
-  </div>
-  <div class="article-inner">
-
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h2 id="Qu’est-ce-qu’un-module"><a href="#Qu’est-ce-qu’un-module" class="headerlink" title="Qu’est ce qu’un module ?"></a>Qu’est ce qu’un module ?</h2><p>Un module est une partie d’un programme informatique développé par le programmeur afin d’effectuer une série de <strong>tâches</strong> précises. Chaque module contient en général plusieurs fonctionnalités. On croise aussi l’appellation <code>package</code> qui recouvre exactement la même notion : une brique de fonctionnalité que l’on peut utiliser et réutiliser dans n’importe quel projet.</p>
-<p>La notion de développement par module (ou modulaire) est née dans les années 1960 lors de l’émergence du paradigme de la <code>programmation orientée objet</code> et la création de langages plus structurés qui pouvait en faire l’usage.</p>
-<p>On pourrait imaginer <strong>par exemple</strong> un module dont le but serait d’envoyer un email de bienvenue à nos nouveaux inscrits. Ce dernier pourrait être utilisé à nouveau dans tous les programmes suivants que nous allons créer qui nécessiteront un email de bienvenue.</p>
-<p>Vous ne saisissez peut-être pas immédiatement l’intérêt de créer des modules sur nodejs, car lorsqu’on débute il est plus facile d’écrire directement le bout de code qui permet l’envoi de l’email de bienvenue directement après l’enregistrement du visiteur. Mais au rythme des développements on se fait souvent la réflexion que l’on a au final déjà écrit ce bout de code plusieurs fois… D’où l’intérêt de <strong>modulariser</strong> son développement.</p>
-<h2 id="Pourquoi-ecrire-des-modules"><a href="#Pourquoi-ecrire-des-modules" class="headerlink" title="Pourquoi écrire des modules"></a>Pourquoi écrire des modules</h2><p>Le développement modulaire permet de <strong>diviser</strong> un projet extrêmement complexe en micros brique fonctionnelles très simples rendant le travail du développeur moins titanesque et plus facilement quantifiable.</p>
-<p>Prenons un exemple : bâtir un site e-Commerce. Il s’agit d’un projet d’envergure mais au final le site e-Commerce n’est que l’addition de fonctionnalités simples : sauvegarde et mise à jour des produits dans une base de données, gestion de la connexion des utilisateurs, envoie des emails de confirmations… En pensant le projet de façon modulaire <strong>on peut aussi se servir dans l’incroyable bibliothèque open source disponible</strong>. En particulier sur Nodejs où les modules sont nombreux et tous regroupés au sein de npm. (<a href="https://www.npmjs.com/" target="_blank" rel="external">https://www.npmjs.com/</a>)</p>
-<p>Le développement par module permet aussi une <strong>meilleure couverture</strong> du code via des tests unitaires. Ce n’est probablement pas le focus de nombre de développeurs lors de l’initialisation d’un projet, mais plus le nombre de contributeurs augmentent et plus la base de code augmente plus chaque mise en production sans suite de <strong>tests unitaires</strong> assurera des sueurs froides à l’équipe.</p>
-<p>Le développement modulaire permet aussi de casser la fameuse <strong>loi de Brooks</strong>, qui assure qu’ajouter des développeurs à un projet subissant du retard ne fait qu’aggraver ce dernier. Mais pourquoi ça ? En raison du fait qu’un code modulaire est plus compréhensible et donc que les nouveaux arrivants sur le projet n’ont pas autant besoin de formations de leurs pairs pour être opérationnels.</p>
-<h2 id="Creer-son-propre-module-en-Nodejs"><a href="#Creer-son-propre-module-en-Nodejs" class="headerlink" title="Créer son propre module en Nodejs"></a>Créer son propre module en Nodejs</h2><ol>
-<li>Dans le dossier de votre programme <strong>créez un dossier que vous nommerez de la même manière que votre module</strong>.</li>
-</ol>
-<p>Concernant le nommage une règle est de mise : il est conseiller d’être le plus explicite possible et d’appeler son module suivant sa tâche principal. Nous allons ici écrire un module qui permettant de vérifier qu’une chaine de caractère est bien un email au bon format. Nous pouvons donc appeler notre module <code>email_checker</code> par exemple.</p>
-<ol>
-<li><p>Dans ce dossier vous allez créer un fichier nommé <code>index.js</code> qui va contenir le code de notre module.</p>
-</li>
-<li><p>Dans ce fichier <code>index.js</code>, localisé dans <code>/mon_projet/email_checker/index.js</code> nous allons définir une fonctionnalité (ce sera donc une fonction) permettant d’effectuer notre tâche : vérifier si une chaine de caractère est bien un email.</p>
-</li>
-</ol>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//  fichier : index.js</span></div><div class="line"></div><div class="line"><span class="keyword">var</span> check_that_email= <span class="function"><span class="keyword">function</span>(<span class="params">email_to_check</span>)</span>&#123;</div><div class="line"></div><div class="line">  <span class="comment">// définition d'une expression régulière matchant les emails</span></div><div class="line">  <span class="keyword">var</span> regex = <span class="regexp">/^(([^&lt;&gt;()\[\]\\.,;:\s@"]+(\.[^&lt;&gt;()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]&#123;1,3&#125;\.[0-9]&#123;1,3&#125;\.[0-9]&#123;1,3&#125;\.[0-9]&#123;1,3&#125;])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]&#123;2,&#125;))$/</span>;</div><div class="line"></div><div class="line">  <span class="comment">// on retourne le test de notre chaine de caractère (email_to_check)</span></div><div class="line">    <span class="keyword">return</span> regex.test(email_to_check);</div><div class="line"></div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>Notez ici la construction étrage de notre module. Nous avons en fait défnit une variable nommée <code>check_that_email</code> qui contient une fonction.</p>
-<p>Cette syntaxe est très courante et il vaut mieux vous y faire, mais elle est troublantes je vous l’accorde. Reste qu’on peut bien mettre une fonction dans une variable !</p>
-<ol>
-<li>Il suffit maintenant d’exposer cette fonction afin de pouvoir l’utiliser dans notre programme. Pour cela nous allons utiliser la syntaxe d’exportation propre à nodejs.</li>
-</ol>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//  fichier : index.js</span></div><div class="line"><span class="comment">//</span></div><div class="line"><span class="comment">//....</span></div><div class="line"><span class="comment">//</span></div><div class="line"><span class="built_in">module</span>.exports = &#123;</div><div class="line">  <span class="attr">check_that_email</span>: check_that_email</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>Dans ce morceau de code nous exportons notre fonction <code>check_that_email</code> sous le nom externe <code>check_that_email</code> afin de pouvoir nous en servir par ailleurs.<br>On aurait pu l’appeler autrement :</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//  fichier : index.js</span></div><div class="line"><span class="comment">//</span></div><div class="line"><span class="comment">//....</span></div><div class="line"><span class="comment">//</span></div><div class="line"><span class="built_in">module</span>.exports = &#123;</div><div class="line">  <span class="attr">can_you_check_that_email_please</span>: check_that_email</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>Le nom public de cette fonction (ou méthode) sera maintenant <code>can_you_check_that_email_please</code> !</p>
-<p>Votre module est fini ! Bravo. Utilisons le maintenant.</p>
-<h2 id="Utilisation-de-notre-module"><a href="#Utilisation-de-notre-module" class="headerlink" title="Utilisation de notre module"></a>Utilisation de notre module</h2><p>Dans n’importe quel script de notre application nous pouvons appeler notre module ainsi :</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> email_checker = <span class="built_in">require</span>(<span class="string">"chemin/vers/le/dossier/email_checker"</span>);</div></pre></td></tr></table></figure>
-<p>Et nous pouvons appeler une méthode ainsi<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> result_of_email_checking = email_checker.check_that_email(<span class="string">"john.doe@gmail.com"</span>);</div></pre></td></tr></table></figure></p>
-<p>Easy !</p>
-
-      
-    </div>
-
-    
-      
-
-    
-
-    <footer class="article-footer">
-      <a data-url="http://maximilienandile.github.io/2016/09/23/Pourquoi-et-comment-creer-un-module-avec-nodejs/" data-id="civ0u4vkh000nl0mi4om5vqpv" class="article-share-link">
-        <i class="fa fa-share"></i> Share
-      </a>
-      
-        <a href="http://maximilienandile.github.io/2016/09/23/Pourquoi-et-comment-creer-un-module-avec-nodejs/#disqus_thread" class="article-comment-link">
-          <i class="fa fa-comment"></i> Comments
-        </a>
-      
-      
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/nodejs/">nodejs</a></li></ul>
 
 
     </footer>
@@ -1112,7 +1108,7 @@ ga('send', 'pageview');
   
   <div class="sidebar-module">
     <h4>Tags</h4>
-    <ul class="sidebar-module-list"><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/Business-Intelligence/">Business Intelligence</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/HTTP/">HTTP</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/Machine-Learning/">Machine Learning</a><span class="sidebar-module-list-count">2</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/NLP/">NLP</a><span class="sidebar-module-list-count">2</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/Natural-Language-Processing/">Natural Language Processing</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/Nodejs/">Nodejs</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/PHP/">PHP</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/PHP-Tests-unitaires/">PHP ; Tests unitaires</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/REST/">REST</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/SQL/">SQL</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/nodejs/">nodejs</a><span class="sidebar-module-list-count">1</span></li></ul>
+    <ul class="sidebar-module-list"><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/Business-Intelligence/">Business Intelligence</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/HTTP/">HTTP</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/Machine-Learning/">Machine Learning</a><span class="sidebar-module-list-count">2</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/NLP/">NLP</a><span class="sidebar-module-list-count">2</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/Natural-Language-Processing/">Natural Language Processing</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/Nodejs/">Nodejs</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/PHP/">PHP</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/PHP-Tests-unitaires/">PHP ; Tests unitaires</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/REST/">REST</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/Recherche/">Recherche</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/SQL/">SQL</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/nodejs/">nodejs</a><span class="sidebar-module-list-count">1</span></li></ul>
   </div>
 
 
@@ -1121,7 +1117,7 @@ ga('send', 'pageview');
   <div class="sidebar-module">
     <h4>Tag Cloud</h4>
     <p class="tagcloud">
-      <a href="/tags/Business-Intelligence/" style="font-size: 10px;">Business Intelligence</a> <a href="/tags/HTTP/" style="font-size: 10px;">HTTP</a> <a href="/tags/Machine-Learning/" style="font-size: 20px;">Machine Learning</a> <a href="/tags/NLP/" style="font-size: 20px;">NLP</a> <a href="/tags/Natural-Language-Processing/" style="font-size: 10px;">Natural Language Processing</a> <a href="/tags/Nodejs/" style="font-size: 10px;">Nodejs</a> <a href="/tags/PHP/" style="font-size: 10px;">PHP</a> <a href="/tags/PHP-Tests-unitaires/" style="font-size: 10px;">PHP ; Tests unitaires</a> <a href="/tags/REST/" style="font-size: 10px;">REST</a> <a href="/tags/SQL/" style="font-size: 10px;">SQL</a> <a href="/tags/nodejs/" style="font-size: 10px;">nodejs</a>
+      <a href="/tags/Business-Intelligence/" style="font-size: 10px;">Business Intelligence</a> <a href="/tags/HTTP/" style="font-size: 10px;">HTTP</a> <a href="/tags/Machine-Learning/" style="font-size: 20px;">Machine Learning</a> <a href="/tags/NLP/" style="font-size: 20px;">NLP</a> <a href="/tags/Natural-Language-Processing/" style="font-size: 10px;">Natural Language Processing</a> <a href="/tags/Nodejs/" style="font-size: 10px;">Nodejs</a> <a href="/tags/PHP/" style="font-size: 10px;">PHP</a> <a href="/tags/PHP-Tests-unitaires/" style="font-size: 10px;">PHP ; Tests unitaires</a> <a href="/tags/REST/" style="font-size: 10px;">REST</a> <a href="/tags/Recherche/" style="font-size: 10px;">Recherche</a> <a href="/tags/SQL/" style="font-size: 10px;">SQL</a> <a href="/tags/nodejs/" style="font-size: 10px;">nodejs</a>
     </p>
   </div>
 
@@ -1129,7 +1125,7 @@ ga('send', 'pageview');
   
   <div class="sidebar-module">
     <h4>Archives</h4>
-    <ul class="sidebar-module-list"><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2016/11/">novembre 2016</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2016/10/">octobre 2016</a><span class="sidebar-module-list-count">3</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2016/09/">septembre 2016</a><span class="sidebar-module-list-count">6</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2016/06/">juin 2016</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2016/05/">mai 2016</a><span class="sidebar-module-list-count">3</span></li></ul>
+    <ul class="sidebar-module-list"><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2016/12/">décembre 2016</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2016/11/">novembre 2016</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2016/10/">octobre 2016</a><span class="sidebar-module-list-count">3</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2016/09/">septembre 2016</a><span class="sidebar-module-list-count">6</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2016/06/">juin 2016</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2016/05/">mai 2016</a><span class="sidebar-module-list-count">3</span></li></ul>
   </div>
 
 
@@ -1138,6 +1134,10 @@ ga('send', 'pageview');
   <div class="sidebar-module">
     <h4>Recents</h4>
     <ul class="sidebar-module-list">
+      
+        <li>
+          <a href="/2016/12/18/l-ADN-une-nouvelle-source-de-stockage-de-donnees-durable/">ADN : une nouvelle source de stockage de données durable</a>
+        </li>
       
         <li>
           <a href="/2016/11/02/Comment-creer-un-script-shell-permettant-de-recuperer-et-d-analyser-des-articles-wikipedia-avec-lynx/">Comment créer un script shell permettant de récupérer et d&#39;analyser des articles wikipedia avec lynx</a>
@@ -1153,10 +1153,6 @@ ga('send', 'pageview');
       
         <li>
           <a href="/2016/10/01/Comment-installer-PHPUnit-sur-un-projet-necessitant-composer-et-utilisant-des-variables-d-environnement/">Comment installer PHPUnit sur un projet nécessitant composer et utilisant des variables d&#39;environnement</a>
-        </li>
-      
-        <li>
-          <a href="/2016/09/30/Comprendre-les-headers-d-une-requete-HTTP/">Comprendre les headers d&#39;une requête HTTP</a>
         </li>
       
     </ul>
