@@ -3,18 +3,19 @@
 <head>
   <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="utf-8">
   
-  <title>Tag: REST | M@XCode</title>
+  <title>Comment utiliser map et reduce en Javascript | M@XCode</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   <meta name="google-site-verification" content="zhe_jVE6TPFbrQb7K-ra2FFxgiDsn6ZeFoKSz9EXmGk" />
-  <meta name="description" content="Blog dédié au partage du savoir informatique">
-<meta property="og:type" content="website">
-<meta property="og:title" content="M@XCode">
-<meta property="og:url" content="http://maximilienandile.github.io/tags/REST/index.html">
+  <meta name="description" content="Map et Reduce sont deux méthodes qui sont apparues dans le cadre de ES5. Ces méthodes sont utilisables sur les tableaux (Array). Ces deux méthodes proviennent de la programmation fonctionnelle. Cette">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Comment utiliser map et reduce en Javascript">
+<meta property="og:url" content="http://maximilienandile.github.io/2016/12/19/Comment-utiliser-map-et-reduce-en-Javascript/index.html">
 <meta property="og:site_name" content="M@XCode">
-<meta property="og:description" content="Blog dédié au partage du savoir informatique">
+<meta property="og:description" content="Map et Reduce sont deux méthodes qui sont apparues dans le cadre de ES5. Ces méthodes sont utilisables sur les tableaux (Array). Ces deux méthodes proviennent de la programmation fonctionnelle. Cette">
+<meta property="og:updated_time" content="2016-12-19T15:02:08.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="M@XCode">
-<meta name="twitter:description" content="Blog dédié au partage du savoir informatique">
+<meta name="twitter:title" content="Comment utiliser map et reduce en Javascript">
+<meta name="twitter:description" content="Map et Reduce sont deux méthodes qui sont apparues dans le cadre de ES5. Ces méthodes sont utilisables sur les tableaux (Array). Ces deux méthodes proviennent de la programmation fonctionnelle. Cette">
   
     <link rel="alternate" href="/atom.xml" title="M@XCode" type="application/atom+xml">
   
@@ -90,41 +91,113 @@ ga('send', 'pageview');
 
     <div class="row">
         <div class="col-sm-8 blog-main">
-          
-  
-  
-    
-    
-      
-      
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2016" class="archive-year">2016</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <header class="archive-article-header">
+          <article id="post-Comment-utiliser-map-et-reduce-en-Javascript" class="article article-type-post" itemscope itemprop="blogPost">
+
+  <header class="article-header">
     
   
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2016/09/24/Pourquoi-utiliser-RAML-pour-designer-une-API-RESTful/">Pourquoi utiliser RAML pour designer une API RESTful</a>
+    <h1 class="article-title" itemprop="name">
+      Comment utiliser map et reduce en Javascript
     </h1>
   
 
 
+  </header>
+
+  <div class="article-meta">
     <div class="article-datetime">
-  <a href="/2016/09/24/Pourquoi-utiliser-RAML-pour-designer-une-API-RESTful/" class="archive-article-date"><time datetime="2016-09-24T08:39:00.000Z" itemprop="datePublished">septembre 24</time></a>
+  <a href="/2016/12/19/Comment-utiliser-map-et-reduce-en-Javascript/" class="article-date"><time datetime="2016-12-19T14:40:00.000Z" itemprop="datePublished">19/12/2016</time></a>
 </div>
 
-  </header>
+    
+    
+
+  </div>
+  <div class="article-inner">
+
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p><code>Map</code> et <code>Reduce</code> sont deux méthodes qui sont apparues dans le cadre de ES5. Ces méthodes sont utilisables sur les tableaux (<code>Array</code>). Ces deux méthodes proviennent de la programmation fonctionnelle. Cette dernière m’étant encore assez obscure j’ai pour projet d’écrire un article plus détaillé.</p>
+<h2 id="Map-transformer-des-tableaux-en-d’autres-tableaux-transformes"><a href="#Map-transformer-des-tableaux-en-d’autres-tableaux-transformes" class="headerlink" title="Map transformer des tableaux en d’autres tableaux transformés"></a><code>Map</code> transformer des tableaux en d’autres tableaux <code>transformés</code></h2><p>L’objectif de map est d’<strong>itérer sur tous les éléments d’un tableau et de produire un autre tableaux avec un contenu transformé</strong></p>
+<p>On peut par exemple imaginer un tableau de prénoms :<br><figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// tableau (A)</span></div><div class="line"><span class="keyword">var</span> prenoms = [<span class="string">"Joe"</span>,<span class="string">"Patrick"</span>,<span class="string">"Thierry"</span>];</div></pre></td></tr></table></figure></p>
+<p>On peut imaginer une transformation simple sur ce tableau : générer un tableau contenant les premières lettres de chaque élément.</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> initials = prenoms.map(<span class="function"><span class="keyword">function</span>(<span class="params">prenom</span>)</span>&#123;<span class="keyword">return</span> prenom.charAt(<span class="number">0</span>);&#125;)</div></pre></td></tr></table></figure>
+<p>Ici :</p>
+<ul>
+<li>On utilise la méthode <code>map</code> sur notre array <code>prenoms</code></li>
+<li>La méthode <code>map</code> prends en entrée une fonction avec un seul paramètre qui contiendra un prénom de notre tableau <code>prenoms</code>(A)</li>
+<li>Cette fonction doit retourner ce que l’on souhaite insérer dans notre nouveau tableau (B)</li>
+</ul>
+<h2 id="Reduce-iterer-sur-un-array-pour-produire-un-seul-et-unique-resultat"><a href="#Reduce-iterer-sur-un-array-pour-produire-un-seul-et-unique-resultat" class="headerlink" title="Reduce : itérer sur un array pour produire un seul et unique résultat"></a><code>Reduce</code> : itérer sur un array pour produire un seul et unique résultat</h2><p><code>Reduce</code> permet aussi d’itérer sur un <code>array</code> en revanche au lieu de produire systématiquement un tableau transformé, elle va renvoyer un unique résultat (qui peut être d’un autre type que l’Array…)</p>
+<p>Nous allons prendre le même exemple. Nous partons d’un array de prénoms :</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// tableau (A)</span></div><div class="line"><span class="keyword">var</span> prenoms = [<span class="string">"Joe"</span>,<span class="string">"Pat"</span>,<span class="string">"Max"</span>];</div></pre></td></tr></table></figure>
+<p>Notre objectif est de récupérer le nombre total de lettres de nos prénoms.</p>
+<p>Vous me pardonnerez la stupidité de l’exemple.</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> total_number_of_letters = prenoms.reduce(<span class="function"><span class="keyword">function</span>(<span class="params">somme,prenom</span>)</span>&#123;</div><div class="line">  <span class="keyword">return</span> somme + length;</div><div class="line">&#125;,<span class="number">0</span>);</div></pre></td></tr></table></figure>
+<p>Ici :</p>
+<ul>
+<li>On applique la méthode <code>reduce</code> à l’array <code>prenoms</code>.</li>
+<li>Cette méthode prends deux paramètres :</li>
+</ul>
+<ol>
+<li>Une fonction (un itérateur)</li>
+<li>La valeur d’initialisation du résultat renvoyé. Ici on initialise à <code>0</code>, car on veut la somme</li>
+</ol>
+<p>La fonction, premier paramètre de la méthode <code>reduce</code> prends elle même deux paramètres :</p>
+<ul>
+<li>La “valeur de retour de la réduction”. =&gt; ici la <code>somme</code></li>
+<li>L’élément qui sera traité à chaque itération <code>prenom</code></li>
+</ul>
+<p>Nous partons donc ici d’un tableau et nous générons un entier représentant le nombre total de caractère de nos prénoms.</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> total_number_of_letters = prenoms.reduce(<span class="function"><span class="keyword">function</span>(<span class="params">somme,prenom</span>)</span>&#123;</div><div class="line">  <span class="keyword">return</span> somme + length;</div><div class="line">&#125;,<span class="number">0</span>);</div><div class="line"></div><div class="line"><span class="built_in">console</span>.log(total_number_of_letters);</div><div class="line"><span class="comment">// Affiche :  9 !</span></div></pre></td></tr></table></figure>
+
+      
+    </div>
+
+    
+      
+
+    
+
+    <footer class="article-footer">
+      <a data-url="http://maximilienandile.github.io/2016/12/19/Comment-utiliser-map-et-reduce-en-Javascript/" data-id="ciww7n2f30006v7miga46wr1k" class="article-share-link">
+        <i class="fa fa-share"></i> Share
+      </a>
+      
+        <a href="http://maximilienandile.github.io/2016/12/19/Comment-utiliser-map-et-reduce-en-Javascript/#disqus_thread" class="article-comment-link">
+          <i class="fa fa-comment"></i> Comments
+        </a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Javascript/">Javascript</a></li></ul>
+
+
+    </footer>
+  </div>
+  
+    
+<ul id="article-nav" class="nav nav-pills nav-justified">
+  
+  <li role="presentation">
+    <a href="/2016/12/18/ES6-les-principales-features-a-connaitre/" id="article-nav-older" class="article-nav-link-wrap">
+      <i class="fa fa-chevron-left pull-left"></i>
+      <span class="article-nav-link-title">ES6 : les principales features à connaître</span>
+    </a>
+  </li>
+  
+  
+</ul>
+
+
+  
 </article>
 
-  
-  
-    </div></section>
-  
 
+<section id="comments">
+  <div id="disqus_thread">
+    <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+  </div>
+</section>
 
 
 
@@ -212,11 +285,13 @@ ga('send', 'pageview');
 <script>
   var disqus_shortname = 'maximilienandile';
   
+  var disqus_url = 'http://maximilienandile.github.io/2016/12/19/Comment-utiliser-map-et-reduce-en-Javascript/';
+  
   (function(){
     var dsq = document.createElement('script');
     dsq.type = 'text/javascript';
     dsq.async = true;
-    dsq.src = '//' + disqus_shortname + '.disqus.com/count.js';
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
     (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
   })();
 </script>

@@ -92,6 +92,95 @@ ga('send', 'pageview');
         <div class="col-sm-8 blog-main">
           
   
+    <article id="post-Comment-utiliser-map-et-reduce-en-Javascript" class="article article-type-post" itemscope itemprop="blogPost">
+
+  <header class="article-header">
+    
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/12/19/Comment-utiliser-map-et-reduce-en-Javascript/">Comment utiliser map et reduce en Javascript</a>
+    </h1>
+  
+
+
+  </header>
+
+  <div class="article-meta">
+    <div class="article-datetime">
+  <a href="/2016/12/19/Comment-utiliser-map-et-reduce-en-Javascript/" class="article-date"><time datetime="2016-12-19T14:40:00.000Z" itemprop="datePublished">19/12/2016</time></a>
+</div>
+
+    
+    
+
+  </div>
+  <div class="article-inner">
+
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p><code>Map</code> et <code>Reduce</code> sont deux méthodes qui sont apparues dans le cadre de ES5. Ces méthodes sont utilisables sur les tableaux (<code>Array</code>). Ces deux méthodes proviennent de la programmation fonctionnelle. Cette dernière m’étant encore assez obscure j’ai pour projet d’écrire un article plus détaillé.</p>
+<h2 id="Map-transformer-des-tableaux-en-d’autres-tableaux-transformes"><a href="#Map-transformer-des-tableaux-en-d’autres-tableaux-transformes" class="headerlink" title="Map transformer des tableaux en d’autres tableaux transformés"></a><code>Map</code> transformer des tableaux en d’autres tableaux <code>transformés</code></h2><p>L’objectif de map est d’<strong>itérer sur tous les éléments d’un tableau et de produire un autre tableaux avec un contenu transformé</strong></p>
+<p>On peut par exemple imaginer un tableau de prénoms :<br><figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// tableau (A)</span></div><div class="line"><span class="keyword">var</span> prenoms = [<span class="string">"Joe"</span>,<span class="string">"Patrick"</span>,<span class="string">"Thierry"</span>];</div></pre></td></tr></table></figure></p>
+<p>On peut imaginer une transformation simple sur ce tableau : générer un tableau contenant les premières lettres de chaque élément.</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> initials = prenoms.map(<span class="function"><span class="keyword">function</span>(<span class="params">prenom</span>)</span>&#123;<span class="keyword">return</span> prenom.charAt(<span class="number">0</span>);&#125;)</div></pre></td></tr></table></figure>
+<p>Ici :</p>
+<ul>
+<li>On utilise la méthode <code>map</code> sur notre array <code>prenoms</code></li>
+<li>La méthode <code>map</code> prends en entrée une fonction avec un seul paramètre qui contiendra un prénom de notre tableau <code>prenoms</code>(A)</li>
+<li>Cette fonction doit retourner ce que l’on souhaite insérer dans notre nouveau tableau (B)</li>
+</ul>
+<h2 id="Reduce-iterer-sur-un-array-pour-produire-un-seul-et-unique-resultat"><a href="#Reduce-iterer-sur-un-array-pour-produire-un-seul-et-unique-resultat" class="headerlink" title="Reduce : itérer sur un array pour produire un seul et unique résultat"></a><code>Reduce</code> : itérer sur un array pour produire un seul et unique résultat</h2><p><code>Reduce</code> permet aussi d’itérer sur un <code>array</code> en revanche au lieu de produire systématiquement un tableau transformé, elle va renvoyer un unique résultat (qui peut être d’un autre type que l’Array…)</p>
+<p>Nous allons prendre le même exemple. Nous partons d’un array de prénoms :</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// tableau (A)</span></div><div class="line"><span class="keyword">var</span> prenoms = [<span class="string">"Joe"</span>,<span class="string">"Pat"</span>,<span class="string">"Max"</span>];</div></pre></td></tr></table></figure>
+<p>Notre objectif est de récupérer le nombre total de lettres de nos prénoms.</p>
+<p>Vous me pardonnerez la stupidité de l’exemple.</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> total_number_of_letters = prenoms.reduce(<span class="function"><span class="keyword">function</span>(<span class="params">somme,prenom</span>)</span>&#123;</div><div class="line">  <span class="keyword">return</span> somme + length;</div><div class="line">&#125;,<span class="number">0</span>);</div></pre></td></tr></table></figure>
+<p>Ici :</p>
+<ul>
+<li>On applique la méthode <code>reduce</code> à l’array <code>prenoms</code>.</li>
+<li>Cette méthode prends deux paramètres :</li>
+</ul>
+<ol>
+<li>Une fonction (un itérateur)</li>
+<li>La valeur d’initialisation du résultat renvoyé. Ici on initialise à <code>0</code>, car on veut la somme</li>
+</ol>
+<p>La fonction, premier paramètre de la méthode <code>reduce</code> prends elle même deux paramètres :</p>
+<ul>
+<li>La “valeur de retour de la réduction”. =&gt; ici la <code>somme</code></li>
+<li>L’élément qui sera traité à chaque itération <code>prenom</code></li>
+</ul>
+<p>Nous partons donc ici d’un tableau et nous générons un entier représentant le nombre total de caractère de nos prénoms.</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> total_number_of_letters = prenoms.reduce(<span class="function"><span class="keyword">function</span>(<span class="params">somme,prenom</span>)</span>&#123;</div><div class="line">  <span class="keyword">return</span> somme + length;</div><div class="line">&#125;,<span class="number">0</span>);</div><div class="line"></div><div class="line"><span class="built_in">console</span>.log(total_number_of_letters);</div><div class="line"><span class="comment">// Affiche :  9 !</span></div></pre></td></tr></table></figure>
+
+      
+    </div>
+
+    
+      
+
+    
+
+    <footer class="article-footer">
+      <a data-url="http://maximilienandile.github.io/2016/12/19/Comment-utiliser-map-et-reduce-en-Javascript/" data-id="ciww7n2f30006v7miga46wr1k" class="article-share-link">
+        <i class="fa fa-share"></i> Share
+      </a>
+      
+        <a href="http://maximilienandile.github.io/2016/12/19/Comment-utiliser-map-et-reduce-en-Javascript/#disqus_thread" class="article-comment-link">
+          <i class="fa fa-comment"></i> Comments
+        </a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Javascript/">Javascript</a></li></ul>
+
+
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
     <article id="post-ES6-les-principales-features-a-connaitre" class="article article-type-post" itemscope itemprop="blogPost">
 
   <header class="article-header">
@@ -186,7 +275,7 @@ ga('send', 'pageview');
     
 
     <footer class="article-footer">
-      <a data-url="http://maximilienandile.github.io/2016/12/18/ES6-les-principales-features-a-connaitre/" data-id="ciwvx0kzp0009iykngz00z40o" class="article-share-link">
+      <a data-url="http://maximilienandile.github.io/2016/12/18/ES6-les-principales-features-a-connaitre/" data-id="ciww7n2f80009v7mi9w5j43xx" class="article-share-link">
         <i class="fa fa-share"></i> Share
       </a>
       
@@ -271,7 +360,7 @@ ga('send', 'pageview');
     
 
     <footer class="article-footer">
-      <a data-url="http://maximilienandile.github.io/2016/12/18/l-ADN-une-nouvelle-source-de-stockage-de-donnees-durable/" data-id="ciwvx0l03000siykn4y0wpqqr" class="article-share-link">
+      <a data-url="http://maximilienandile.github.io/2016/12/18/l-ADN-une-nouvelle-source-de-stockage-de-donnees-durable/" data-id="ciww7n2g5001av7mil151hkc1" class="article-share-link">
         <i class="fa fa-share"></i> Share
       </a>
       
@@ -346,7 +435,7 @@ ga('send', 'pageview');
     
 
     <footer class="article-footer">
-      <a data-url="http://maximilienandile.github.io/2016/11/02/Comment-creer-un-script-shell-permettant-de-recuperer-et-d-analyser-des-articles-wikipedia-avec-lynx/" data-id="ciwvx0kzj0004iykns0ffjh7f" class="article-share-link">
+      <a data-url="http://maximilienandile.github.io/2016/11/02/Comment-creer-un-script-shell-permettant-de-recuperer-et-d-analyser-des-articles-wikipedia-avec-lynx/" data-id="ciww7n2f00004v7mikvks612v" class="article-share-link">
         <i class="fa fa-share"></i> Share
       </a>
       
@@ -453,7 +542,7 @@ ga('send', 'pageview');
     
 
     <footer class="article-footer">
-      <a data-url="http://maximilienandile.github.io/2016/10/17/Machine-Learning-classification-a-l-aide-des-arbres-de-decisions-fonctionnement-et-application-en-NodeJS/" data-id="ciwvx0kzy000niyknqat3od63" class="article-share-link">
+      <a data-url="http://maximilienandile.github.io/2016/10/17/Machine-Learning-classification-a-l-aide-des-arbres-de-decisions-fonctionnement-et-application-en-NodeJS/" data-id="ciww7n2fq000sv7mir3iats0a" class="article-share-link">
         <i class="fa fa-share"></i> Share
       </a>
       
@@ -540,7 +629,7 @@ ga('send', 'pageview');
     
 
     <footer class="article-footer">
-      <a data-url="http://maximilienandile.github.io/2016/10/12/Base-de-donnees-comprendre-les-differences-entre-le-modele-relationnel-et-le-modele-multidimensionnel/" data-id="ciwvx0kzc0001iyknja0l572n" class="article-share-link">
+      <a data-url="http://maximilienandile.github.io/2016/10/12/Base-de-donnees-comprendre-les-differences-entre-le-modele-relationnel-et-le-modele-multidimensionnel/" data-id="ciww7n2ev0001v7miecy3io5m" class="article-share-link">
         <i class="fa fa-share"></i> Share
       </a>
       
@@ -613,7 +702,7 @@ ga('send', 'pageview');
     
 
     <footer class="article-footer">
-      <a data-url="http://maximilienandile.github.io/2016/10/01/Comment-installer-PHPUnit-sur-un-projet-necessitant-composer-et-utilisant-des-variables-d-environnement/" data-id="ciwvx0kzl0005iyknab3tt9xj" class="article-share-link">
+      <a data-url="http://maximilienandile.github.io/2016/10/01/Comment-installer-PHPUnit-sur-un-projet-necessitant-composer-et-utilisant-des-variables-d-environnement/" data-id="ciww7n2f20005v7mi7ks3rq92" class="article-share-link">
         <i class="fa fa-share"></i> Share
       </a>
       
@@ -763,7 +852,7 @@ ga('send', 'pageview');
     
 
     <footer class="article-footer">
-      <a data-url="http://maximilienandile.github.io/2016/09/30/Comprendre-les-headers-d-une-requete-HTTP/" data-id="ciwvx0kzm0006iyknsrng9vw5" class="article-share-link">
+      <a data-url="http://maximilienandile.github.io/2016/09/30/Comprendre-les-headers-d-une-requete-HTTP/" data-id="ciww7n2fp000rv7milewkiak8" class="article-share-link">
         <i class="fa fa-share"></i> Share
       </a>
       
@@ -892,7 +981,7 @@ ga('send', 'pageview');
     
 
     <footer class="article-footer">
-      <a data-url="http://maximilienandile.github.io/2016/09/29/Machine-Learning-comment-fonctionne-la-classification-naive-Bayesienne/" data-id="ciwvx0kzx000liyknn4ytesc0" class="article-share-link">
+      <a data-url="http://maximilienandile.github.io/2016/09/29/Machine-Learning-comment-fonctionne-la-classification-naive-Bayesienne/" data-id="ciww7n2fh000lv7mihlhtyvzz" class="article-share-link">
         <i class="fa fa-share"></i> Share
       </a>
       
@@ -977,7 +1066,7 @@ ga('send', 'pageview');
     
 
     <footer class="article-footer">
-      <a data-url="http://maximilienandile.github.io/2016/09/24/L-algorithme-des-K-voisins-les-plus-proches-et-son-implementation-en-Nodejs/" data-id="ciwvx0kzv000iiyknqo00wzsr" class="article-share-link">
+      <a data-url="http://maximilienandile.github.io/2016/09/24/L-algorithme-des-K-voisins-les-plus-proches-et-son-implementation-en-Nodejs/" data-id="ciww7n2fd000hv7mi52l0i9fo" class="article-share-link">
         <i class="fa fa-share"></i> Share
       </a>
       
@@ -987,103 +1076,6 @@ ga('send', 'pageview');
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Machine-Learning/">Machine Learning</a></li></ul>
-
-
-    </footer>
-  </div>
-  
-</article>
-
-
-
-  
-    <article id="post-Pourquoi-utiliser-RAML-pour-designer-une-API-RESTful" class="article article-type-post" itemscope itemprop="blogPost">
-
-  <header class="article-header">
-    
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2016/09/24/Pourquoi-utiliser-RAML-pour-designer-une-API-RESTful/">Pourquoi utiliser RAML pour designer une API RESTful</a>
-    </h1>
-  
-
-
-  </header>
-
-  <div class="article-meta">
-    <div class="article-datetime">
-  <a href="/2016/09/24/Pourquoi-utiliser-RAML-pour-designer-une-API-RESTful/" class="article-date"><time datetime="2016-09-24T08:39:00.000Z" itemprop="datePublished">24/09/2016</time></a>
-</div>
-
-    
-    
-
-  </div>
-  <div class="article-inner">
-
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h2 id="Qu’est-ce-qu’un-API"><a href="#Qu’est-ce-qu’un-API" class="headerlink" title="Qu’est ce qu’un API"></a>Qu’est ce qu’un API</h2><p>On a souvent tendance à limiter l’API aux applications web, mais ces dernières sont définies et utilisées au sein de presque tous les langages, applications elles supportent même la programmation et le design d’interface pour le hardware.</p>
-<p>API signifie “Application programming interface”, littéralement il s’agit d’une boite à outils contenants l’ensemble du matériel nécessaire pour bâtir un logiciel. Il s’agit de l’ensemble des blocs de construction permettant aux développeurs de bâtir un nouveau logiciel sur une base existante, cette base existante de fonctionnalités étant mise à la disposition du développeur <strong>via</strong> l’API.</p>
-<p>Les API sont <strong>protéiformes</strong>, elles sont mises à disposition par les langages de programmation. Par exemple NodeJS fournit au développeur un <strong>ensemble de méthodes et de fonctions pré codées lui permettant de bâtir des programmes sans avoir à réinventer la roue à chaque reprise</strong>.</p>
-<p>Prenons l’exemple simple d’un programme que nous souhaiterions construire dont l’unique but est d’ouvrir un fichier sur le disque et d’afficher son contenu. Afin d’utiliser l’API de Nodejs nous allons donc regarder sa documentation et chercher l’outil nous permettant d’ouvrir un fichier et de le lire. Nous trouvons la documentation de cette api sur cette page <a href="https://nodejs.org/api/fs.html" target="_blank" rel="external">https://nodejs.org/api/fs.html</a>.</p>
-<p><img src="img/example_presentation_api_nodejs.png" alt="Example de la documentation de l&#39;API de NOdejs"></p>
-<p>Au passage, nous abordons ici un point fondamental, la documentation. Une bonne API est bien <strong>documentée</strong> afin de permettre au développeur de bâtir avec rapidité.</p>
-<h2 id="Les-API-Web"><a href="#Les-API-Web" class="headerlink" title="Les API Web"></a>Les API Web</h2><p>Nous avons abordé les API fournies par les langages de programmations et les programmes développés à partir de ces derniers mais ce qui va surtout nous intéresser dans cet article ce sont les API Web RESTful.</p>
-<p>Une API web est là aussi un ensemble de <strong>ressources</strong> mis à la disposition des développeurs par d’autres développeurs d’application.</p>
-<p>Dans la plupart des cas ou nous faisons usage des API Web il s’agit en effet de récupérer de la données d’autres applications. Par exemple nous pouvons utiliser l’API de Twitter pour récupérer l’ensemble des tweets d’un utilisateur. La <strong>récupération de données est usage mais pas le seul des API Web</strong>, Twitter ainsi mets à la disposition des développeurs des API d’authentification leur permettant de laisser gérer par Twitter l’authentification de leur site par Twitter ! C’est aussi le cas de Facebook par exemple avec le Facebook login button.</p>
-<p>La <strong>tendance est grande et stratégiquement intéressantes</strong> pour les entreprises de mettre à la disposition leurs données à d’autres entreprises afin que ces dernières créent de la valeur par leur biais. Valeur qui est ensuite récupéré soit directement par un paiement à l’appel (au <code>call</code>) ou indirectement par la croissance de données récupérées sur l’utilisateur final…</p>
-<h2 id="REST"><a href="#REST" class="headerlink" title="REST"></a>REST</h2><p> Derrière cette notion d’API Web on rajoute souvent le mot RESTful. Ce dernier terrorise pas mal de développeurs car il sous entend de nombreuses contraintes dans le développement d’une API. Au passage REST signifie (REpresentational State Transfer).</p>
-<p> REST est un style architectural pensé dans les années 60 par <strong>Roy Fielding</strong> dans sa thése de doctorat (plus précisément chapitre 5 :)<br> (Pour les curieux voici une traduction française : <a href="http://opikanoba.org/tr/fielding/rest/" target="_blank" rel="external">http://opikanoba.org/tr/fielding/rest/</a>).</p>
-<p> Il va donc s’agir pour le créateur de l’API (vous par exemple) de suivre scrupuleusement les principes architecturaux de Roy afin de pouvoir vous vanter d’avoir bâti une API RESTful. Ces principes étant forgés pour une bonne raison, elles assurent que votre API se comportera de manière identique pour 5 utilisateurs comme pour 5 millions (notion de scalabilité). Elle assurera aussi que votre API sera compréhensible par tous le monde car tous le monde utilise le même modèle, (pas forcément le même langage de programmation mais du moins le même mode de fonctionnement)</p>
-<p> Nous allons passer brièvement sur les contraintes (qui feront surement l’objet d’un autre article de ma part afin de creuser un peu plus le sujet)</p>
-<h2 id="Des-contraintes-architecturales-pensees-pour-notre-bien…"><a href="#Des-contraintes-architecturales-pensees-pour-notre-bien…" class="headerlink" title="Des contraintes architecturales pensées pour notre bien…"></a>Des contraintes architecturales pensées pour notre bien…</h2><p> <strong>Une API RESTFul: :</strong></p>
-<ol>
-<li><p><strong>Est sans états (Stateless)</strong> : lorsque vous appelez l’API a plusieurs reprises et vous faites la même demande l’API ne se souviendra pas de vos demandes précédentes car elle n’a pas de mémoire. On ne stocke pas d’informations entre les requêtes. Cette contraintes est directement lié au protocole HTTP qui lui même ne conserve pas d’états.</p>
-</li>
-<li><p><strong>A la possibilité de mettre en “cache” certaines informations.</strong> Par exemple imaginons qu’un nombre important de développeur utilise l’API Open Graph de Facebook pour retrouver le profil de Zuck. On peut parier que cette requête est faite de nombreuses reprises. Facebook (le producteur de l’API) va sans aucun doute <strong>mettre en mémoire la réponse</strong> à cette requête afin d’économiser le temps de recherche dans ces bases de données. La seule contrainte imposée au développeur RESTful est de préciser à l’utilisateur que l’information est en cache. (Afin de ne pas afficher à nos propres utilisateurs des informations non à jour, si jamais Zuck décide de divorcer par exemple)</p>
-</li>
-<li><p><strong>Doit et peut avoir un système composé de serveurs multiples ou l’information est répliqué</strong>. Facebook par exemple n’a pas qu’un seul serveur, mais dispose d’une armada de machines qui peuvent répondre à la même requête. Cette caractéristique couplée à la première permet d’avoir un système qui va <strong>monter en charge</strong> sans embûche, car si il y a un pic de demande on peut rajouter des serveurs à la volée dans le système.</p>
-</li>
-<li><p><strong>Une interface uniforme</strong> : cette contrainte est un peu plus difficile à comprendre car elle regroupe elle même 4 contraintes. Ce qu’il est important de retenir est que chaque ressource (données mise à disposition : par exemple le profil Facebook, la liste d’amis, la liste des likes…) est <strong>correctement identifiée</strong> dans les call que l’on va faire à l’API. Je zappe volontairement la contrainte de manipulation des ressources via leur représentation ainsi que la contrainte HATEOAS, traité dans un prochain article. Vient ensuite la notion des messages de retour de l’API. Ces derniers doivent être auto-descriptifs, c’est à dire que le développeur doit comprendre immédiatement ce que l’API revoit. Par exemple en cas d’erreur le développeur doit prévenir le client de son API de la cause de cette dernière.</p>
-<h2 id="Batir-une-API-RESTful"><a href="#Batir-une-API-RESTful" class="headerlink" title="Bâtir une API RESTful"></a>Bâtir une API RESTful</h2><p>Tout cela est bel et bon, mais comment donc bâtir avec ces contraintes ? Le défi est important si l’on ne part pas d’une base. Eh bien figurez vous que vous n’êtes pas seul à avoir embrassé la difficulté du REST car des Frameworks existent et permettent de démarrer très rapidement sans avoir à trop transpirer sur vos claviers.</p>
-<p>Le sauveur est nommé <strong>RAML</strong>. RAML (<strong>RESTful API Modeling Language</strong>) est un langage vous permettant de désigné une API très rapidement respectant les principes architecturaux de REST. RAML permet de respecter les contraintes tout en étant très facile à lire (il repose sur le langage YAML, format de présentation de données très facile à lire développé par <strong>Clark Evans</strong> en 2001).</p>
-<p>Sa facilité de lecture lui permet d’être compréhensible par l’ensemble de la communauté des développeurs. En fait une API grâce à RAML est définit dans un simple fichier. Dans ce dernier on peut voir immédiatement ce que cette dernière fait. Procédé ainsi permet d’avoir un système maintenable sur le long terme.</p>
-<blockquote>
-<p>Unfortunately, people are fairly good at short-term design, and usually awful at long-term design (Roy Fielding)</p>
-</blockquote>
-</li>
-</ol>
-<p>RAML permet d’avoir une rédaction de spécification claire précise efficace et maintenable sur le long terme même si les équipes évoluent. Il est fini le temps ou un seul élément détient le savoir sur le fonctionnement d’une machine.</p>
-<p>En guise d’introduction voici un exemple de fichier RAMML définissant une API simple :</p>
-<figure class="highlight yaml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div></pre></td><td class="code"><pre><div class="line"><span class="comment">#%RAML 0.8</span></div><div class="line"><span class="meta">---</span></div><div class="line"><span class="attr">title:</span> Facebook API</div><div class="line"><span class="attr">baseUri:</span> http://api.fbbbb.com/&#123;version&#125;</div><div class="line"><span class="attr">version:</span> v1</div><div class="line"></div><div class="line">/users:</div><div class="line">  /&#123;username&#125;</div><div class="line"><span class="attr">    get:</span></div><div class="line"><span class="attr">      queryParameters:</span></div><div class="line"><span class="attr">        first_name:</span></div><div class="line"><span class="attr">          displayName:</span> First Name</div><div class="line"><span class="attr">          type:</span> string</div><div class="line"><span class="attr">          description:</span> The First Name of an user</div><div class="line"><span class="attr">          example:</span> Joe</div><div class="line"><span class="attr">          required:</span> <span class="literal">false</span></div><div class="line"><span class="attr">        last_name:</span></div><div class="line"><span class="attr">          displayName:</span> Last Name</div><div class="line"><span class="attr">          type:</span> string</div><div class="line"><span class="attr">          description:</span> The Lasr Name of an user</div><div class="line"><span class="attr">          example:</span> Doe</div><div class="line"><span class="attr">          required:</span> <span class="literal">false</span></div><div class="line"><span class="attr">    put:</span></div><div class="line"><span class="attr">      queryParameters:</span></div><div class="line"><span class="attr">        access_token:</span></div><div class="line"><span class="attr">          displayName:</span> Access Token</div><div class="line"><span class="attr">          type:</span> string</div><div class="line"><span class="attr">          description:</span> Token giving you permission t put info</div><div class="line"><span class="attr">          required:</span> <span class="literal">true</span></div></pre></td></tr></table></figure>
-<p>Ce fichier RAML définit une API imaginaire de Facebook (qui existe bel et bien) permettant de <strong>retrouver des informations sur un utilisateur en particulier</strong> (son prenom et nom).</p>
-<p>Par exemple pour recevoir les informations concernant l’utilisateur “jonhdoe75” nous allons juste devoir faire un call sur l’URL suivant :<br> <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">http://api.fbbbb.com/v1/users/jonhdoe75</div></pre></td></tr></table></figure></p>
-<p> La seconde étape consiste à construire l’ensemble de la logic derrière cahque call. Cela peut être fait grâce à Sosprey avec NodeJS (<a href="http://www.raml.org/blogs/osprey-out" target="_blank" rel="external">http://www.raml.org/blogs/osprey-out</a>).</p>
-<p> Voici un article à lire pour finir :</p>
-<ul>
-<li><a href="https://github.com/raml-org/raml-tutorial/blob/master/tutorial.md" target="_blank" rel="external">https://github.com/raml-org/raml-tutorial/blob/master/tutorial.md</a><br>Il s’agit d’un bon tutorial pour commencer à écrire vos premiers fichiers RAML.</li>
-</ul>
-
-      
-    </div>
-
-    
-      
-
-    
-
-    <footer class="article-footer">
-      <a data-url="http://maximilienandile.github.io/2016/09/24/Pourquoi-utiliser-RAML-pour-designer-une-API-RESTful/" data-id="ciwvx0l02000riykn8ixhjdws" class="article-share-link">
-        <i class="fa fa-share"></i> Share
-      </a>
-      
-        <a href="http://maximilienandile.github.io/2016/09/24/Pourquoi-utiliser-RAML-pour-designer-une-API-RESTful/#disqus_thread" class="article-comment-link">
-          <i class="fa fa-comment"></i> Comments
-        </a>
-      
-      
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/REST/">REST</a></li></ul>
 
 
     </footer>
@@ -1118,7 +1110,7 @@ ga('send', 'pageview');
   
   <div class="sidebar-module">
     <h4>Tags</h4>
-    <ul class="sidebar-module-list"><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/Business-Intelligence/">Business Intelligence</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/HTTP/">HTTP</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/Javascript/">Javascript</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/Machine-Learning/">Machine Learning</a><span class="sidebar-module-list-count">2</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/NLP/">NLP</a><span class="sidebar-module-list-count">2</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/Natural-Language-Processing/">Natural Language Processing</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/Nodejs/">Nodejs</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/PHP/">PHP</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/PHP-Tests-unitaires/">PHP ; Tests unitaires</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/REST/">REST</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/Recherche/">Recherche</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/SQL/">SQL</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/nodejs/">nodejs</a><span class="sidebar-module-list-count">1</span></li></ul>
+    <ul class="sidebar-module-list"><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/Business-Intelligence/">Business Intelligence</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/HTTP/">HTTP</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/Javascript/">Javascript</a><span class="sidebar-module-list-count">2</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/Machine-Learning/">Machine Learning</a><span class="sidebar-module-list-count">2</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/NLP/">NLP</a><span class="sidebar-module-list-count">2</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/Natural-Language-Processing/">Natural Language Processing</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/Nodejs/">Nodejs</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/PHP/">PHP</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/PHP-Tests-unitaires/">PHP ; Tests unitaires</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/REST/">REST</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/Recherche/">Recherche</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/SQL/">SQL</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/nodejs/">nodejs</a><span class="sidebar-module-list-count">1</span></li></ul>
   </div>
 
 
@@ -1127,7 +1119,7 @@ ga('send', 'pageview');
   <div class="sidebar-module">
     <h4>Tag Cloud</h4>
     <p class="tagcloud">
-      <a href="/tags/Business-Intelligence/" style="font-size: 10px;">Business Intelligence</a> <a href="/tags/HTTP/" style="font-size: 10px;">HTTP</a> <a href="/tags/Javascript/" style="font-size: 10px;">Javascript</a> <a href="/tags/Machine-Learning/" style="font-size: 20px;">Machine Learning</a> <a href="/tags/NLP/" style="font-size: 20px;">NLP</a> <a href="/tags/Natural-Language-Processing/" style="font-size: 10px;">Natural Language Processing</a> <a href="/tags/Nodejs/" style="font-size: 10px;">Nodejs</a> <a href="/tags/PHP/" style="font-size: 10px;">PHP</a> <a href="/tags/PHP-Tests-unitaires/" style="font-size: 10px;">PHP ; Tests unitaires</a> <a href="/tags/REST/" style="font-size: 10px;">REST</a> <a href="/tags/Recherche/" style="font-size: 10px;">Recherche</a> <a href="/tags/SQL/" style="font-size: 10px;">SQL</a> <a href="/tags/nodejs/" style="font-size: 10px;">nodejs</a>
+      <a href="/tags/Business-Intelligence/" style="font-size: 10px;">Business Intelligence</a> <a href="/tags/HTTP/" style="font-size: 10px;">HTTP</a> <a href="/tags/Javascript/" style="font-size: 20px;">Javascript</a> <a href="/tags/Machine-Learning/" style="font-size: 20px;">Machine Learning</a> <a href="/tags/NLP/" style="font-size: 20px;">NLP</a> <a href="/tags/Natural-Language-Processing/" style="font-size: 10px;">Natural Language Processing</a> <a href="/tags/Nodejs/" style="font-size: 10px;">Nodejs</a> <a href="/tags/PHP/" style="font-size: 10px;">PHP</a> <a href="/tags/PHP-Tests-unitaires/" style="font-size: 10px;">PHP ; Tests unitaires</a> <a href="/tags/REST/" style="font-size: 10px;">REST</a> <a href="/tags/Recherche/" style="font-size: 10px;">Recherche</a> <a href="/tags/SQL/" style="font-size: 10px;">SQL</a> <a href="/tags/nodejs/" style="font-size: 10px;">nodejs</a>
     </p>
   </div>
 
@@ -1135,7 +1127,7 @@ ga('send', 'pageview');
   
   <div class="sidebar-module">
     <h4>Archives</h4>
-    <ul class="sidebar-module-list"><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2016/12/">décembre 2016</a><span class="sidebar-module-list-count">2</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2016/11/">novembre 2016</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2016/10/">octobre 2016</a><span class="sidebar-module-list-count">3</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2016/09/">septembre 2016</a><span class="sidebar-module-list-count">6</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2016/06/">juin 2016</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2016/05/">mai 2016</a><span class="sidebar-module-list-count">3</span></li></ul>
+    <ul class="sidebar-module-list"><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2016/12/">décembre 2016</a><span class="sidebar-module-list-count">3</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2016/11/">novembre 2016</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2016/10/">octobre 2016</a><span class="sidebar-module-list-count">3</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2016/09/">septembre 2016</a><span class="sidebar-module-list-count">6</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2016/06/">juin 2016</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2016/05/">mai 2016</a><span class="sidebar-module-list-count">3</span></li></ul>
   </div>
 
 
@@ -1144,6 +1136,10 @@ ga('send', 'pageview');
   <div class="sidebar-module">
     <h4>Recents</h4>
     <ul class="sidebar-module-list">
+      
+        <li>
+          <a href="/2016/12/19/Comment-utiliser-map-et-reduce-en-Javascript/">Comment utiliser map et reduce en Javascript</a>
+        </li>
       
         <li>
           <a href="/2016/12/18/ES6-les-principales-features-a-connaitre/">ES6 : les principales features à connaître</a>
@@ -1159,10 +1155,6 @@ ga('send', 'pageview');
       
         <li>
           <a href="/2016/10/17/Machine-Learning-classification-a-l-aide-des-arbres-de-decisions-fonctionnement-et-application-en-NodeJS/">Machine Learning : classification à l&#39;aide des arbres de décisions : fonctionnement et application en NodeJS</a>
-        </li>
-      
-        <li>
-          <a href="/2016/10/12/Base-de-donnees-comprendre-les-differences-entre-le-modele-relationnel-et-le-modele-multidimensionnel/">Base de données : comprendre les différences entre le modèle relationnel et le modèle multidimensionnel</a>
         </li>
       
     </ul>
