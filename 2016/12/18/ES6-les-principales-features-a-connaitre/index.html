@@ -7,18 +7,18 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   <meta name="google-site-verification" content="zhe_jVE6TPFbrQb7K-ra2FFxgiDsn6ZeFoKSz9EXmGk" />
   <meta name="description" content="ES6 ou ECMA Script 6 est un ensemble de normes ou standards de programmation. La version 6 de ce standard est sortie en 2015.
-Les constantesIl n’était possible de définir une constance avec ES5, qu’en">
+Les constantesIl n’était possible de définir une constante avec ES5, qu’en">
 <meta property="og:type" content="article">
 <meta property="og:title" content="ES6 : les principales features à connaître">
 <meta property="og:url" content="http://maximilienandile.github.io/2016/12/18/ES6-les-principales-features-a-connaitre/index.html">
 <meta property="og:site_name" content="M@XCode">
 <meta property="og:description" content="ES6 ou ECMA Script 6 est un ensemble de normes ou standards de programmation. La version 6 de ce standard est sortie en 2015.
-Les constantesIl n’était possible de définir une constance avec ES5, qu’en">
-<meta property="og:updated_time" content="2016-12-19T09:59:01.000Z">
+Les constantesIl n’était possible de définir une constante avec ES5, qu’en">
+<meta property="og:updated_time" content="2016-12-19T10:04:49.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="ES6 : les principales features à connaître">
 <meta name="twitter:description" content="ES6 ou ECMA Script 6 est un ensemble de normes ou standards de programmation. La version 6 de ce standard est sortie en 2015.
-Les constantesIl n’était possible de définir une constance avec ES5, qu’en">
+Les constantesIl n’était possible de définir une constante avec ES5, qu’en">
   
     <link rel="alternate" href="/atom.xml" title="M@XCode" type="application/atom+xml">
   
@@ -121,7 +121,7 @@ ga('send', 'pageview');
     <div class="article-entry" itemprop="articleBody">
       
         <p><code>ES6</code> ou <code>ECMA Script 6</code> est un ensemble de normes ou standards de programmation. La version 6 de ce standard est sortie en 2015.</p>
-<h2 id="Les-constantes"><a href="#Les-constantes" class="headerlink" title="Les constantes"></a>Les constantes</h2><p>Il n’était possible de définir une constance avec ES5, qu’en passant par la création d’objets. Il fallai donc créer une propriété d’un objet et spécifier que cette propriété n’était ni <code>writable</code> ni <code>configurable</code></p>
+<h2 id="Les-constantes"><a href="#Les-constantes" class="headerlink" title="Les constantes"></a>Les constantes</h2><p>Il n’était possible de définir une constante avec ES5, qu’en passant par la création d’objets. Il fallait donc créer une propriété d’un objet et spécifier que cette propriété n’était ni <code>writable</code> ni <code>configurable</code></p>
 <p>Avec ES6 il suffit d’écrire :</p>
 <figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">const</span> OMEGA = <span class="number">0.5671432904</span></div><div class="line"><span class="keyword">if</span>(OMEGA &gt; <span class="number">12</span>)&#123;</div><div class="line">  <span class="comment">// do stuff</span></div><div class="line">&#125;</div></pre></td></tr></table></figure>
 <p>Il peut être intéressant d’utiliser les constantes au lieu de <code>var</code> afin de signaler qu’il n’y aura pas de réassignement.</p>
@@ -131,7 +131,7 @@ ga('send', 'pageview');
 <li>Globale</li>
 <li>Locale</li>
 </ul>
-<p>Une variable globale est modifiable dans l’ensemble du programme, elle est définie en dehors de toute fonction. Une variable locale quant à elle n’existe que dans le cadre de l’execution de la fonction. Elle est créé lors de l’execution de la fonction. Elle est ensuite détruite à la fin de l’execution.</p>
+<p>Une variable globale est modifiable dans l’ensemble du programme, elle est définie en dehors de toute fonction. Une variable locale quant à elle n’existe que dans le cadre de l’exécution de la fonction. Elle est créée lors de l’exécution de la fonction. Elle est ensuite détruite à la fin de l’exécution.</p>
 <p>ES6 apporte une nouveauté intéressante en créant des variables dont la portée est limitée à un bloc :</p>
 <figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> i</div><div class="line"><span class="keyword">if</span> (PI&gt;<span class="number">5</span>) &#123;</div><div class="line">  <span class="keyword">let</span> gamma = <span class="number">20</span>*<span class="number">3</span>;</div><div class="line">  i = gamma * gamma;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
 <p>Ici :</p>
@@ -154,7 +154,7 @@ ga('send', 'pageview');
 <figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">let</span> addition = <span class="function"><span class="keyword">function</span> (<span class="params">a=<span class="number">0</span>,b=<span class="number">0</span></span>)</span>&#123;</div><div class="line">  <span class="keyword">return</span> a+b;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
 <h2 id="Boucles-for-of-foreach"><a href="#Boucles-for-of-foreach" class="headerlink" title="Boucles for of (foreach)"></a>Boucles <code>for of</code> (foreach)</h2><p>Houra voilà le foreach en JS :</p>
 <figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">let</span> students = [<span class="string">"Joe"</span>,<span class="string">"Donald"</span>];</div><div class="line"><span class="keyword">for</span> (<span class="keyword">let</span> student <span class="keyword">of</span> students)&#123;</div><div class="line">  <span class="built_in">console</span>.log(student);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<h2 id="Les-strings-multi-lignes"><a href="#Les-strings-multi-lignes" class="headerlink" title="Les strings multi-lignes"></a>Les strings multi-lignes</h2><p>On peut maintenant déclarer une chaîne sur plusieurs lignes grâce au symbôle backtish :</p>
+<h2 id="Les-strings-multi-lignes"><a href="#Les-strings-multi-lignes" class="headerlink" title="Les strings multi-lignes"></a>Les strings multi-lignes</h2><p>On peut maintenant déclarer une chaîne sur plusieurs lignes grâce au symbole backtish :</p>
 <figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> vh = <span class="string">`Mon père, ce héros au sourire si doux,</span></div><div class="line">Suivi d'un seul housard qu'il aimait entre tous</div><div class="line">Pour sa grande bravoure et pour sa haute taille,</div><div class="line">Parcourait à cheval, le soir d'une bataille,`</div></pre></td></tr></table></figure>
 <h2 id="Les-assignements-destructures"><a href="#Les-assignements-destructures" class="headerlink" title="Les assignements déstructurés"></a>Les assignements déstructurés</h2><p>Avec ES5 on doit faire :</p>
 <figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> body = req.body,</div><div class="line">  username = body.username,</div><div class="line">  password = body.password</div></pre></td></tr></table></figure>
@@ -188,7 +188,7 @@ ga('send', 'pageview');
     
 
     <footer class="article-footer">
-      <a data-url="http://maximilienandile.github.io/2016/12/18/ES6-les-principales-features-a-connaitre/" data-id="ciwvwtlaa0006gcknf3jgpdw4" class="article-share-link">
+      <a data-url="http://maximilienandile.github.io/2016/12/18/ES6-les-principales-features-a-connaitre/" data-id="ciwvx0kzp0009iykngz00z40o" class="article-share-link">
         <i class="fa fa-share"></i> Share
       </a>
       

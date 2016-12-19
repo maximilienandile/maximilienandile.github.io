@@ -119,7 +119,7 @@ ga('send', 'pageview');
     <div class="article-entry" itemprop="articleBody">
       
         <p><code>ES6</code> ou <code>ECMA Script 6</code> est un ensemble de normes ou standards de programmation. La version 6 de ce standard est sortie en 2015.</p>
-<h2 id="Les-constantes"><a href="#Les-constantes" class="headerlink" title="Les constantes"></a>Les constantes</h2><p>Il n’était possible de définir une constance avec ES5, qu’en passant par la création d’objets. Il fallai donc créer une propriété d’un objet et spécifier que cette propriété n’était ni <code>writable</code> ni <code>configurable</code></p>
+<h2 id="Les-constantes"><a href="#Les-constantes" class="headerlink" title="Les constantes"></a>Les constantes</h2><p>Il n’était possible de définir une constante avec ES5, qu’en passant par la création d’objets. Il fallait donc créer une propriété d’un objet et spécifier que cette propriété n’était ni <code>writable</code> ni <code>configurable</code></p>
 <p>Avec ES6 il suffit d’écrire :</p>
 <figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">const</span> OMEGA = <span class="number">0.5671432904</span></div><div class="line"><span class="keyword">if</span>(OMEGA &gt; <span class="number">12</span>)&#123;</div><div class="line">  <span class="comment">// do stuff</span></div><div class="line">&#125;</div></pre></td></tr></table></figure>
 <p>Il peut être intéressant d’utiliser les constantes au lieu de <code>var</code> afin de signaler qu’il n’y aura pas de réassignement.</p>
@@ -129,7 +129,7 @@ ga('send', 'pageview');
 <li>Globale</li>
 <li>Locale</li>
 </ul>
-<p>Une variable globale est modifiable dans l’ensemble du programme, elle est définie en dehors de toute fonction. Une variable locale quant à elle n’existe que dans le cadre de l’execution de la fonction. Elle est créé lors de l’execution de la fonction. Elle est ensuite détruite à la fin de l’execution.</p>
+<p>Une variable globale est modifiable dans l’ensemble du programme, elle est définie en dehors de toute fonction. Une variable locale quant à elle n’existe que dans le cadre de l’exécution de la fonction. Elle est créée lors de l’exécution de la fonction. Elle est ensuite détruite à la fin de l’exécution.</p>
 <p>ES6 apporte une nouveauté intéressante en créant des variables dont la portée est limitée à un bloc :</p>
 <figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> i</div><div class="line"><span class="keyword">if</span> (PI&gt;<span class="number">5</span>) &#123;</div><div class="line">  <span class="keyword">let</span> gamma = <span class="number">20</span>*<span class="number">3</span>;</div><div class="line">  i = gamma * gamma;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
 <p>Ici :</p>
@@ -152,7 +152,7 @@ ga('send', 'pageview');
 <figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">let</span> addition = <span class="function"><span class="keyword">function</span> (<span class="params">a=<span class="number">0</span>,b=<span class="number">0</span></span>)</span>&#123;</div><div class="line">  <span class="keyword">return</span> a+b;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
 <h2 id="Boucles-for-of-foreach"><a href="#Boucles-for-of-foreach" class="headerlink" title="Boucles for of (foreach)"></a>Boucles <code>for of</code> (foreach)</h2><p>Houra voilà le foreach en JS :</p>
 <figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">let</span> students = [<span class="string">"Joe"</span>,<span class="string">"Donald"</span>];</div><div class="line"><span class="keyword">for</span> (<span class="keyword">let</span> student <span class="keyword">of</span> students)&#123;</div><div class="line">  <span class="built_in">console</span>.log(student);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<h2 id="Les-strings-multi-lignes"><a href="#Les-strings-multi-lignes" class="headerlink" title="Les strings multi-lignes"></a>Les strings multi-lignes</h2><p>On peut maintenant déclarer une chaîne sur plusieurs lignes grâce au symbôle backtish :</p>
+<h2 id="Les-strings-multi-lignes"><a href="#Les-strings-multi-lignes" class="headerlink" title="Les strings multi-lignes"></a>Les strings multi-lignes</h2><p>On peut maintenant déclarer une chaîne sur plusieurs lignes grâce au symbole backtish :</p>
 <figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> vh = <span class="string">`Mon père, ce héros au sourire si doux,</span></div><div class="line">Suivi d'un seul housard qu'il aimait entre tous</div><div class="line">Pour sa grande bravoure et pour sa haute taille,</div><div class="line">Parcourait à cheval, le soir d'une bataille,`</div></pre></td></tr></table></figure>
 <h2 id="Les-assignements-destructures"><a href="#Les-assignements-destructures" class="headerlink" title="Les assignements déstructurés"></a>Les assignements déstructurés</h2><p>Avec ES5 on doit faire :</p>
 <figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> body = req.body,</div><div class="line">  username = body.username,</div><div class="line">  password = body.password</div></pre></td></tr></table></figure>
@@ -186,7 +186,7 @@ ga('send', 'pageview');
     
 
     <footer class="article-footer">
-      <a data-url="http://maximilienandile.github.io/2016/12/18/ES6-les-principales-features-a-connaitre/" data-id="ciwvwtlaa0006gcknf3jgpdw4" class="article-share-link">
+      <a data-url="http://maximilienandile.github.io/2016/12/18/ES6-les-principales-features-a-connaitre/" data-id="ciwvx0kzp0009iykngz00z40o" class="article-share-link">
         <i class="fa fa-share"></i> Share
       </a>
       
@@ -271,7 +271,7 @@ ga('send', 'pageview');
     
 
     <footer class="article-footer">
-      <a data-url="http://maximilienandile.github.io/2016/12/18/l-ADN-une-nouvelle-source-de-stockage-de-donnees-durable/" data-id="ciwvwtlav000ogckn3jk41krp" class="article-share-link">
+      <a data-url="http://maximilienandile.github.io/2016/12/18/l-ADN-une-nouvelle-source-de-stockage-de-donnees-durable/" data-id="ciwvx0l03000siykn4y0wpqqr" class="article-share-link">
         <i class="fa fa-share"></i> Share
       </a>
       
@@ -346,7 +346,7 @@ ga('send', 'pageview');
     
 
     <footer class="article-footer">
-      <a data-url="http://maximilienandile.github.io/2016/11/02/Comment-creer-un-script-shell-permettant-de-recuperer-et-d-analyser-des-articles-wikipedia-avec-lynx/" data-id="ciwvwtla40002gcknoq98ip0u" class="article-share-link">
+      <a data-url="http://maximilienandile.github.io/2016/11/02/Comment-creer-un-script-shell-permettant-de-recuperer-et-d-analyser-des-articles-wikipedia-avec-lynx/" data-id="ciwvx0kzj0004iykns0ffjh7f" class="article-share-link">
         <i class="fa fa-share"></i> Share
       </a>
       
@@ -453,7 +453,7 @@ ga('send', 'pageview');
     
 
     <footer class="article-footer">
-      <a data-url="http://maximilienandile.github.io/2016/10/17/Machine-Learning-classification-a-l-aide-des-arbres-de-decisions-fonctionnement-et-application-en-NodeJS/" data-id="ciwvwtlax000sgckn3stkyhcc" class="article-share-link">
+      <a data-url="http://maximilienandile.github.io/2016/10/17/Machine-Learning-classification-a-l-aide-des-arbres-de-decisions-fonctionnement-et-application-en-NodeJS/" data-id="ciwvx0kzy000niyknqat3od63" class="article-share-link">
         <i class="fa fa-share"></i> Share
       </a>
       
@@ -540,7 +540,7 @@ ga('send', 'pageview');
     
 
     <footer class="article-footer">
-      <a data-url="http://maximilienandile.github.io/2016/10/12/Base-de-donnees-comprendre-les-differences-entre-le-modele-relationnel-et-le-modele-multidimensionnel/" data-id="ciwvwtla20001gcknxbeyxokz" class="article-share-link">
+      <a data-url="http://maximilienandile.github.io/2016/10/12/Base-de-donnees-comprendre-les-differences-entre-le-modele-relationnel-et-le-modele-multidimensionnel/" data-id="ciwvx0kzc0001iyknja0l572n" class="article-share-link">
         <i class="fa fa-share"></i> Share
       </a>
       
@@ -613,7 +613,7 @@ ga('send', 'pageview');
     
 
     <footer class="article-footer">
-      <a data-url="http://maximilienandile.github.io/2016/10/01/Comment-installer-PHPUnit-sur-un-projet-necessitant-composer-et-utilisant-des-variables-d-environnement/" data-id="ciwvwtla90005gcknyusdq1wp" class="article-share-link">
+      <a data-url="http://maximilienandile.github.io/2016/10/01/Comment-installer-PHPUnit-sur-un-projet-necessitant-composer-et-utilisant-des-variables-d-environnement/" data-id="ciwvx0kzl0005iyknab3tt9xj" class="article-share-link">
         <i class="fa fa-share"></i> Share
       </a>
       
@@ -763,7 +763,7 @@ ga('send', 'pageview');
     
 
     <footer class="article-footer">
-      <a data-url="http://maximilienandile.github.io/2016/09/30/Comprendre-les-headers-d-une-requete-HTTP/" data-id="ciwvwtlaw000rgckn5fo7jvvm" class="article-share-link">
+      <a data-url="http://maximilienandile.github.io/2016/09/30/Comprendre-les-headers-d-une-requete-HTTP/" data-id="ciwvx0kzm0006iyknsrng9vw5" class="article-share-link">
         <i class="fa fa-share"></i> Share
       </a>
       
@@ -892,7 +892,7 @@ ga('send', 'pageview');
     
 
     <footer class="article-footer">
-      <a data-url="http://maximilienandile.github.io/2016/09/29/Machine-Learning-comment-fonctionne-la-classification-naive-Bayesienne/" data-id="ciwvwtlal000igckn1k75mabf" class="article-share-link">
+      <a data-url="http://maximilienandile.github.io/2016/09/29/Machine-Learning-comment-fonctionne-la-classification-naive-Bayesienne/" data-id="ciwvx0kzx000liyknn4ytesc0" class="article-share-link">
         <i class="fa fa-share"></i> Share
       </a>
       
@@ -977,7 +977,7 @@ ga('send', 'pageview');
     
 
     <footer class="article-footer">
-      <a data-url="http://maximilienandile.github.io/2016/09/24/L-algorithme-des-K-voisins-les-plus-proches-et-son-implementation-en-Nodejs/" data-id="ciwvwtlak000ggcknhefdrrj1" class="article-share-link">
+      <a data-url="http://maximilienandile.github.io/2016/09/24/L-algorithme-des-K-voisins-les-plus-proches-et-son-implementation-en-Nodejs/" data-id="ciwvx0kzv000iiyknqo00wzsr" class="article-share-link">
         <i class="fa fa-share"></i> Share
       </a>
       
@@ -1074,7 +1074,7 @@ ga('send', 'pageview');
     
 
     <footer class="article-footer">
-      <a data-url="http://maximilienandile.github.io/2016/09/24/Pourquoi-utiliser-RAML-pour-designer-une-API-RESTful/" data-id="ciwvwtlar000ngcknd9202bdr" class="article-share-link">
+      <a data-url="http://maximilienandile.github.io/2016/09/24/Pourquoi-utiliser-RAML-pour-designer-une-API-RESTful/" data-id="ciwvx0l02000riykn8ixhjdws" class="article-share-link">
         <i class="fa fa-share"></i> Share
       </a>
       
