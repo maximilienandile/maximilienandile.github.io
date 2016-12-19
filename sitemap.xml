@@ -2,6 +2,13 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>http://maximilienandile.github.io/2016/12/18/ES6-les-principales-features-a-connaitre/</loc>
+    
+    <lastmod>2016-12-19T09:59:01.000Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>http://maximilienandile.github.io/2016/12/18/l-ADN-une-nouvelle-source-de-stockage-de-donnees-durable/</loc>
     
     <lastmod>2016-12-18T18:39:17.000Z</lastmod>
@@ -93,14 +100,14 @@
   </url>
   
   <url>
-    <loc>http://maximilienandile.github.io/2016/05/08/How-to-use-promises-with-NodeJS/</loc>
+    <loc>http://maximilienandile.github.io/2016/05/18/How-to-install-NLTK-and-compute-basic-statistics-on-a-text/</loc>
     
     <lastmod>2016-09-23T08:48:27.000Z</lastmod>
     
   </url>
   
   <url>
-    <loc>http://maximilienandile.github.io/2016/05/18/How-to-install-NLTK-and-compute-basic-statistics-on-a-text/</loc>
+    <loc>http://maximilienandile.github.io/2016/05/08/How-to-use-promises-with-NodeJS/</loc>
     
     <lastmod>2016-09-23T08:48:27.000Z</lastmod>
     
