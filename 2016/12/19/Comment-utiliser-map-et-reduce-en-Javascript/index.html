@@ -12,7 +12,7 @@
 <meta property="og:url" content="http://maximilienandile.github.io/2016/12/19/Comment-utiliser-map-et-reduce-en-Javascript/index.html">
 <meta property="og:site_name" content="M@XCode">
 <meta property="og:description" content="Map et Reduce sont deux méthodes qui sont apparues dans le cadre de ES5. Ces méthodes sont utilisables sur les tableaux (Array). Ces deux méthodes proviennent de la programmation fonctionnelle. Cette">
-<meta property="og:updated_time" content="2016-12-19T15:02:08.000Z">
+<meta property="og:updated_time" content="2016-12-19T17:47:18.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Comment utiliser map et reduce en Javascript">
 <meta name="twitter:description" content="Map et Reduce sont deux méthodes qui sont apparues dans le cadre de ES5. Ces méthodes sont utilisables sur les tableaux (Array). Ces deux méthodes proviennent de la programmation fonctionnelle. Cette">
@@ -118,7 +118,7 @@ ga('send', 'pageview');
     <div class="article-entry" itemprop="articleBody">
       
         <p><code>Map</code> et <code>Reduce</code> sont deux méthodes qui sont apparues dans le cadre de ES5. Ces méthodes sont utilisables sur les tableaux (<code>Array</code>). Ces deux méthodes proviennent de la programmation fonctionnelle. Cette dernière m’étant encore assez obscure j’ai pour projet d’écrire un article plus détaillé.</p>
-<h2 id="Map-transformer-des-tableaux-en-d’autres-tableaux-transformes"><a href="#Map-transformer-des-tableaux-en-d’autres-tableaux-transformes" class="headerlink" title="Map transformer des tableaux en d’autres tableaux transformés"></a><code>Map</code> transformer des tableaux en d’autres tableaux <code>transformés</code></h2><p>L’objectif de map est d’<strong>itérer sur tous les éléments d’un tableau et de produire un autre tableaux avec un contenu transformé</strong></p>
+<h2 id="Map-transformer-des-tableaux-en-d’autres-tableaux"><a href="#Map-transformer-des-tableaux-en-d’autres-tableaux" class="headerlink" title="Map transformer des tableaux en d’autres tableaux"></a><code>Map</code> transformer des tableaux en d’autres tableaux</h2><p>L’objectif de map est d’<strong>itérer sur tous les éléments d’un tableau et de produire un autre tableaux avec un contenu transformé</strong></p>
 <p>On peut par exemple imaginer un tableau de prénoms :<br><figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// tableau (A)</span></div><div class="line"><span class="keyword">var</span> prenoms = [<span class="string">"Joe"</span>,<span class="string">"Patrick"</span>,<span class="string">"Thierry"</span>];</div></pre></td></tr></table></figure></p>
 <p>On peut imaginer une transformation simple sur ce tableau : générer un tableau contenant les premières lettres de chaque élément.</p>
 <figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> initials = prenoms.map(<span class="function"><span class="keyword">function</span>(<span class="params">prenom</span>)</span>&#123;<span class="keyword">return</span> prenom.charAt(<span class="number">0</span>);&#125;)</div></pre></td></tr></table></figure>
@@ -160,7 +160,7 @@ ga('send', 'pageview');
     
 
     <footer class="article-footer">
-      <a data-url="http://maximilienandile.github.io/2016/12/19/Comment-utiliser-map-et-reduce-en-Javascript/" data-id="ciww7n2f30006v7miga46wr1k" class="article-share-link">
+      <a data-url="http://maximilienandile.github.io/2016/12/19/Comment-utiliser-map-et-reduce-en-Javascript/" data-id="ciwwdjbng0006yxknl5xl07w3" class="article-share-link">
         <i class="fa fa-share"></i> Share
       </a>
       
