@@ -3,19 +3,21 @@
 <head>
   <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="utf-8">
   
-  <title>Archives: 2016/12 | M@XCode</title>
+  <title>Javascript : que sont les closures et comment les utiliser | M@XCode</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   <meta name="google-site-verification" content="zhe_jVE6TPFbrQb7K-ra2FFxgiDsn6ZeFoKSz9EXmGk" />
-  <meta name="description" content="Blog dédié au partage du savoir informatique">
-<meta property="og:type" content="website">
-<meta property="og:title" content="M@XCode">
-<meta property="og:url" content="http://maximilienandile.github.io/archives/2016/12/index.html">
+  <meta name="description" content="Une closure (qui peut se traduire par fermeture en français) est une fonction qui garde accès au scope englobant dans laquelle elle est définie. Et ce même lorsque ce scope est “fermé”. Cette définiti">
+<meta name="keywords" content="Javascript">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Javascript : que sont les closures et comment les utiliser">
+<meta property="og:url" content="http://maximilienandile.github.io/2016/12/22/Javascript-que-sont-les-closures-et-comment-les-utiliser/index.html">
 <meta property="og:site_name" content="M@XCode">
-<meta property="og:description" content="Blog dédié au partage du savoir informatique">
+<meta property="og:description" content="Une closure (qui peut se traduire par fermeture en français) est une fonction qui garde accès au scope englobant dans laquelle elle est définie. Et ce même lorsque ce scope est “fermé”. Cette définiti">
 <meta property="og:locale" content="fr">
+<meta property="og:updated_time" content="2016-12-22T15:48:37.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="M@XCode">
-<meta name="twitter:description" content="Blog dédié au partage du savoir informatique">
+<meta name="twitter:title" content="Javascript : que sont les closures et comment les utiliser">
+<meta name="twitter:description" content="Une closure (qui peut se traduire par fermeture en français) est une fonction qui garde accès au scope englobant dans laquelle elle est définie. Et ce même lorsque ce scope est “fermé”. Cette définiti">
   
     <link rel="alternate" href="/atom.xml" title="M@XCode" type="application/atom+xml">
   
@@ -67,7 +69,7 @@ ga('send', 'pageview');
           <li><a class=""
                  href="/index.html">Home</a></li>
         
-          <li><a class="active"
+          <li><a class=""
                  href="/archives/">Archives</a></li>
         
       </ul>
@@ -91,101 +93,96 @@ ga('send', 'pageview');
 
     <div class="row">
         <div class="col-sm-8 blog-main">
-          
-  
-  
+          <article id="post-Javascript-que-sont-les-closures-et-comment-les-utiliser" class="article article-type-post" itemscope itemprop="blogPost">
+
+  <header class="article-header">
     
+  
+    <h1 class="article-title" itemprop="name">
+      Javascript : que sont les closures et comment les utiliser
+    </h1>
+  
+
+
+  </header>
+
+  <div class="article-meta">
+    <div class="article-datetime">
+  <a href="/2016/12/22/Javascript-que-sont-les-closures-et-comment-les-utiliser/" class="article-date"><time datetime="2016-12-22T15:19:59.000Z" itemprop="datePublished">22/12/2016</time></a>
+</div>
+
+    
+    
+
+  </div>
+  <div class="article-inner">
+
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>Une closure (qui peut se traduire par <strong>fermeture</strong> en français) est une fonction qui garde accès au scope englobant dans laquelle elle est définie. Et ce même lorsque ce scope est “fermé”. Cette définition ma rendu très perplexe au début. Mais essayons de la comprendre. Pour cela faisons un petit rappel sur la portée des variables.</p>
+<h2 id="Portee-des-variables"><a href="#Portee-des-variables" class="headerlink" title="Portée des variables."></a>Portée des variables.</h2><p>La portée d’une variable fait référence aux <strong>règles qui régissent l’accès et l’utilisation</strong> aux variables de nos script. S’interroger sur la portée d’une variable permet de savoir si la variable est bien définie et si donc on a le droit de s’en servir.</p>
+<p>Lorsqu’on commence à programmer on se pose rarement la question.</p>
+<h3 id="La-portee-globale"><a href="#La-portee-globale" class="headerlink" title="La portée globale"></a>La portée globale</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> le_yo=<span class="string">"yo"</span>;</span><br><span class="line">alert(yo);</span><br></pre></td></tr></table></figure>
+<p>Ici notre variable <code>le_yo</code> est défnit globalement, elle est donc disponible dans tout notre script c’est pour cela que l’on peut ecrire <code>alert(le_yo);</code> sans problèmes. Rien de bien sorcier ici.</p>
+<h3 id="La-portee-locale"><a href="#La-portee-locale" class="headerlink" title="La portée locale"></a>La portée locale</h3><p>C’est ici que cela se corse :</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">dire_yo</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">  <span class="keyword">var</span> loc = <span class="string">"yo"</span>:</span><br><span class="line">  alert(yo);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>Ici la variable <code>loc</code> a une portée <code>locale</code> car elle est défnit dans une fonction. En fait chaque fonction javascript dispose de son <code>scope</code>. Le scope, pour prendre une image, c’est un peu le bac à sable de notre fonction : l’ensemble de son terrain de jeu. On y a notre pelle, notre rateau.</p>
+<p>Ce qu’il faut comprendre c’est qu’on ne peut pas accéder à notre pelle et notre rateau en dehors du bac à sable.</p>
+<p>Ce code ne fonctionnera pas :</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">dire_yo</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">  <span class="keyword">var</span> loc = <span class="string">"yo"</span>;</span><br><span class="line">  alert(yo);</span><br><span class="line">&#125;</span><br><span class="line">alert(loc);</span><br></pre></td></tr></table></figure>
+<p>On se mangera l’erreur <code>Uncaught ReferenceError: loc is not defined</code>. Et c’est normal, parce que <code>loc</code> n’existe que dans la fonction <code>dire_yo</code> !</p>
+<p>En revanche ce code marche :<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> glob=<span class="string">"yaaaaaaaa"</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">dire_yo</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">  <span class="keyword">var</span> loc = <span class="string">"yo"</span>;</span><br><span class="line">  alert(yo);</span><br><span class="line">&#125;</span><br><span class="line">alert(glob);</span><br><span class="line"><span class="comment">// alertera : 'yaaaaaaaa'</span></span><br></pre></td></tr></table></figure></p>
+<p>Ici la variable <code>glob</code> est définie dans le scope <code>global</code> donc elle est accessible dans tout notre script. On peut même modifier cette variable dans notre fonction :</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> glob=<span class="string">"yaaaaaaaa"</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">dire_yo</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">  <span class="keyword">var</span> loc = <span class="string">"yo"</span>;</span><br><span class="line">  glob= glob+<span class="string">"ouuuuuu"</span>;</span><br><span class="line">&#125;</span><br><span class="line">dire_yo();</span><br><span class="line">alert(glob);</span><br><span class="line"><span class="comment">// alertera : 'yaaaaaaaaouuuuuu'</span></span><br></pre></td></tr></table></figure>
+<p>Ici on execute d’abord notre fonction, qui va ajouter <code>ouuuuuu</code> à la variable <code>glob</code> et du coup on aura une alerte <code>yaaaaaaaaouuuuuu</code>.</p>
+
+      
+    </div>
+
     
       
+
+    
+
+    <footer class="article-footer">
+      <a data-url="http://maximilienandile.github.io/2016/12/22/Javascript-que-sont-les-closures-et-comment-les-utiliser/" data-id="ck1zaravu000kbb99z56d50x4" class="article-share-link">
+        <i class="fa fa-share"></i> Share
+      </a>
       
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2016" class="archive-year">2016</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <header class="archive-article-header">
-    
+        <a href="http://maximilienandile.github.io/2016/12/22/Javascript-que-sont-les-closures-et-comment-les-utiliser/#disqus_thread" class="article-comment-link">
+          <i class="fa fa-comment"></i> Comments
+        </a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Javascript/">Javascript</a></li></ul>
+
+
+    </footer>
+  </div>
   
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2016/12/22/Javascript-que-sont-les-closures-et-comment-les-utiliser/">Javascript : que sont les closures et comment les utiliser</a>
-    </h1>
+    
+<ul id="article-nav" class="nav nav-pills nav-justified">
   
+  <li role="presentation">
+    <a href="/2016/12/19/Comment-utiliser-map-et-reduce-en-Javascript/" id="article-nav-older" class="article-nav-link-wrap">
+      <i class="fa fa-chevron-left pull-left"></i>
+      <span class="article-nav-link-title">Comment utiliser map et reduce en Javascript</span>
+    </a>
+  </li>
+  
+  
+</ul>
 
 
-    <div class="article-datetime">
-  <a href="/2016/12/22/Javascript-que-sont-les-closures-et-comment-les-utiliser/" class="archive-article-date"><time datetime="2016-12-22T15:19:59.000Z" itemprop="datePublished">décembre 22</time></a>
-</div>
-
-  </header>
+  
 </article>
 
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <header class="archive-article-header">
-    
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2016/12/19/Comment-utiliser-map-et-reduce-en-Javascript/">Comment utiliser map et reduce en Javascript</a>
-    </h1>
-  
 
-
-    <div class="article-datetime">
-  <a href="/2016/12/19/Comment-utiliser-map-et-reduce-en-Javascript/" class="archive-article-date"><time datetime="2016-12-19T14:40:00.000Z" itemprop="datePublished">décembre 19</time></a>
-</div>
-
-  </header>
-</article>
-
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <header class="archive-article-header">
-    
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2016/12/18/ES6-les-principales-features-a-connaitre/">ES6 : les principales features à connaître</a>
-    </h1>
-  
-
-
-    <div class="article-datetime">
-  <a href="/2016/12/18/ES6-les-principales-features-a-connaitre/" class="archive-article-date"><time datetime="2016-12-18T21:44:29.000Z" itemprop="datePublished">décembre 18</time></a>
-</div>
-
-  </header>
-</article>
-
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <header class="archive-article-header">
-    
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2016/12/18/l-ADN-une-nouvelle-source-de-stockage-de-donnees-durable/">ADN : une nouvelle source de stockage de données durable</a>
-    </h1>
-  
-
-
-    <div class="article-datetime">
-  <a href="/2016/12/18/l-ADN-une-nouvelle-source-de-stockage-de-donnees-durable/" class="archive-article-date"><time datetime="2016-12-18T17:18:59.000Z" itemprop="datePublished">décembre 18</time></a>
-</div>
-
-  </header>
-</article>
-
-  
-  
-    </div></section>
-  
-
+<section id="comments">
+  <div id="disqus_thread">
+    <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+  </div>
+</section>
 
 
 
@@ -273,11 +270,13 @@ ga('send', 'pageview');
 <script>
   var disqus_shortname = 'maximilienandile';
   
+  var disqus_url = 'http://maximilienandile.github.io/2016/12/22/Javascript-que-sont-les-closures-et-comment-les-utiliser/';
+  
   (function(){
     var dsq = document.createElement('script');
     dsq.type = 'text/javascript';
     dsq.async = true;
-    dsq.src = '//' + disqus_shortname + '.disqus.com/count.js';
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
     (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
   })();
 </script>
