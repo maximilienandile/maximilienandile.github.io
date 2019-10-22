@@ -99,7 +99,7 @@ ga('send', 'pageview');
     
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2019/10/20/Dependency-injection-what-is-it-how-to-do-it-in-Java-and-why-to-use-it/">Dependency injection - what is it, how to do it in Java and why to use it</a>
+      <a class="article-title" href="/2019/10/20/Dependency-injection-what-is-it-how-to-do-it-in-Java-and-why-to-use-it/">Dependency injection - What is it ? How to do it in Java ? Why to use it ?</a>
     </h1>
   
 
@@ -195,6 +195,13 @@ ga('send', 'pageview');
 <p>The method  <code>getBikesAtStationX</code> did not change a lot, except that we do not construct an instance of BikeService in it.<br>Instead we are using the class property.</p>
 <p>We never instantiate the <code>BikeService</code> in our controller, it will get instantiated by the Framework.</p>
 <p>An injector, that is hidden by the framework will instantiate it.</p>
+<p>Here is an UML Class diagram that show the relation between classes :</p>
+<p><img src="/images/component_di_injection_schema.png" alt="UML Class view of dependency injection"></p>
+<ul>
+<li>The <code>BikeServiceImpl</code> class implements the <code>BikeService</code> interface</li>
+<li>The <code>BikeController</code> uses the <code>BikeService</code> interface</li>
+<li>The <code>FrameworkInjector</code> will instantiate the <code>BikeServiceImpl</code> class and inject it into the <code>BikeController</code>.</li>
+</ul>
 <h2 id="Unit-test"><a href="#Unit-test" class="headerlink" title="Unit test"></a>Unit test</h2><p>The first version of the BikeController was impossible to test.</p>
 <p>The second version of the controller requires an <strong>interface</strong> in it’s constructor. As a consequence we can use a <strong>mocked</strong> <code>BikeService</code> <strong>instead of the actual implementation</strong> of the <code>BikeService</code>.</p>
 <p>Here is the mocked implementation :</p>
@@ -262,7 +269,7 @@ ga('send', 'pageview');
     
 
     <footer class="article-footer">
-      <a data-url="http://maximilienandile.github.io/2019/10/20/Dependency-injection-what-is-it-how-to-do-it-in-Java-and-why-to-use-it/" data-id="ck2214a5h000ag6992a8v2jz3" class="article-share-link">
+      <a data-url="http://maximilienandile.github.io/2019/10/20/Dependency-injection-what-is-it-how-to-do-it-in-Java-and-why-to-use-it/" data-id="ck22276ty000av29930fj4pxr" class="article-share-link">
         <i class="fa fa-share"></i> Share
       </a>
       
@@ -334,7 +341,7 @@ ga('send', 'pageview');
     
 
     <footer class="article-footer">
-      <a data-url="http://maximilienandile.github.io/2016/12/22/Javascript-que-sont-les-closures-et-comment-les-utiliser/" data-id="ck2214a5q000mg699n30iu1mi" class="article-share-link">
+      <a data-url="http://maximilienandile.github.io/2016/12/22/Javascript-que-sont-les-closures-et-comment-les-utiliser/" data-id="ck22276u6000mv299y7dujmff" class="article-share-link">
         <i class="fa fa-share"></i> Share
       </a>
       
@@ -423,7 +430,7 @@ ga('send', 'pageview');
     
 
     <footer class="article-footer">
-      <a data-url="http://maximilienandile.github.io/2016/12/19/Comment-utiliser-map-et-reduce-en-Javascript/" data-id="ck2214a5e0006g699p08rf22x" class="article-share-link">
+      <a data-url="http://maximilienandile.github.io/2016/12/19/Comment-utiliser-map-et-reduce-en-Javascript/" data-id="ck22276tw0006v299mtxg4x4m" class="article-share-link">
         <i class="fa fa-share"></i> Share
       </a>
       
@@ -537,7 +544,7 @@ ga('send', 'pageview');
     
 
     <footer class="article-footer">
-      <a data-url="http://maximilienandile.github.io/2016/12/18/ES6-les-principales-features-a-connaitre/" data-id="ck2214a5l000eg6995yavsnf8" class="article-share-link">
+      <a data-url="http://maximilienandile.github.io/2016/12/18/ES6-les-principales-features-a-connaitre/" data-id="ck22276tz000cv299s19ivse3" class="article-share-link">
         <i class="fa fa-share"></i> Share
       </a>
       
@@ -622,7 +629,7 @@ ga('send', 'pageview');
     
 
     <footer class="article-footer">
-      <a data-url="http://maximilienandile.github.io/2016/12/18/l-ADN-une-nouvelle-source-de-stockage-de-donnees-durable/" data-id="ck2214a5w000zg699wcqkpygd" class="article-share-link">
+      <a data-url="http://maximilienandile.github.io/2016/12/18/l-ADN-une-nouvelle-source-de-stockage-de-donnees-durable/" data-id="ck22276ue000zv299nvhpr52w" class="article-share-link">
         <i class="fa fa-share"></i> Share
       </a>
       
@@ -697,7 +704,7 @@ ga('send', 'pageview');
     
 
     <footer class="article-footer">
-      <a data-url="http://maximilienandile.github.io/2016/11/02/Comment-creer-un-script-shell-permettant-de-recuperer-et-d-analyser-des-articles-wikipedia-avec-lynx/" data-id="ck2214a570002g6995exx7hdw" class="article-share-link">
+      <a data-url="http://maximilienandile.github.io/2016/11/02/Comment-creer-un-script-shell-permettant-de-recuperer-et-d-analyser-des-articles-wikipedia-avec-lynx/" data-id="ck22276tq0002v299b7lcjiwk" class="article-share-link">
         <i class="fa fa-share"></i> Share
       </a>
       
@@ -804,7 +811,7 @@ ga('send', 'pageview');
     
 
     <footer class="article-footer">
-      <a data-url="http://maximilienandile.github.io/2016/10/17/Machine-Learning-classification-a-l-aide-des-arbres-de-decisions-fonctionnement-et-application-en-NodeJS/" data-id="ck2214a5s000rg699418sn5f7" class="article-share-link">
+      <a data-url="http://maximilienandile.github.io/2016/10/17/Machine-Learning-classification-a-l-aide-des-arbres-de-decisions-fonctionnement-et-application-en-NodeJS/" data-id="ck22276u8000rv299sq7ajdi2" class="article-share-link">
         <i class="fa fa-share"></i> Share
       </a>
       
@@ -891,7 +898,7 @@ ga('send', 'pageview');
     
 
     <footer class="article-footer">
-      <a data-url="http://maximilienandile.github.io/2016/10/12/Base-de-donnees-comprendre-les-differences-entre-le-modele-relationnel-et-le-modele-multidimensionnel/" data-id="ck2214a550001g699iyn1liu5" class="article-share-link">
+      <a data-url="http://maximilienandile.github.io/2016/10/12/Base-de-donnees-comprendre-les-differences-entre-le-modele-relationnel-et-le-modele-multidimensionnel/" data-id="ck22276to0001v299l3i8hckj" class="article-share-link">
         <i class="fa fa-share"></i> Share
       </a>
       
@@ -964,7 +971,7 @@ ga('send', 'pageview');
     
 
     <footer class="article-footer">
-      <a data-url="http://maximilienandile.github.io/2016/10/01/Comment-installer-PHPUnit-sur-un-projet-necessitant-composer-et-utilisant-des-variables-d-environnement/" data-id="ck2214a5c0005g699myo2hn1r" class="article-share-link">
+      <a data-url="http://maximilienandile.github.io/2016/10/01/Comment-installer-PHPUnit-sur-un-projet-necessitant-composer-et-utilisant-des-variables-d-environnement/" data-id="ck22276tv0005v299plflhkn2" class="article-share-link">
         <i class="fa fa-share"></i> Share
       </a>
       
@@ -1114,7 +1121,7 @@ ga('send', 'pageview');
     
 
     <footer class="article-footer">
-      <a data-url="http://maximilienandile.github.io/2016/09/30/Comprendre-les-headers-d-une-requete-HTTP/" data-id="ck2214a5g0009g699sgf0le97" class="article-share-link">
+      <a data-url="http://maximilienandile.github.io/2016/09/30/Comprendre-les-headers-d-une-requete-HTTP/" data-id="ck22276tx0009v299byj983rc" class="article-share-link">
         <i class="fa fa-share"></i> Share
       </a>
       
@@ -1186,7 +1193,7 @@ ga('send', 'pageview');
     <ul class="sidebar-module-list">
       
         <li>
-          <a href="/2019/10/20/Dependency-injection-what-is-it-how-to-do-it-in-Java-and-why-to-use-it/">Dependency injection - what is it, how to do it in Java and why to use it</a>
+          <a href="/2019/10/20/Dependency-injection-what-is-it-how-to-do-it-in-Java-and-why-to-use-it/">Dependency injection - What is it ? How to do it in Java ? Why to use it ?</a>
         </li>
       
         <li>

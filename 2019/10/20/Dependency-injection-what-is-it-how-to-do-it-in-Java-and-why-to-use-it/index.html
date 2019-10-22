@@ -3,13 +3,13 @@
 <head>
   <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="utf-8">
   
-  <title>Dependency injection - what is it, how to do it in Java and why to use it | M@XCode</title>
+  <title>Dependency injection - What is it ? How to do it in Java ? Why to use it ? | M@XCode</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   <meta name="google-site-verification" content="zhe_jVE6TPFbrQb7K-ra2FFxgiDsn6ZeFoKSz9EXmGk" />
   <meta name="description" content="The term “Dependency Injection” has been created by Martin Fowler in 2004 [1]. The term has gained some hype with time and several colleagues presented me the concept. I wanted to gain a better knowle">
 <meta name="keywords" content="Design Patterns">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Dependency injection - what is it, how to do it in Java and why to use it">
+<meta property="og:title" content="Dependency injection - What is it ? How to do it in Java ? Why to use it ?">
 <meta property="og:url" content="http://maximilienandile.github.io/2019/10/20/Dependency-injection-what-is-it-how-to-do-it-in-Java-and-why-to-use-it/index.html">
 <meta property="og:site_name" content="M@XCode">
 <meta property="og:description" content="The term “Dependency Injection” has been created by Martin Fowler in 2004 [1]. The term has gained some hype with time and several colleagues presented me the concept. I wanted to gain a better knowle">
@@ -17,9 +17,10 @@
 <meta property="og:image" content="http://maximilienandile.github.io/img/rest-api-example.png">
 <meta property="og:image" content="http://maximilienandile.github.io/images/component_v1_dependency.png">
 <meta property="og:image" content="http://maximilienandile.github.io/images/component_v1_dependency_with_interface.png">
-<meta property="og:updated_time" content="2019-10-22T15:34:36.734Z">
+<meta property="og:image" content="http://maximilienandile.github.io/images/component_di_injection_schema.png">
+<meta property="og:updated_time" content="2019-10-22T16:23:02.156Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Dependency injection - what is it, how to do it in Java and why to use it">
+<meta name="twitter:title" content="Dependency injection - What is it ? How to do it in Java ? Why to use it ?">
 <meta name="twitter:description" content="The term “Dependency Injection” has been created by Martin Fowler in 2004 [1]. The term has gained some hype with time and several colleagues presented me the concept. I wanted to gain a better knowle">
 <meta name="twitter:image" content="http://maximilienandile.github.io/img/rest-api-example.png">
   
@@ -103,7 +104,7 @@ ga('send', 'pageview');
     
   
     <h1 class="article-title" itemprop="name">
-      Dependency injection - what is it, how to do it in Java and why to use it
+      Dependency injection - What is it ? How to do it in Java ? Why to use it ?
     </h1>
   
 
@@ -199,6 +200,13 @@ ga('send', 'pageview');
 <p>The method  <code>getBikesAtStationX</code> did not change a lot, except that we do not construct an instance of BikeService in it.<br>Instead we are using the class property.</p>
 <p>We never instantiate the <code>BikeService</code> in our controller, it will get instantiated by the Framework.</p>
 <p>An injector, that is hidden by the framework will instantiate it.</p>
+<p>Here is an UML Class diagram that show the relation between classes :</p>
+<p><img src="/images/component_di_injection_schema.png" alt="UML Class view of dependency injection"></p>
+<ul>
+<li>The <code>BikeServiceImpl</code> class implements the <code>BikeService</code> interface</li>
+<li>The <code>BikeController</code> uses the <code>BikeService</code> interface</li>
+<li>The <code>FrameworkInjector</code> will instantiate the <code>BikeServiceImpl</code> class and inject it into the <code>BikeController</code>.</li>
+</ul>
 <h2 id="Unit-test"><a href="#Unit-test" class="headerlink" title="Unit test"></a>Unit test</h2><p>The first version of the BikeController was impossible to test.</p>
 <p>The second version of the controller requires an <strong>interface</strong> in it’s constructor. As a consequence we can use a <strong>mocked</strong> <code>BikeService</code> <strong>instead of the actual implementation</strong> of the <code>BikeService</code>.</p>
 <p>Here is the mocked implementation :</p>
@@ -266,7 +274,7 @@ ga('send', 'pageview');
     
 
     <footer class="article-footer">
-      <a data-url="http://maximilienandile.github.io/2019/10/20/Dependency-injection-what-is-it-how-to-do-it-in-Java-and-why-to-use-it/" data-id="ck2214a5h000ag6992a8v2jz3" class="article-share-link">
+      <a data-url="http://maximilienandile.github.io/2019/10/20/Dependency-injection-what-is-it-how-to-do-it-in-Java-and-why-to-use-it/" data-id="ck22276ty000av29930fj4pxr" class="article-share-link">
         <i class="fa fa-share"></i> Share
       </a>
       
@@ -351,7 +359,7 @@ ga('send', 'pageview');
     <ul class="sidebar-module-list">
       
         <li>
-          <a href="/2019/10/20/Dependency-injection-what-is-it-how-to-do-it-in-Java-and-why-to-use-it/">Dependency injection - what is it, how to do it in Java and why to use it</a>
+          <a href="/2019/10/20/Dependency-injection-what-is-it-how-to-do-it-in-Java-and-why-to-use-it/">Dependency injection - What is it ? How to do it in Java ? Why to use it ?</a>
         </li>
       
         <li>
