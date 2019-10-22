@@ -2,6 +2,13 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>http://maximilienandile.github.io/2019/10/20/Dependency-injection-what-is-it-how-to-do-it-in-Java-and-why-to-use-it/</loc>
+    
+    <lastmod>2019-10-22T15:34:36.734Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>http://maximilienandile.github.io/2016/10/12/Base-de-donnees-comprendre-les-differences-entre-le-modele-relationnel-et-le-modele-multidimensionnel/</loc>
     
     <lastmod>2019-10-20T17:58:28.040Z</lastmod>
@@ -114,14 +121,14 @@
   </url>
   
   <url>
-    <loc>http://maximilienandile.github.io/2016/05/18/How-to-install-NLTK-and-compute-basic-statistics-on-a-text/</loc>
+    <loc>http://maximilienandile.github.io/2016/05/08/How-to-use-promises-with-NodeJS/</loc>
     
     <lastmod>2016-09-23T08:48:27.000Z</lastmod>
     
   </url>
   
   <url>
-    <loc>http://maximilienandile.github.io/2016/05/08/How-to-use-promises-with-NodeJS/</loc>
+    <loc>http://maximilienandile.github.io/2016/05/18/How-to-install-NLTK-and-compute-basic-statistics-on-a-text/</loc>
     
     <lastmod>2016-09-23T08:48:27.000Z</lastmod>
     

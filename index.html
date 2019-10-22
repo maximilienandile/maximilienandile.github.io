@@ -93,6 +93,195 @@ ga('send', 'pageview');
         <div class="col-sm-8 blog-main">
           
   
+    <article id="post-Dependency-injection-what-is-it-how-to-do-it-in-Java-and-why-to-use-it" class="article article-type-post" itemscope itemprop="blogPost">
+
+  <header class="article-header">
+    
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/10/20/Dependency-injection-what-is-it-how-to-do-it-in-Java-and-why-to-use-it/">Dependency injection - what is it, how to do it in Java and why to use it</a>
+    </h1>
+  
+
+
+  </header>
+
+  <div class="article-meta">
+    <div class="article-datetime">
+  <a href="/2019/10/20/Dependency-injection-what-is-it-how-to-do-it-in-Java-and-why-to-use-it/" class="article-date"><time datetime="2019-10-20T18:05:34.000Z" itemprop="datePublished">20/10/2019</time></a>
+</div>
+
+    
+    
+
+  </div>
+  <div class="article-inner">
+
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>The term “Dependency Injection” has been created by Martin Fowler in 2004 [1]. The term has gained some hype with time and several colleagues presented me the concept.</p>
+<p>I wanted to gain a better knowledge of it so I wrote this article that has 3 main objectives :</p>
+<ul>
+<li>Give a definition of the concept</li>
+<li>Illustrate it’s usage</li>
+<li>Make the reader understand why dependency injection may improve software</li>
+</ul>
+<h1 id="Vocabulary"><a href="#Vocabulary" class="headerlink" title="Vocabulary"></a>Vocabulary</h1><p>Dependency Injection is a technique related to <strong>inversion of control</strong>. The term “inversion of control” was born in 1988 in an article written by Johnson and Foote [5]. </p>
+<p>When we write an application that depends on a specific component we will need to call the component we want to use. </p>
+<p>In this situation the developer is fully in control of what is happening in the program.</p>
+<p>Now, if we use a framework, we can <strong>delegate to the framework numerous tasks</strong> like instantiating components (but not only). In this configuration control is <strong>inverted</strong>.</p>
+<p>Many frameworks provide inversion of control. In this article we will focus on the Spring Framework (Java) that is built around this concept.</p>
+<p><strong>Dependency injection invert a very specific “aspect of control”</strong> [1]. </p>
+<p>To understand the concept, we need first to define precisely the terms involved here :</p>
+<ul>
+<li><strong>Dependency</strong> : A piece of code that needs to be used in another piece of code. In object oriented programming world those pieces of codes are usually classes. We say that a class has a dependency when it needs to use another class. The first class is dependent from the second class. For instance the class responsible to render a web page has a dependency to the class responsible to query the database.</li>
+<li><strong>Injection</strong> : in the medical world, an injection refers to the introduction of a liquid into the body of a patient. An injection is usually done by a doctor (or a nurse). We need three actors for performing injection : (1) the injector (the doctor), (2) the liquid, and the receiver (3). </li>
+</ul>
+<p>The idea of “dependency injection” is to let the framework we are using inject our dependencies automatically when we need to use them. Frameworks usually provide in their core code and “injector” to perform this task.</p>
+<p>To understand it better we will go through an example :</p>
+<h1 id="The-example-project"><a href="#The-example-project" class="headerlink" title="The example project"></a>The example project</h1><p>Our project is pretty simple. It’s a REST API server with a single endpoint :</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">GET https://maximilien-andile.com/velo</span><br></pre></td></tr></table></figure>
+<p>The server (<code>maximilien-andile.com</code>) exposes a <code>GET</code>  endpoint (<code>/velo</code>).<br>The idea of this endpoint is to get the number of available bikes (from a self-service bike rental provider) at a particular station.</p>
+<p>In order to send the response to the user our server will need to call the API of the self-service bike rental provider.</p>
+<p><img src="/img/rest-api-example.png" alt="UML Sequence Diagram - Example Rest API"></p>
+<h2 id="Two-components-one-dependency"><a href="#Two-components-one-dependency" class="headerlink" title="Two components, one dependency"></a>Two components, one dependency</h2><p><img src="/images/component_v1_dependency.png" alt="UML Component view"></p>
+<p>In our project we have two components :</p>
+<ul>
+<li><strong>The web server</strong> : it will handle all incoming requests from the web. It has an HTTP interface</li>
+<li><strong>The external API client</strong> : client that will call the self-service bike API.</li>
+</ul>
+<p>Here the web server will <strong>use</strong> the external API client.<br>We have a <strong>dependency</strong>. The web server needs to use the external API client to handle incoming HTTP requests.<br>The web server is <strong>dependant</strong> of the external API client.</p>
+<h1 id="A-first-version-of-the-project"><a href="#A-first-version-of-the-project" class="headerlink" title="A first version of the project"></a>A first version of the project</h1><p>We will draft a first version of the project to better understand the concrete manifestation of a dependency into the code.</p>
+<p>The source code will be written in Java with Spring Boot.</p>
+<h2 id="The-entry-point"><a href="#The-entry-point" class="headerlink" title="The entry point"></a>The entry point</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> com.example.demovelo;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> org.springframework.boot.SpringApplication;</span><br><span class="line"><span class="keyword">import</span> org.springframework.boot.autoconfigure.SpringBootApplication;</span><br><span class="line"></span><br><span class="line"><span class="meta">@SpringBootApplication</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">DemoveloApplication</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">  <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">    SpringApplication.run(DemoveloApplication.class, args);</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>Here we have the entry point of our program. It consists of a class named <code>DemoveloApplication</code> which contains a single<br>static function called <code>main</code>.</p>
+<h2 id="The-REST-Controller"><a href="#The-REST-Controller" class="headerlink" title="The REST Controller :"></a>The REST Controller :</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> com.example.demovelo.controller;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> com.example.demovelo.service.BikeService;</span><br><span class="line"><span class="keyword">import</span> org.springframework.web.bind.annotation.RequestMapping;</span><br><span class="line"><span class="keyword">import</span> org.springframework.web.bind.annotation.RequestMethod;</span><br><span class="line"><span class="keyword">import</span> org.springframework.web.bind.annotation.RestController;</span><br><span class="line"></span><br><span class="line"><span class="meta">@RestController</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">BikeController</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">  <span class="meta">@RequestMapping</span>(path = <span class="string">"/velo"</span>,method = RequestMethod.GET)</span><br><span class="line">  <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">getBikesAtStationX</span><span class="params">()</span></span>&#123;</span><br><span class="line">    <span class="comment">// Instantiate External API Client</span></span><br><span class="line">    BikeService bikeService = <span class="keyword">new</span> BikeService();</span><br><span class="line">    <span class="comment">// Call the appropriate method to get the number</span></span><br><span class="line">    <span class="comment">// of bikes at station X</span></span><br><span class="line">    <span class="keyword">return</span> bikeService.bikesAvailableAtStation(<span class="string">"X"</span>);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>You see here that we have a class (with the annotation <code>@RestController</code> needed by Spring) and then a public method <code>getBikesAtStationX</code>.</p>
+<p>This method has also an annotation <code>@RequestMapping(path = &quot;/velo&quot;,method = RequestMethod.GET)</code>. It allows the Spring framework<br>to map the request <code>GET /velo</code> received by our server to be mapped to this particular method.</p>
+<p>In this method we are instantiating the second component <code>BikeService</code> which is responsible to call the JCDecaux API.<br>We then call the method <code>bikesAvailableAtStation</code> on the instance created <code>bikeService</code>. </p>
+<h2 id="The-External-API-Client-BikeService"><a href="#The-External-API-Client-BikeService" class="headerlink" title="The External API Client : BikeService"></a>The External API Client : BikeService</h2><p>And here is the code of <code>BikeService</code> :</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> com.example.demovelo.service;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">BikeService</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">  <span class="function"><span class="keyword">public</span> <span class="title">BikeService</span><span class="params">()</span> </span>&#123;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">bikesAvailableAtStation</span><span class="params">(String stationId)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">42</span>;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>Note here that we have not implemented the actual call to the JCDecaux API. (We juste return 42…)</p>
+<h2 id="What-is-wrong-with-this-code"><a href="#What-is-wrong-with-this-code" class="headerlink" title="What is wrong with this code ?"></a>What is wrong with this code ?</h2><h3 id="Memory-usage-will-increase-with-server-load"><a href="#Memory-usage-will-increase-with-server-load" class="headerlink" title="Memory usage will increase with server load"></a>Memory usage will increase with server load</h3><p>Each request to the REST Server will create an instance of <code>BikeService</code>. The <strong>memory consumption</strong> will increase with the server load.</p>
+<h3 id="It-is-not-testable"><a href="#It-is-not-testable" class="headerlink" title="It is not testable"></a>It is not testable</h3><p>What if we want to unit test the <code>getBikesAtStationX</code> method ? Here is an unit test example :</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> com.example.demovelo.controller;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> org.junit.jupiter.api.Test;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> <span class="keyword">static</span> org.junit.jupiter.api.Assertions.*;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">BikeControllerTest</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">  <span class="meta">@Test</span></span><br><span class="line">  <span class="function"><span class="keyword">void</span> <span class="title">getBikesAtStationX</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    BikeController bikeController = <span class="keyword">new</span> BikeController();</span><br><span class="line">    assertEquals(<span class="number">12</span>, bikeController.getBikesAtStationX());</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>We have a <code>BikeControllerTest</code> class with a single method <code>getBikesAtStationX</code>, which is the method resposible to test <code>getBikesAtStationX</code>.</p>
+<p>In this method we create an instance of the <code>BikeController</code> named <code>bikeController</code> and then we call <code>assertEquals</code> (from the junit Assertion Library).</p>
+<p>This method takes two parameters : the expected result and the actual result. Here we check that <code>42</code> is equal to <code>bikeController.getBikesAtStationX()</code>.</p>
+<p>If we launch the unit tests it will pass (because <code>bikeController.getBikesAtStationX()</code> always return `42, hence the assertion is valid).</p>
+<p>When we will develop <code>getBikesAtStationX</code> and call the external API the result will vary. Our test will fail.<br>We do not control the external API therefore we cannot base an unit test on it. Unit tests have to be isolated from external services.</p>
+<p>We need to find a way to control the output of the method <code>bikesAvailableAtStation</code>.</p>
+<h3 id="Dependent-components-should-only-use-a-small-interface"><a href="#Dependent-components-should-only-use-a-small-interface" class="headerlink" title="Dependent components should only use a small interface"></a>Dependent components should only use a small interface</h3><p>In our example the REST server is responsible to create a new instance of <code>BikeService</code> :<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">getBikesAtStationX</span><span class="params">()</span></span>&#123;</span><br><span class="line">    BikeService bikeService = <span class="keyword">new</span> BikeService();</span><br><span class="line">    <span class="keyword">return</span> bikeService.bikesAvailableAtStation(<span class="string">"X"</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>It means that the dependent component is responsible to construct an instance of it’s dependency. </p>
+<p>The BikeController should not be responsible of this task.</p>
+<p>A modification to the <code>BikeService</code> constructor will break the <code>BikeController</code>.<br>In other words when we modify the implementation details of our components, every other components that depends on it need to be modified.</p>
+<p>Implementation details should be hidden to the clients. Clients should only use on a small interface.</p>
+<p>Note here that I have used the term <code>client</code>. When a component A uses a component B we say that the component A is a client of the component B.</p>
+<p><img src="/images/component_v1_dependency_with_interface.png" alt="UML Component view - The Web Server should use an interface"></p>
+<h1 id="A-new-version-of-the-project-with-dependency-injection"><a href="#A-new-version-of-the-project-with-dependency-injection" class="headerlink" title="A new version of the project with dependency injection"></a>A new version of the project with dependency injection</h1><p>The application entry point do not change. Only the <code>BikeService</code> and <code>BikeController</code> will change.</p>
+<h2 id="The-new-BikeService"><a href="#The-new-BikeService" class="headerlink" title="The new BikeService"></a>The new <code>BikeService</code></h2><p>The first step is to create an interface. This interface define a contract for any implementation of a <code>BikeService</code> :</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> com.example.demovelodi.service;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">BikeService</span> </span>&#123;</span><br><span class="line">   <span class="function"><span class="keyword">int</span> <span class="title">bikesAvailableAtStation</span><span class="params">(String stationId)</span></span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>Then we create a concrete implementation of that contract :</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> com.example.demovelodi.service;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> org.springframework.stereotype.Service;</span><br><span class="line"></span><br><span class="line"><span class="meta">@Service</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">BikeServiceImpl</span> <span class="keyword">implements</span> <span class="title">BikeService</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">  <span class="meta">@Override</span></span><br><span class="line">  <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">bikesAvailableAtStation</span><span class="params">(String stationId)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">42</span>;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>Here our class <code>BikeServiceImpl</code> implements the <code>BikeService</code> interface. To fulfill this contract we define the method <code>bikesAvailableAtStation</code>.</p>
+<p>Note that we added 1 Spring Annotation and 1 java annotation  :</p>
+<ul>
+<li><code>@Service</code> : allow the Spring framework to register the class as a bean (a component).</li>
+<li><code>@Override</code> : Here we have an implementation of an interface, so at first sight this annotation seems useless, this class do not extend any class. The annotation was automatically provided by my IDE. After a quick look it seems that adding the annotation will force the compiler to check if we implemented correctly the interface…</li>
+</ul>
+<h2 id="The-new-BikeController"><a href="#The-new-BikeController" class="headerlink" title="The new BikeController"></a>The new <code>BikeController</code></h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> com.example.demovelodi.controller;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> com.example.demovelodi.service.BikeService;</span><br><span class="line"><span class="keyword">import</span> org.springframework.web.bind.annotation.RequestMapping;</span><br><span class="line"><span class="keyword">import</span> org.springframework.web.bind.annotation.RequestMethod;</span><br><span class="line"><span class="keyword">import</span> org.springframework.web.bind.annotation.RestController;</span><br><span class="line"></span><br><span class="line"><span class="meta">@RestController</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">BikeController</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">private</span> <span class="keyword">final</span> BikeService bikeService;</span><br><span class="line"></span><br><span class="line">  <span class="function"><span class="keyword">public</span> <span class="title">BikeController</span><span class="params">(BikeService bikeService)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">this</span>.bikeService = bikeService;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="meta">@RequestMapping</span>(path = <span class="string">"/velo"</span>,method = RequestMethod.GET)</span><br><span class="line">  <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">getBikesAtStationX</span><span class="params">()</span></span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">this</span>.bikeService.bikesAvailableAtStation(<span class="string">"X"</span>);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>We added the private property <code>bikeService</code>  in our class (of type <code>BikeService</code>).</p>
+<p>The we added a constructor to our class that takes as parameter a <code>BikeService</code>.</p>
+<p>The method  <code>getBikesAtStationX</code> did not change a lot, except that we do not construct an instance of BikeService in it.<br>Instead we are using the class property.</p>
+<p>We never instantiate the <code>BikeService</code> in our controller, it will get instantiated by the Framework.</p>
+<p>An injector, that is hidden by the framework will instantiate it.</p>
+<h2 id="Unit-test"><a href="#Unit-test" class="headerlink" title="Unit test"></a>Unit test</h2><p>The first version of the BikeController was impossible to test.</p>
+<p>The second version of the controller requires an <strong>interface</strong> in it’s constructor. As a consequence we can use a <strong>mocked</strong> <code>BikeService</code> <strong>instead of the actual implementation</strong> of the <code>BikeService</code>.</p>
+<p>Here is the mocked implementation :</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> com.example.demovelodi.controller;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> com.example.demovelodi.service.BikeService;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">BikeServiceMock</span> <span class="keyword">implements</span> <span class="title">BikeService</span> </span>&#123;</span><br><span class="line">  <span class="meta">@Override</span></span><br><span class="line">  <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">bikesAvailableAtStation</span><span class="params">(String stationId)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">65</span>;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>Here instead of calling the real API we are directly returning a fixed integer, allowing us to assert that the controller returns what is expected :</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> com.example.demovelodi.controller;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> com.example.demovelodi.service.BikeService;</span><br><span class="line"><span class="keyword">import</span> org.junit.jupiter.api.BeforeEach;</span><br><span class="line"><span class="keyword">import</span> org.junit.jupiter.api.Test;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> <span class="keyword">static</span> org.junit.jupiter.api.Assertions.*;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">BikeControllerTest</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">private</span> BikeController bikeController;</span><br><span class="line"></span><br><span class="line">  <span class="meta">@BeforeEach</span></span><br><span class="line">  <span class="function"><span class="keyword">void</span> <span class="title">setUp</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    BikeService mockedBikeService = <span class="keyword">new</span> BikeServiceMock();</span><br><span class="line">    <span class="keyword">this</span>.bikeController = <span class="keyword">new</span> BikeController(mockedBikeService);</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="meta">@Test</span></span><br><span class="line">  <span class="function"><span class="keyword">void</span> <span class="title">getBikesAtStationX</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    assertEquals(<span class="number">65</span>, <span class="keyword">this</span>.bikeController.getBikesAtStationX());</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>In the <code>setUp</code> function (that will be run before each tests) we create an instance of our mocked implementation. Then we set the property <code>bikeController</code> with a new instance of the BikeController constructed with the instance of the mocked Service.</p>
+<p>The test (in the method <code>getBikesAtStationX</code>) will assert (verify) that 65 is actually returned by <code>this.bikeController.getBikesAtStationX()</code>.</p>
+<h1 id="Comparison-of-the-two-controllers"><a href="#Comparison-of-the-two-controllers" class="headerlink" title="Comparison of the two controllers"></a>Comparison of the two controllers</h1><p>To better see the differences between the two version here are the two controllers</p>
+<ul>
+<li>Without Dependency Injection :</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> com.example.demovelo.controller;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> com.example.demovelo.service.BikeService;</span><br><span class="line"><span class="keyword">import</span> org.springframework.web.bind.annotation.RequestMapping;</span><br><span class="line"><span class="keyword">import</span> org.springframework.web.bind.annotation.RequestMethod;</span><br><span class="line"><span class="keyword">import</span> org.springframework.web.bind.annotation.RestController;</span><br><span class="line"></span><br><span class="line"><span class="meta">@RestController</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">BikeController</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">  <span class="meta">@RequestMapping</span>(path = <span class="string">"/velo"</span>,method = RequestMethod.GET)</span><br><span class="line">  <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">getBikesAtStationX</span><span class="params">()</span></span>&#123;</span><br><span class="line">    <span class="comment">// Instantiate External API Client</span></span><br><span class="line">    BikeService bikeService = <span class="keyword">new</span> BikeService();</span><br><span class="line">    <span class="comment">// Call the appropriate method to get the number</span></span><br><span class="line">    <span class="comment">// of bikes at station X</span></span><br><span class="line">    <span class="keyword">return</span> bikeService.bikesAvailableAtStation(<span class="string">"X"</span>);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>With DI :</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> com.example.demovelodi.controller;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> com.example.demovelodi.service.BikeService;</span><br><span class="line"><span class="keyword">import</span> org.springframework.web.bind.annotation.RequestMapping;</span><br><span class="line"><span class="keyword">import</span> org.springframework.web.bind.annotation.RequestMethod;</span><br><span class="line"><span class="keyword">import</span> org.springframework.web.bind.annotation.RestController;</span><br><span class="line"></span><br><span class="line"><span class="meta">@RestController</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">BikeController</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">private</span> <span class="keyword">final</span> BikeService bikeService;</span><br><span class="line"></span><br><span class="line">  <span class="function"><span class="keyword">public</span> <span class="title">BikeController</span><span class="params">(BikeService bikeService)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">this</span>.bikeService = bikeService;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="meta">@RequestMapping</span>(path = <span class="string">"/velo"</span>,method = RequestMethod.GET)</span><br><span class="line">  <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">getBikesAtStationX</span><span class="params">()</span></span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">this</span>.bikeService.bikesAvailableAtStation(<span class="string">"X"</span>);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h1 id="Dependency-injection-and-maintainability"><a href="#Dependency-injection-and-maintainability" class="headerlink" title="Dependency injection and maintainability"></a>Dependency injection and maintainability</h1><p>In this section I will focus on the effects of dependency injection on software <strong>maintainability</strong>.</p>
+<h2 id="What-is-software-maintainability"><a href="#What-is-software-maintainability" class="headerlink" title="What is software maintainability ?"></a>What is software maintainability ?</h2><p>There are two definitions of “software maintainability” :</p>
+<p>The ISO/IEC defines it as :</p>
+<blockquote>
+<p>the capability of the software to be modified</p>
+</blockquote>
+<p>For Matinlassi Mari and Niemelä Eila [2], the maintainability is :</p>
+<blockquote>
+<p>The ease with which a software system or component can be modified or adapt to a changed environment.”</p>
+</blockquote>
+<p>The definition emphasis that a maintainable software can be changed without pain for the future developers that will work on the project.</p>
+<h2 id="Why-do-we-care-about-maintainability"><a href="#Why-do-we-care-about-maintainability" class="headerlink" title="Why do we care about maintainability ?"></a>Why do we care about maintainability ?</h2><p>When you care about maintainability you care about your peers but also about the company that employs you. </p>
+<p>A component that is hard to make evolve will increase the budget of a project.</p>
+<h2 id="Coupling-can-be-used-to-measure-maintainability"><a href="#Coupling-can-be-used-to-measure-maintainability" class="headerlink" title="Coupling can be used to measure maintainability"></a>Coupling can be used to measure maintainability</h2><p>The previous definition is clear. A software is maintainable if we can change it easily.</p>
+<p>The characteristic of “changing easily” is very subjective and therefore hard to measure.</p>
+<p>We can use a proxy to detect a maintainable software : coupling.</p>
+<p>A system is said to be highly coupled if it’s different parts are highly interdependent. In opposite a system is loosely coupled if it’s parts it are less interdependent.</p>
+<p>Coupling can be measured by code parsers. In 1999 a pretty famous paper written by Briand, Daly, &amp; Wust defined different metrics around the concept of coupling [4].</p>
+<h2 id="Two-measures-of-coupling"><a href="#Two-measures-of-coupling" class="headerlink" title="Two measures of coupling"></a>Two measures of coupling</h2><p>From the Briand, Daly, &amp; Wust [4] we can remember two metrics :</p>
+<ul>
+<li><p><strong>CBO</strong> (Coupling Between Objects) can be calculated for any class. It counts the number of couples there is between the given class and other classes.<br>A couple is created when a class use methods or attributes of the other class. If the class is used by two other class the CBO is 2. </p>
+</li>
+<li><p><strong>RFC</strong> (Response For A Class) is the number of methods that can be called when a message is received on an object of a class [4].<br>This metric gives an idea of the level of testability of the software created.<br>If only one method can be called for each message received on the object, building an unit test is easy. When for a single message 10 methods can be called and those method can also call 10 more methods, writing unit tests is not an easy task.</p>
+</li>
+</ul>
+<p>Those two metrics allow us to give a precise definition of coupling.</p>
+<h2 id="The-more-dependency-injection-the-less-coupling"><a href="#The-more-dependency-injection-the-less-coupling" class="headerlink" title="The more dependency injection the less coupling"></a>The more dependency injection the less coupling</h2><p>Razina &amp; Janzen in a paper from 2007 wanted to demonstrate that “significantly reduces dependencies of modules in a piece of software, therefore making the software more maintainable.”.</p>
+<p>They calculated “cohesion and coupling metrics” on 40 projects (20 projects that were using Dependency Injection, 20 without dependency injection).</p>
+<p>The study did not succeed into proving the hypothesis. But they demonstrate that :</p>
+<blockquote>
+<p>a trend of lower coupling in projects with higher dependency injection percentage (more than 10 %) was evident</p>
+</blockquote>
+<p>Using dependency injection does not automatically reduce coupling. But when it is used software coupling metrics seems to be lower.</p>
+<h1 id="Further-reading"><a href="#Further-reading" class="headerlink" title="Further reading"></a>Further reading</h1><ul>
+<li>[1]<a href="https://martinfowler.com/articles/injection.html" target="_blank" rel="noopener">Inversion of Control Containers and the Dependency Injection pattern, Martin Fowler</a></li>
+<li>[2] Mari, M. (2003, September). The impact of maintainability on component-based software systems. In null (p. 25). IEEE.</li>
+<li>[3] Razina, E., &amp; Janzen, D. S. (2007). Effects of dependency injection on maintainability. In Proceedings of the 11th IASTED International Conference on Software Engineering and Applications: Cambridge, MA (p. 7).</li>
+<li>[4] Briand, L. C., Daly, J. W., &amp; Wust, J. K. (1999). A unified framework for coupling measurement in object-oriented systems. IEEE Transactions on software Engineering, 25(1), 91-121.</li>
+<li>[5] Johnson, R. E., &amp; Foote, B. (1988). Designing reusable classes. Journal of object-oriented programming, 1(2), 22-35. (article is <a href="http://www.laputan.org/drc/drc.html" target="_blank" rel="noopener">here</a>)</li>
+</ul>
+
+      
+    </div>
+
+    
+      
+
+    
+
+    <footer class="article-footer">
+      <a data-url="http://maximilienandile.github.io/2019/10/20/Dependency-injection-what-is-it-how-to-do-it-in-Java-and-why-to-use-it/" data-id="ck2214a5h000ag6992a8v2jz3" class="article-share-link">
+        <i class="fa fa-share"></i> Share
+      </a>
+      
+        <a href="http://maximilienandile.github.io/2019/10/20/Dependency-injection-what-is-it-how-to-do-it-in-Java-and-why-to-use-it/#disqus_thread" class="article-comment-link">
+          <i class="fa fa-comment"></i> Comments
+        </a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Design-Patterns/">Design Patterns</a></li></ul>
+
+
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
     <article id="post-Javascript-que-sont-les-closures-et-comment-les-utiliser" class="article article-type-post" itemscope itemprop="blogPost">
 
   <header class="article-header">
@@ -145,7 +334,7 @@ ga('send', 'pageview');
     
 
     <footer class="article-footer">
-      <a data-url="http://maximilienandile.github.io/2016/12/22/Javascript-que-sont-les-closures-et-comment-les-utiliser/" data-id="ck1zaravu000kbb99z56d50x4" class="article-share-link">
+      <a data-url="http://maximilienandile.github.io/2016/12/22/Javascript-que-sont-les-closures-et-comment-les-utiliser/" data-id="ck2214a5q000mg699n30iu1mi" class="article-share-link">
         <i class="fa fa-share"></i> Share
       </a>
       
@@ -234,7 +423,7 @@ ga('send', 'pageview');
     
 
     <footer class="article-footer">
-      <a data-url="http://maximilienandile.github.io/2016/12/19/Comment-utiliser-map-et-reduce-en-Javascript/" data-id="ck1zaravl0006bb99620t59j0" class="article-share-link">
+      <a data-url="http://maximilienandile.github.io/2016/12/19/Comment-utiliser-map-et-reduce-en-Javascript/" data-id="ck2214a5e0006g699p08rf22x" class="article-share-link">
         <i class="fa fa-share"></i> Share
       </a>
       
@@ -348,7 +537,7 @@ ga('send', 'pageview');
     
 
     <footer class="article-footer">
-      <a data-url="http://maximilienandile.github.io/2016/12/18/ES6-les-principales-features-a-connaitre/" data-id="ck1zaravm0009bb99jcsc56l4" class="article-share-link">
+      <a data-url="http://maximilienandile.github.io/2016/12/18/ES6-les-principales-features-a-connaitre/" data-id="ck2214a5l000eg6995yavsnf8" class="article-share-link">
         <i class="fa fa-share"></i> Share
       </a>
       
@@ -433,7 +622,7 @@ ga('send', 'pageview');
     
 
     <footer class="article-footer">
-      <a data-url="http://maximilienandile.github.io/2016/12/18/l-ADN-une-nouvelle-source-de-stockage-de-donnees-durable/" data-id="ck1zaraw1000wbb99tite78zy" class="article-share-link">
+      <a data-url="http://maximilienandile.github.io/2016/12/18/l-ADN-une-nouvelle-source-de-stockage-de-donnees-durable/" data-id="ck2214a5w000zg699wcqkpygd" class="article-share-link">
         <i class="fa fa-share"></i> Share
       </a>
       
@@ -508,7 +697,7 @@ ga('send', 'pageview');
     
 
     <footer class="article-footer">
-      <a data-url="http://maximilienandile.github.io/2016/11/02/Comment-creer-un-script-shell-permettant-de-recuperer-et-d-analyser-des-articles-wikipedia-avec-lynx/" data-id="ck1zaravf0002bb99frblnkx9" class="article-share-link">
+      <a data-url="http://maximilienandile.github.io/2016/11/02/Comment-creer-un-script-shell-permettant-de-recuperer-et-d-analyser-des-articles-wikipedia-avec-lynx/" data-id="ck2214a570002g6995exx7hdw" class="article-share-link">
         <i class="fa fa-share"></i> Share
       </a>
       
@@ -615,7 +804,7 @@ ga('send', 'pageview');
     
 
     <footer class="article-footer">
-      <a data-url="http://maximilienandile.github.io/2016/10/17/Machine-Learning-classification-a-l-aide-des-arbres-de-decisions-fonctionnement-et-application-en-NodeJS/" data-id="ck1zaravw000obb99t1hbl7vt" class="article-share-link">
+      <a data-url="http://maximilienandile.github.io/2016/10/17/Machine-Learning-classification-a-l-aide-des-arbres-de-decisions-fonctionnement-et-application-en-NodeJS/" data-id="ck2214a5s000rg699418sn5f7" class="article-share-link">
         <i class="fa fa-share"></i> Share
       </a>
       
@@ -702,7 +891,7 @@ ga('send', 'pageview');
     
 
     <footer class="article-footer">
-      <a data-url="http://maximilienandile.github.io/2016/10/12/Base-de-donnees-comprendre-les-differences-entre-le-modele-relationnel-et-le-modele-multidimensionnel/" data-id="ck1zaravd0001bb99bf5riid6" class="article-share-link">
+      <a data-url="http://maximilienandile.github.io/2016/10/12/Base-de-donnees-comprendre-les-differences-entre-le-modele-relationnel-et-le-modele-multidimensionnel/" data-id="ck2214a550001g699iyn1liu5" class="article-share-link">
         <i class="fa fa-share"></i> Share
       </a>
       
@@ -775,7 +964,7 @@ ga('send', 'pageview');
     
 
     <footer class="article-footer">
-      <a data-url="http://maximilienandile.github.io/2016/10/01/Comment-installer-PHPUnit-sur-un-projet-necessitant-composer-et-utilisant-des-variables-d-environnement/" data-id="ck1zaravj0005bb997q08ljl0" class="article-share-link">
+      <a data-url="http://maximilienandile.github.io/2016/10/01/Comment-installer-PHPUnit-sur-un-projet-necessitant-composer-et-utilisant-des-variables-d-environnement/" data-id="ck2214a5c0005g699myo2hn1r" class="article-share-link">
         <i class="fa fa-share"></i> Share
       </a>
       
@@ -925,7 +1114,7 @@ ga('send', 'pageview');
     
 
     <footer class="article-footer">
-      <a data-url="http://maximilienandile.github.io/2016/09/30/Comprendre-les-headers-d-une-requete-HTTP/" data-id="ck1zaravn000abb99wkkt7lg7" class="article-share-link">
+      <a data-url="http://maximilienandile.github.io/2016/09/30/Comprendre-les-headers-d-une-requete-HTTP/" data-id="ck2214a5g0009g699sgf0le97" class="article-share-link">
         <i class="fa fa-share"></i> Share
       </a>
       
@@ -935,135 +1124,6 @@ ga('send', 'pageview');
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/HTTP/">HTTP</a></li></ul>
-
-
-    </footer>
-  </div>
-  
-</article>
-
-
-
-  
-    <article id="post-Machine-Learning-comment-fonctionne-la-classification-naive-Bayesienne" class="article article-type-post" itemscope itemprop="blogPost">
-
-  <header class="article-header">
-    
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2016/09/29/Machine-Learning-comment-fonctionne-la-classification-naive-Bayesienne/">Machine Learning : comment fonctionne la classification naïve Bayesienne</a>
-    </h1>
-  
-
-
-  </header>
-
-  <div class="article-meta">
-    <div class="article-datetime">
-  <a href="/2016/09/29/Machine-Learning-comment-fonctionne-la-classification-naive-Bayesienne/" class="article-date"><time datetime="2016-09-29T08:38:02.000Z" itemprop="datePublished">29/09/2016</time></a>
-</div>
-
-    
-    
-
-  </div>
-  <div class="article-inner">
-
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h2 id="Un-classifieur-rapide-et-econome-en-puissance-de-calcul"><a href="#Un-classifieur-rapide-et-econome-en-puissance-de-calcul" class="headerlink" title="Un classifieur rapide et économe en puissance de calcul"></a>Un classifieur rapide et économe en puissance de calcul</h2><h3 id="Qu’est-ce-qu’un-classifieur"><a href="#Qu’est-ce-qu’un-classifieur" class="headerlink" title="Qu’est ce qu’un classifieur ?"></a>Qu’est ce qu’un classifieur ?</h3><p>Un <strong>classifieur</strong> est un algorithme permettant de définir la classe d’un objet suivant certaines de ses propriétés. Pour bâtir notre classifieur nous avons à notre disposition un ensemble d’objets dont on connait la classe par avance. Ce set d’objet est appelé set d’<strong>entrainement</strong>.</p>
-<p>Par exemple, nous souhaitons classé des textes selon deux classes : écrit scientifique OU écrit romanesque  (classification appelée binaire car composée de deux classes). Nous aurons donc à notre disposition un ensemble composé de 20 textes dont 12 classés “écrit romanesque” et les autres classés “écrit scientifique”.</p>
-<p>Notre problème va donc consister à classer un nouveau texte en fonction de son contenu dans ces deux classes.</p>
-<h3 id="Utilisation-de-la-theorie-des-probabilites"><a href="#Utilisation-de-la-theorie-des-probabilites" class="headerlink" title="Utilisation de la théorie des probabilités"></a>Utilisation de la théorie des probabilités</h3><p>Notre algorithme aura la lourde tâche de fournir une classe à notre nouveau texte. Notre approche dans le cas de la classification naïve Bayesienne va être <strong>probabiliste</strong>. Nous allons chercher à déterminer la probabilité que notre objet appartient à la classe “écrit romanesque” à la probabilité que notre écrit appartient à l’autre classe. Nous allons ensuite <strong>comparer</strong> ces deux probabilités pour sélectionner la plus <strong>grande</strong> des deux.</p>
-<p>Trouver la classe revient donc à <strong>calculer deux grandeurs et les comparer</strong>. Ce qui si on compare à l’algorithme des K voisins les plus proches (voir l’article <a href="https://maximilienandile.github.io/2016/09/24/L-algorithme-des-K-voisins-les-plus-proches-et-son-implementation-en-Nodejs/">ici</a>) est très économe en calculs. Avant d’étudier plus en détail d’algorithme nous nous devons de faire un rappel sur les probabilités conditionnelles, qui constituent le fer de lance de cet algorithme.</p>
-<h2 id="Un-passage-oblige-par-les-probabilites-conditionnelles"><a href="#Un-passage-oblige-par-les-probabilites-conditionnelles" class="headerlink" title="Un passage obligé par les probabilités conditionnelles"></a>Un passage obligé par les probabilités conditionnelles</h2><p>La probabilité d’un événement A est <strong>un nombre variant entre 0 et 1</strong> qui traduit le <strong>degrés de chance qu’un évènement A se produise</strong>. Plus on s’approche de la valeur 1 plus cet événement aura de chance de se dérouler.</p>
-<p>Par exemple si on prend l’événement A “une élection va se dérouler en 2017”. La probabilité de cet événement est de 1 car il s’agit d’un événement certain.</p>
-<p>Une <strong>probabilité conditionnelle</strong> est légèrement plus complète dans le sens où <strong>elle intègre dans son calcul un autre évènement</strong>. Ainsi une probabilité conditionnelle traduit le degrés de chance qu’un élément se produise <strong>sachant</strong> qu’un autre évènement s’est produit.</p>
-<p>Par <strong>exemple</strong>, si on prend l’évènement A “réussite d’un test de maths”. L’évènement B “être mathématicien” et l’évènement C “avoir suivi un cursus scolaire littéraire”. Alors la probabilité de A sachant l’évènement B sera plus importante que la probabilité de A sachant l’événement C.</p>
-<p>Mathématiquement on note une probabilité conditionnelle de deux façons :</p>
-<span>$P_{B}(A) = P(A | B)$</span><!-- Has MathJax -->
-<p>La formule des probabilités conditionnelles se calcul ainsi :</p>
-<span>$P_{B}(A) = P(A | B) = \frac{P(A  \cap  B)}{P(B)}$</span><!-- Has MathJax -->
-<h2 id="La-formule-de-Bayes"><a href="#La-formule-de-Bayes" class="headerlink" title="La formule de Bayes"></a>La formule de Bayes</h2><h3 id="Fonctionnement-theorique"><a href="#Fonctionnement-theorique" class="headerlink" title="Fonctionnement théorique"></a>Fonctionnement théorique</h3><p>Prenons un exemple afin de comprendre de quoi il en retourne. Imaginons un hôpital dans lequel on fait passer un test de dépistage de la tuberculose à certains patients. Les médecins dispose de données permettant d’établir que la fiabilité de ce test est de 90%, c’est à dire que 90% des tests sont fiables (les patients sont vraiment malades), il reste que 10% des tests sont des faux-positifs ou des faux-négatifs (le patient est bien malade mais dispose d’un test lui indiquant le contraire).</p>
-<p>La formule de Bayes pourra nous donner la réponse à la question suivante : <strong>“sachant que le test de M.X est positif quel est la probabilité que celui-ci ne soit pas malade ?”</strong> On cherche donc à remonter dans le temps…</p>
-<p>La formule de Bayes est définie ainsi :<br><span>$P_{B}(A) =  \frac{P_{A}(B).P(A)}{P(B)}$</span><!-- Has MathJax --></p>
-<p>Si on n’applique la formule à notre exemple on aura :</p>
-<ul>
-<li>A : Ne pas être malade</li>
-<li>B : Avoir un résultat de test positif</li>
-</ul>
-<p>Ainsi la probabilité de ne pas être malade sachant qu’on a un test de dépistage positif est le <strong>rapport</strong> <strong>entre</strong> la probabilité d’avoir un résultat positif sachant qu’on est malade multiplié par la probabilité de ne pas être malade <strong>et</strong> la probabilité d’avoir un résultat de test positif.</p>
-<h3 id="Application-a-un-probleme-de-classification"><a href="#Application-a-un-probleme-de-classification" class="headerlink" title="Application à un problème de classification"></a>Application à un problème de classification</h3><p>On va chercher dans notre cas la probabilité qu’un objet appartient à la classe <strong>i</strong> sachant qu’il a les propriétés <strong>x</strong> et <strong>y</strong>. Soit :</p>
-<center><br><span>$P_{x,y}(C_i)$</span><!-- Has MathJax --><br></center>
-
-
-
-<p>Si on a <strong>deux classes (1 et 2)</strong> dans notre problème nous allons donc <strong>comparer</strong> deux grandeurs :</p>
-<center><br><span>$P_{x,y}(C_1) et P_{x,y}(C_2)$</span><!-- Has MathJax --><br></center>
-
-
-<p>Dans tous les cas nous devrons isoler des <strong>features</strong>, des propriétés relatives aux objets que nous souhaitons classer. Si nous souhaitons donc classer un document nous prendons par exemple 1000 propriétés correspondant chacune à la présence ou non d’un mot courant dans le texte.</p>
-<h3 id="Pourquoi-cet-algorithme-est-il-naif"><a href="#Pourquoi-cet-algorithme-est-il-naif" class="headerlink" title="Pourquoi cet algorithme est-il naïf ?"></a>Pourquoi cet algorithme est-il naïf ?</h3><p>Nous faisons deux assomptions un peu naïves sur notre données :</p>
-<ul>
-<li>Les <strong>features</strong> ou les <strong>propriétés</strong> sont <strong>indépendantes</strong> les unes des autres. Or c’est rarement le cas, si on prend les classifications de textes la présence d’un mot peut être lié à la présence d’un autre mot !</li>
-<li>On fait aussi le postulat que les <strong>features</strong> sont d’importances équivalentes dans la tâche de classification, ce qui n’est encore pas vraiment le cas. Pour certains textes la présence d’un mot ou d’un groupe de mot est très signifiant dans leur classe.</li>
-</ul>
-<h3 id="Application-en-NodeJS-via-le-module-“bayes”"><a href="#Application-en-NodeJS-via-le-module-“bayes”" class="headerlink" title="Application en NodeJS via le module “bayes”"></a>Application en NodeJS via le module “bayes”</h3><p>Nous allons créer un script permettant de classer des phrases selon deux classes : les phrases provenant de romans et ceux d’écrits scientifiques.</p>
-<ul>
-<li><p>Créez un nouveau dossier nommé <code>bayes_classifier</code></p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ mkdir bayes_classifier</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>Placez vous dans ce dossier</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ <span class="built_in">cd</span> bayes_classifier</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>Initialisez <code>npm</code></p>
-</li>
-</ul>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ npm init</span><br></pre></td></tr></table></figure>
-<ul>
-<li>Après avoir répondu à l’ensemble des questions installez le module <code>bayes</code></li>
-</ul>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ npm install bayes --save</span><br></pre></td></tr></table></figure>
-<ul>
-<li><p>Créez un nouveau fichier <code>index.js</code></p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ touch index.js</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>Dans ce fichier faites un require du module bayes.</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> bayes = <span class="built_in">require</span>(<span class="string">'bayes'</span>)</span><br><span class="line"><span class="keyword">var</span> classifier = bayes()</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>Nous allons ensuite entrainer notre modèle pour reconnaître les écrits romanesques (fiction):</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Make the algorithm learn the training data</span></span><br><span class="line"><span class="comment">// The Great Gatsby</span></span><br><span class="line">classifier.learn(<span class="string">'Il me sourit avec une sorte de complicité - qui allait au-delà de la complicité.'</span>, <span class="string">'fiction'</span>)</span><br><span class="line"><span class="comment">// 1984 (Orwell)</span></span><br><span class="line">classifier.learn(<span class="string">'Celui qui a le contrôle du passé, disait le slogan du Parti, a le contrôle du futur. Celui qui a le contrôle du présent a le contrôle du passé.'</span>, <span class="string">'fiction'</span>)</span><br><span class="line"><span class="comment">// Le dernier Jour d'un Condamné (Hugo)</span></span><br><span class="line">classifier.learn(<span class="string">'Maintenant je suis captif. Mon corps est aux fers dans un cachot, mon esprit est en prison dans une idée.'</span>,<span class="string">'fiction'</span>)</span><br><span class="line"><span class="comment">// Guerre et Paix (Tolstoï)</span></span><br><span class="line">classifier.learn(<span class="string">'Oui, ils m ont accablé de reproches là-bas, et pour la guerre et pour la paix...'</span>,<span class="string">'fiction'</span>)</span><br><span class="line"><span class="comment">// Les Caractères (La Bruyères)</span></span><br><span class="line">classifier.learn(<span class="string">'on n aime qu une seule fois : c est la première ; les amours qui suivent sont moins involontaires.'</span>,<span class="string">'fiction'</span>)</span><br><span class="line"><span class="comment">// O.Wilde</span></span><br><span class="line">classifier.learn(<span class="string">"S'aimer soi-même, c'est l'assurance d'une longue histoire d'amour."</span>,<span class="string">"fiction"</span>)</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>Entrainons le maintenant pour reconnaître des écrits scientifiques (science):</p>
-</li>
-</ul>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * MAKE IT LEARN SCIENCE...</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"></span><br><span class="line"><span class="comment">//La sensibilité de l'activité mathématique aux ostensifs, BOSCH M.  ; CHEVALLARD Y. ;</span></span><br><span class="line">classifier.learn(<span class="string">'Les écritures, symboles, mots, discours, graphismes et gestes mobilisés dans l activité mathématique - soit ce que nous appelons, pour leur caractère matériel et perceptible, les objets ostensifs'</span>,<span class="string">'science'</span>)</span><br><span class="line"><span class="comment">// http://www.pourlascience.fr/ewb_pages/a/actu-des-panaches-de-vapeur-d-eau-observes-sur-europe-37639.php</span></span><br><span class="line">classifier.learn(<span class="string">"De nouvelles observations suggèrent que des geysers de vapeur d’eau jaillissent du pôle Sud de la lune glacée de Jupiter."</span>,<span class="string">"science"</span>)</span><br><span class="line"><span class="comment">// pourlascience</span></span><br><span class="line">classifier.learn(<span class="string">"La pédagogie haptique rend l'élève acteur de son enseignement. Il est alors plus réceptif aux connaissances qu'on veut lui transmettre."</span>,<span class="string">"science"</span>)</span><br><span class="line"><span class="comment">// http://cat.inist.fr/?aModele=afficheN&amp;cpsidt=207222</span></span><br><span class="line">classifier.learn(<span class="string">"La méthode est fondée sur une approche distributionnelle de la sémantique. Les classes sémantiques qu'il est possible d'apprendre à partir d'un corpus analysé"</span>,<span class="string">"science"</span>)</span><br><span class="line"><span class="comment">// https://hal.archives-ouvertes.fr/tel-00145147/</span></span><br><span class="line">classifier.learn(<span class="string">"Le panorama du Traitement Automatique des Langues est dominé par deux familles d'approches~: dans la première, la connaissance linguistique s'exprime sous forme de règles (grammaticales pour le traitement syntaxique, d'inférence pour le traitement sémantique, etc.)"</span>,<span class="string">"science"</span>)</span><br><span class="line"><span class="comment">// https://pdfs.semanticscholar.org/57d0/2d681a479094bbd570b7992952281c39e146.pdf</span></span><br><span class="line">classifier.learn(<span class="string">" Les outils disponibles de recherche d’information sur le Web ont une approche généraliste, ne prenant pas en compte les caractéristiques de l’utilisateur, ce qui limite la qualité des résultats"</span>,<span class="string">"science"</span>)</span><br></pre></td></tr></table></figure>
-<ul>
-<li>Maintenant nous allons tester notre modèle avec deux exemples non classés.</li>
-</ul>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="comment">// test the classifier</span></span><br><span class="line"><span class="keyword">var</span> f = classifier.categorize(<span class="string">"Je la contemplai avec une haine intense, celle qu'un cheveu seul sépare de l'amour ardent."</span>)</span><br><span class="line"><span class="keyword">var</span> s = classifier.categorize(<span class="string">" Par ailleurs la réalisation d’un système de ce type exige un assemblage de plusieurs techniques utilisées en apprentissage ou en recherche d’information "</span>)</span><br><span class="line"><span class="built_in">console</span>.log(<span class="string">"fiction"</span>,f);</span><br><span class="line"><span class="built_in">console</span>.log(<span class="string">"science"</span>,s);</span><br></pre></td></tr></table></figure>
-<p>La console affiche :<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">fiction fiction</span><br><span class="line">science science</span><br></pre></td></tr></table></figure></p>
-<p>On a un résultat concordant ! Pour les impatients voici le repo contenant ce morceau de code : <a href="https://github.com/maximilienandile/bayes_classifier" target="_blank" rel="noopener">https://github.com/maximilienandile/bayes_classifier</a></p>
-
-      
-    </div>
-
-    
-      
-
-    
-
-    <footer class="article-footer">
-      <a data-url="http://maximilienandile.github.io/2016/09/29/Machine-Learning-comment-fonctionne-la-classification-naive-Bayesienne/" data-id="ck1zaravy000rbb99i5svhgmi" class="article-share-link">
-        <i class="fa fa-share"></i> Share
-      </a>
-      
-        <a href="http://maximilienandile.github.io/2016/09/29/Machine-Learning-comment-fonctionne-la-classification-naive-Bayesienne/#disqus_thread" class="article-comment-link">
-          <i class="fa fa-comment"></i> Comments
-        </a>
-      
-      
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Machine-Learning/">Machine Learning</a></li></ul>
 
 
     </footer>
@@ -1098,7 +1158,7 @@ ga('send', 'pageview');
   
   <div class="sidebar-module">
     <h4>Tags</h4>
-    <ul class="sidebar-module-list"><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/Business-Intelligence/">Business Intelligence</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/HTTP/">HTTP</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/Javascript/">Javascript</a><span class="sidebar-module-list-count">3</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/Machine-Learning/">Machine Learning</a><span class="sidebar-module-list-count">2</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/NLP/">NLP</a><span class="sidebar-module-list-count">2</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/Natural-Language-Processing/">Natural Language Processing</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/Nodejs/">Nodejs</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/PHP/">PHP</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/PHP-Tests-unitaires/">PHP ; Tests unitaires</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/REST/">REST</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/Recherche/">Recherche</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/SQL/">SQL</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/nodejs/">nodejs</a><span class="sidebar-module-list-count">1</span></li></ul>
+    <ul class="sidebar-module-list"><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/Business-Intelligence/">Business Intelligence</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/Design-Patterns/">Design Patterns</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/HTTP/">HTTP</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/Javascript/">Javascript</a><span class="sidebar-module-list-count">3</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/Machine-Learning/">Machine Learning</a><span class="sidebar-module-list-count">2</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/NLP/">NLP</a><span class="sidebar-module-list-count">2</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/Natural-Language-Processing/">Natural Language Processing</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/Nodejs/">Nodejs</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/PHP/">PHP</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/PHP-Tests-unitaires/">PHP ; Tests unitaires</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/REST/">REST</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/Recherche/">Recherche</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/SQL/">SQL</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/nodejs/">nodejs</a><span class="sidebar-module-list-count">1</span></li></ul>
   </div>
 
 
@@ -1107,7 +1167,7 @@ ga('send', 'pageview');
   <div class="sidebar-module">
     <h4>Tag Cloud</h4>
     <p class="tagcloud">
-      <a href="/tags/Business-Intelligence/" style="font-size: 10px;">Business Intelligence</a> <a href="/tags/HTTP/" style="font-size: 10px;">HTTP</a> <a href="/tags/Javascript/" style="font-size: 20px;">Javascript</a> <a href="/tags/Machine-Learning/" style="font-size: 15px;">Machine Learning</a> <a href="/tags/NLP/" style="font-size: 15px;">NLP</a> <a href="/tags/Natural-Language-Processing/" style="font-size: 10px;">Natural Language Processing</a> <a href="/tags/Nodejs/" style="font-size: 10px;">Nodejs</a> <a href="/tags/PHP/" style="font-size: 10px;">PHP</a> <a href="/tags/PHP-Tests-unitaires/" style="font-size: 10px;">PHP ; Tests unitaires</a> <a href="/tags/REST/" style="font-size: 10px;">REST</a> <a href="/tags/Recherche/" style="font-size: 10px;">Recherche</a> <a href="/tags/SQL/" style="font-size: 10px;">SQL</a> <a href="/tags/nodejs/" style="font-size: 10px;">nodejs</a>
+      <a href="/tags/Business-Intelligence/" style="font-size: 10px;">Business Intelligence</a> <a href="/tags/Design-Patterns/" style="font-size: 10px;">Design Patterns</a> <a href="/tags/HTTP/" style="font-size: 10px;">HTTP</a> <a href="/tags/Javascript/" style="font-size: 20px;">Javascript</a> <a href="/tags/Machine-Learning/" style="font-size: 15px;">Machine Learning</a> <a href="/tags/NLP/" style="font-size: 15px;">NLP</a> <a href="/tags/Natural-Language-Processing/" style="font-size: 10px;">Natural Language Processing</a> <a href="/tags/Nodejs/" style="font-size: 10px;">Nodejs</a> <a href="/tags/PHP/" style="font-size: 10px;">PHP</a> <a href="/tags/PHP-Tests-unitaires/" style="font-size: 10px;">PHP ; Tests unitaires</a> <a href="/tags/REST/" style="font-size: 10px;">REST</a> <a href="/tags/Recherche/" style="font-size: 10px;">Recherche</a> <a href="/tags/SQL/" style="font-size: 10px;">SQL</a> <a href="/tags/nodejs/" style="font-size: 10px;">nodejs</a>
     </p>
   </div>
 
@@ -1115,7 +1175,7 @@ ga('send', 'pageview');
   
   <div class="sidebar-module">
     <h4>Archives</h4>
-    <ul class="sidebar-module-list"><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2016/12/">décembre 2016</a><span class="sidebar-module-list-count">4</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2016/11/">novembre 2016</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2016/10/">octobre 2016</a><span class="sidebar-module-list-count">3</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2016/09/">septembre 2016</a><span class="sidebar-module-list-count">6</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2016/06/">juin 2016</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2016/05/">mai 2016</a><span class="sidebar-module-list-count">3</span></li></ul>
+    <ul class="sidebar-module-list"><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2019/10/">octobre 2019</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2016/12/">décembre 2016</a><span class="sidebar-module-list-count">4</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2016/11/">novembre 2016</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2016/10/">octobre 2016</a><span class="sidebar-module-list-count">3</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2016/09/">septembre 2016</a><span class="sidebar-module-list-count">6</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2016/06/">juin 2016</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2016/05/">mai 2016</a><span class="sidebar-module-list-count">3</span></li></ul>
   </div>
 
 
@@ -1124,6 +1184,10 @@ ga('send', 'pageview');
   <div class="sidebar-module">
     <h4>Recents</h4>
     <ul class="sidebar-module-list">
+      
+        <li>
+          <a href="/2019/10/20/Dependency-injection-what-is-it-how-to-do-it-in-Java-and-why-to-use-it/">Dependency injection - what is it, how to do it in Java and why to use it</a>
+        </li>
       
         <li>
           <a href="/2016/12/22/Javascript-que-sont-les-closures-et-comment-les-utiliser/">Javascript : que sont les closures et comment les utiliser</a>
@@ -1139,10 +1203,6 @@ ga('send', 'pageview');
       
         <li>
           <a href="/2016/12/18/l-ADN-une-nouvelle-source-de-stockage-de-donnees-durable/">ADN : une nouvelle source de stockage de données durable</a>
-        </li>
-      
-        <li>
-          <a href="/2016/11/02/Comment-creer-un-script-shell-permettant-de-recuperer-et-d-analyser-des-articles-wikipedia-avec-lynx/">Comment créer un script shell permettant de récupérer et d&#39;analyser des articles wikipedia avec lynx</a>
         </li>
       
     </ul>
@@ -1180,6 +1240,9 @@ ga('send', 'pageview');
 
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
 
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
 
 
 <script src="/js/script.js"></script><!-- hexo-inject:begin --><!-- Begin: Injected MathJax -->
